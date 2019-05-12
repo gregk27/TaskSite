@@ -1,0 +1,87 @@
+body {
+	margin: 0px;
+	font-family: sans-serif;
+}
+
+/*HEADER*/
+header {
+	background-color: #4a2a7c;
+	margin: 0px;
+	padding-bottom: 0px;
+	overflow: hidden;
+	font-size: 25px;
+	color: #ccc;
+}
+
+header h1 {
+	margin: 10px;
+	margin-left: 4%;
+}
+
+nav {
+	width: 100%;
+}
+
+nav a {
+	cursor: pointer;
+	display: inline-block;
+	padding: 9px;
+	margin: 0px;
+	padding-left: 12px;
+	padding-right: 12px;
+	text-decoration: none;
+	float: left;
+	font-size: 20px;
+	color: #ccc;
+}
+
+nav a:hover {
+	background-color: #2d1a4c;
+}
+
+nav a.right {
+	float: right
+}
+
+/*LOGIN*/
+.login {
+	display: block;
+	margin: auto;
+	margin-top: 100px;
+	background-color: #ccc;
+	width: 50%;
+	padding-top: 5px;
+	padding-bottom: 30px;
+	font-family: sans-serif;
+}
+
+.login h2 {
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+.login label {
+	margin-left: 50px;
+	font-size: 20px;
+	font-family: monospace;
+}
+
+.login input {
+	border: none;
+	font-size: 20px;
+}
+
+.login .buttons {
+	text-align: center;
+	margin-top: 15px;
+}
+
+.login button, input[type=submit] {
+	font-size: 20px;
+	background-color: #4a2a7c;
+	border: none;
+	padding: 5px;
+	padding-left: 7px;
+	padding-right: 7px;
+	color: #ccc;
+}
