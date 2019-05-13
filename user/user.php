@@ -5,7 +5,7 @@
 <title>Usbwebserver</title>
 <meta name="keywords" content="" />
 <meta name="description" content="" />
-<link href="../style.css" rel="stylesheet" type="text/css"
+<link href="/style.css" rel="stylesheet" type="text/css"
 	media="screen" />
 </head>
 <body>
@@ -13,7 +13,7 @@
 <?php
 $err = "";
 if (isset($_POST["mode"])) {
-	include "../passwords.php";
+	include $_SERVER['DOCUMENT_ROOT']."/passwords.php";
 	$conn = new mysqli($dbAddress, $dbUser, $dbPass);
     if ($conn->connect_error) {
         die("Connection failed" . $conn->connect_error);
@@ -22,8 +22,8 @@ if (isset($_POST["mode"])) {
         // If the user is trying to register
         // Check for username conflicts
         $conflicts = mysqli_num_rows($conn->query("SELECT * FROM `tasks`.`users` WHERE `username`=\"" . $_POST['username'] . "\""));
-        echo "SELECT * FROM `tasks`.`users` WHERE `username`=\"" . $_POST['username'] . "\"";
-        echo $conflicts;
+        //echo "SELECT * FROM `tasks`.`users` WHERE `username`=\"" . $_POST['username'] . "\"";
+        //echo $conflicts;
         if ($conflicts == 0) {
             // Loop until we get a unique ID
             while (true) {
@@ -37,6 +37,7 @@ if (isset($_POST["mode"])) {
             $conn->query("INSERT INTO `tasks`.`users` (`username`, `password`, `ID`) VALUES ('" . $_POST['username'] . "','" . $_POST['password'] . "','" . $num . "')");
             // Set the cookie
             echo setcookie("token", $num, time() + 12000000, "/");
+            header("Refresh:0");
         } else {
             $err = "Username taken. Contact Greg if someone else has your name.";
         }
@@ -47,6 +48,7 @@ if (isset($_POST["mode"])) {
         if (mysqli_num_rows($users) == 1) {
             // Set a cookie based on result
             setcookie("token", $users->fetch_assoc()["ID"], time() + 12000000, "/");
+            header("Refresh:0");
         }
     } else {
         $err = "Mode failed";
@@ -57,7 +59,7 @@ if (isset($_POST["mode"])) {
 
 
 <?php
-include "../header.php"?>
+include $_SERVER['DOCUMENT_ROOT']."/header.php"?>
 
 <?php
 

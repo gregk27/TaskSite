@@ -2,7 +2,6 @@ body {
 	margin: 0px;
 	font-family: sans-serif;
 }
-
 /*HEADER*/
 header {
 	background-color: #4a2a7c;
@@ -61,7 +60,7 @@ nav a.right {
 }
 
 .login label {
-	margin-left: 50px;
+	margin-left: 5%;
 	font-size: 20px;
 	font-family: monospace;
 }
@@ -69,6 +68,7 @@ nav a.right {
 .login input {
 	border: none;
 	font-size: 20px;
+    width:50%;
 }
 
 .login .buttons {
@@ -84,4 +84,11 @@ nav a.right {
 	padding-left: 7px;
 	padding-right: 7px;
 	color: #ccc;
+}
+
+/*SETTINGS*/
+.settings{
+	background-color:bisque;
+	width:80%;
+	margin:auto;
 }
