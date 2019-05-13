@@ -2,7 +2,12 @@
 include $_SERVER['DOCUMENT_ROOT']."/passwords.php";
 $conn = new mysqli ( $dbAddress, $dbUser, $dbPass );
 
-$user = $conn->query ( "SELECT `username` FROM `tasks`.`users` WHERE `ID`=\"" . $_COOKIE ["token"] . "\"" )->fetch_assoc ();
+
+
+$stmt = $conn->prepare("SELECT `username` FROM `tasks`.`users` WHERE `ID`=?");
+$stmt->bind_param("i", $_COOKIE ["token"]);
+$stmt->execute();
+$user = $stmt->get_result()->fetch_assoc ();
 // Setting this to a placeholder, as we don't want to expose password
 $user ["password"] = "********";
 

@@ -11,7 +11,11 @@
 
     if (isset($_COOKIE["token"])) {
         $ID = $_COOKIE["token"];
-        $users = $conn->query("SELECT `username` FROM `tasks`.`users` WHERE `ID`=" . $ID)->fetch_assoc();
+		$stmt = $conn->prepare("SELECT `username` FROM `tasks`.`users` WHERE `ID`= ?"); 
+		$stmt->bind_param("i", $ID);
+		$stmt->execute();
+		
+        $users = $stmt->get_result()->fetch_assoc();
 
         echo "<a class='right' href = '/user/user.php'>" . $users["username"] . "</a>";
     } else {

@@ -21,20 +21,29 @@ if (isset($_POST["mode"])) {
     if ($_POST["mode"] == 'register') {
         // If the user is trying to register
         // Check for username conflicts
-        $conflicts = mysqli_num_rows($conn->query("SELECT * FROM `tasks`.`users` WHERE `username`=\"" . $_POST['username'] . "\""));
-        //echo "SELECT * FROM `tasks`.`users` WHERE `username`=\"" . $_POST['username'] . "\"";
-        //echo $conflicts;
+		$stmt = $conn->prepare("SELECT `username` FROM `tasks`.`users` WHERE `username`=?");
+		$stmt->bind_param("s", $_POST["username"]);
+		$stmt->execute();
+		
+        $conflicts = mysqli_num_rows($stmt->get_result());
+		//If the username isn't taken
         if ($conflicts == 0) {
             // Loop until we get a unique ID
+			$stmt = $conn->prepare("SELECT `username` FROM `tasks`.`users` WHERE `ID`=?");
+			$stmt->bind_param("i", $num);
             while (true) {
                 $num = mt_rand(0, 25400);
-                $conflicts = mysqli_num_rows($conn->query("SELECT * FROM `tasks`.`users` WHERE `ID`=" . $num));
+				$stmt->execute();
+		
+				$conflicts = mysqli_num_rows($stmt->get_result());
                 if ($conflicts == 0) {
                     break;
                 }
             }
             // Add the user to the database
-            $conn->query("INSERT INTO `tasks`.`users` (`username`, `password`, `ID`) VALUES ('" . $_POST['username'] . "','" . $_POST['password'] . "','" . $num . "')");
+            $stmt = $conn->prepare("INSERT INTO `tasks`.`users` (`username`, `password`, `ID`) VALUES (?, ?, ?)");
+			$stmt->bind_param("ssi", $_POST['username'], $_POST['password'], $num);
+			$stmt->execute();
             // Set the cookie
             echo setcookie("token", $num, time() + 12000000, "/");
             header("Refresh:0");
@@ -44,12 +53,17 @@ if (isset($_POST["mode"])) {
     } else if ($_POST["mode"] == "login") {
         // If the user is signing in
         // Get users with same name/pass
-        $users = $conn->query("SELECT `ID` FROM `tasks`.`users` WHERE `username`=\"" . $_POST['username'] . "\" AND `password`=\"" . $_POST['password'] . "\"");
+        $stmt = $conn->prepare("SELECT `ID` FROM `tasks`.`users` WHERE `username`= ? AND `password`= ?");
+		$stmt->bind_param("ss", $_POST['username'], $_POST['password']);
+		$stmt->execute();
+		$users = $stmt->get_result();
         if (mysqli_num_rows($users) == 1) {
             // Set a cookie based on result
             setcookie("token", $users->fetch_assoc()["ID"], time() + 12000000, "/");
             header("Refresh:0");
-        }
+        } else{
+			$err = "Invalid username/password";
+		}
     } else {
         $err = "Mode failed";
     }
