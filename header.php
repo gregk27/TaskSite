@@ -13,8 +13,7 @@
         $ID = $_COOKIE["token"];
         $users = $conn->query("SELECT `username` FROM `tasks`.`users` WHERE `ID`=" . $ID)->fetch_assoc();
 
-        // The implode function is a hotfix, as users[0] refuses to work
-        echo "<a class='right' href = '/user/user.php'>" . implode(",", $users) . "</a>";
+        echo "<a class='right' href = '/user/user.php'>" . $users["username"] . "</a>";
     } else {
         echo "<a class='right' href='/user/user.php'>Sign in</a>";
     }
