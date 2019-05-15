@@ -46,7 +46,9 @@ $task = array (
 				"Rookie 2",
 				"Rookie 3",
 				"Rookie 4"
-		)
+		),
+		"joined"=>false,
+		"following"=>true
 );
 
 /*
@@ -79,8 +81,8 @@ $task = array (
 			?>
 		</table>
 		<div id="buttons">
-			<div class="button active" style="width: 44%; float: left;">Join</div>
-			<div class="button active" style="width: 44%; float: right;">Follow</div>
+			<div class="button <?php if($task["joined"]){echo "de";} echo "active";?>" style="width: 44%; float: left;"><?php if($task["joined"]){echo "Quit";} else{echo "Join";}?></div>
+			<div class="button <?php if($task["following"]){echo "de";} echo "active";?>" style="width: 44%; float: right;"><?php if($task["following"]){echo "Unfollow";} else{echo "Follow";}?></div>
 		</div>
 	</div>
 
