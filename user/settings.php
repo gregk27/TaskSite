@@ -2,7 +2,7 @@
 include $_SERVER['DOCUMENT_ROOT']."/passwords.php";
 $conn = new mysqli ( $dbAddress, $dbUser, $dbPass );
 
-
+//TODO: Rewrite this page to use a more efficient, secure sytstem
 
 $stmt = $conn->prepare("SELECT `username` FROM `tasks`.`users` WHERE `ID`=?");
 $stmt->bind_param("i", $_COOKIE ["token"]);
