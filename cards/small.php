@@ -15,6 +15,17 @@
 	}
 </script>
 <?php
+include "../passwords.php";
+
+
+$conn = new mysqli($dbAddress, $dbUser, $dbPass);
+$task = $conn->query("SELECT * FROM `tasks`.`tasks` WHERE `ID` = 1")->fetch_assoc();
+
+$task["subteams"] = explode(",",$task["subteams"]);
+$task["subtasks"] = json_decode($task["subtasks"], true);
+
+
+/*
 $task = array (
 		"name" => "Test task",
 		"progress" => 75,
@@ -50,7 +61,7 @@ $task = array (
 		"joined"=>false,
 		"following"=>true
 );
-
+*/
 /*
  * Required variables from including file:
  * $task, contains:
@@ -86,7 +97,7 @@ $task = array (
 		</div>
 	</div>
 
-	<div id="desc"><?php echo $task["desc"]?></div>
+	<div id="desc"><?php echo $task["description"]?></div>
 
 
 	<div id="people">
