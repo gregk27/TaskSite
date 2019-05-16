@@ -11,7 +11,7 @@
 <?php
 include "header.php";
 
-include "../passwords.php";
+include "passwords.php";
 
 $conn = new mysqli ( $dbAddress, $dbUser, $dbPass );
 $result = $conn->query ( "SELECT * FROM `tasks`.`tasks`" );
