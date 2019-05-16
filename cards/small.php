@@ -3,6 +3,9 @@
 
 
 <script>
+
+	var xhttp = new XMLHttpRequest();
+	
 	function showPeople(button) {
 		var hidden = button.parentNode.querySelectorAll("#contributors")[0];
 
@@ -12,6 +15,10 @@
 			hidden.style.display = "none";
 		}
 
+	}
+	function sendRequest(id, mode){
+		xhttp.open("POST", "/cards/join.php", true);
+		xhttp.setRequestHeader("
 	}
 </script>
 <?php
@@ -56,12 +63,16 @@
 /*
  * Required variables from including file:
  * $task, contains:
+ * ID
  * name
  * subteams (array)
  * progress
  * subtasks (JSON):
- * -name, progress, value
- *
+ * -name, progress
+ * list of heads
+ * list of contributors
+ * boolean joined
+ * boolean following
  */
 ?>
 <div class="task">
@@ -85,10 +96,10 @@
 			?>
 		</table>
 		<div id="buttons">
-			<div
+			<div onclick = "sendRequest(<?php $task["ID"]?>, 'join')"
 				class="button <?php if($task["joined"]){echo "de";} echo "active";?>"
 				style="width: 44%; float: left;"><?php if($task["joined"]){echo "Quit";} else{echo "Join";}?></div>
-			<div
+			<div onclick = "sendRequest(<?php $task["ID"]?>, 'follow')"
 				class="button <?php if($task["following"]){echo "de";} echo "active";?>"
 				style="width: 44%; float: right;"><?php if($task["following"]){echo "Unfollow";} else{echo "Follow";}?></div>
 		</div>

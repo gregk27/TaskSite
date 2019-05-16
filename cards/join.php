@@ -5,14 +5,18 @@ $conn = new mysqli ( $dbAddress, $dbUser, $dbPass );
 $ID = 254; // $_COOKIE["token"];
 
 $taskID = 1; // $_POST["task"];
-$mode = "contribute"; // $_POST["mode"]; //"contribute" or "follow"
+$mode = "follow"; // $_POST["mode"]; //"contribute" or "follow"
 
 $stmt = $conn->prepare ( "SELECT `heads`,`contributors`,`followers` FROM `tasks`.`tasks` WHERE `ID` = ?" );
 $stmt->bind_param ( "i", $taskID );
 $stmt->execute ();
 $result = $stmt->get_result ()->fetch_assoc ();
 
+$out = null;
+$col = null;
+
 if ($mode == "contribute") {
+	$col = 'contributors';
 	echo $result ["contributors"] . "<br/>";
 
 	$found = false;
@@ -32,14 +36,16 @@ if ($mode == "contribute") {
 		
 		array_push($array, $result2."|".$ID);
 	}
-	echo implode ( ",", $array );
+	$out = ltrim(implode ( ",", $array ), ",");
+	echo $out;
 }
 
 if ($mode == "follow") {
-	echo $result ["following"] . "<br/>";
+	$col = 'followers';
+	echo $result ["followers"] . "<br/>";
 	
 	$found = false;
-	$array = explode ( ",", $result ["following"] );
+	$array = explode ( ",", $result ["followers"] );
 	foreach ( $array as $key => $value ) {
 		if ($value == $ID) {
 			unset ( $array [$key] );
@@ -50,7 +56,15 @@ if ($mode == "follow") {
 	if (!$found) {
 		array_push($array, $ID);
 	}
-	echo implode ( ",", $array );
+	$out = ltrim(implode ( ",", $array ), ",");
+	echo $out;
 }
 
+if($out != null){
+	echo isset($col);
+	echo "Setting ".$col." to ".$out;
+	$stmt = $conn->prepare ( "UPDATE `tasks`.`tasks` SET `".$col."` = ? WHERE `tasks`.`ID` = ?" );
+	$stmt->bind_param ( "si", $out, $taskID );
+	$stmt->execute ();
+}
 ?>
