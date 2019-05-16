@@ -17,6 +17,11 @@ $conn = new mysqli ( $dbAddress, $dbUser, $dbPass );
 $result = $conn->query ( "SELECT * FROM `tasks`.`tasks`" );
 
 while ( $task = mysqli_fetch_assoc ( $result ) ) {
+// 	foreach($task as $key=>$value){
+// 		echo $key."\t".$value."<br/>";
+// 	}
+	
+	
 	$task ["subteams"] = explode ( ",", $task ["subteams"] );
 	$task ["subtasks"] = json_decode ( $task ["subtasks"], true );
 	$task ["heads"] = explode ( ",", $task ["heads"] );
@@ -24,16 +29,17 @@ while ( $task = mysqli_fetch_assoc ( $result ) ) {
 	$task ["followers"] = explode ( ",", $task ["followers"] );
 	$task ["joined"] = false;
 	$task ["following"] = false;
+	$task ["head"] = false;
 
 	if (isset ( $_COOKIE ["token"] )) {
 		$ID = $_COOKIE ["token"];
 		// If the user is a head, they are involved
 		foreach ( $task ["heads"] as $value ) {
 			if (explode ( "|", $value ) [1] == $ID) {
-				$task ["joined"] = true;
+				$task ["head"] = true;
 			}
 		}
-		foreach ( $task ["heads"] as $value ) {
+		foreach ( $task ["contributors"] as $value ) {
 			if (explode ( "|", $value ) [1] == $ID) {
 				$task ["joined"] = true;
 			}

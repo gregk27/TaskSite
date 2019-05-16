@@ -16,9 +16,14 @@
 		}
 
 	}
-	function sendRequest(id, mode){
-		xhttp.open("POST", "/cards/join.php", true);
-		xhttp.setRequestHeader("
+	function sendRequest(id, mode, source){
+		xhttp.open("POST", "/cards/join.php", false);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send("task="+id+"&mode="+mode);
+
+		console.log(xhttp.responseText);
+		
+		location.reload();
 	}
 </script>
 <?php
@@ -75,6 +80,7 @@
  * boolean following
  */
 ?>
+
 <div class="task">
 	<div class="top">
 		<h2>
@@ -96,12 +102,22 @@
 			?>
 		</table>
 		<div id="buttons">
-			<div onclick = "sendRequest(<?php $task["ID"]?>, 'join')"
+			<?php if($task["head"] || !isset($_COOKIE["token"])){echo "<!--";}?>
+			<div
+				onclick="sendRequest(<?php echo $task["ID"]?>, 'contribute', this)"
 				class="button <?php if($task["joined"]){echo "de";} echo "active";?>"
 				style="width: 44%; float: left;"><?php if($task["joined"]){echo "Quit";} else{echo "Join";}?></div>
-			<div onclick = "sendRequest(<?php $task["ID"]?>, 'follow')"
+			<div onclick="sendRequest(<?php echo $task["ID"]?>, 'follow', this)"
 				class="button <?php if($task["following"]){echo "de";} echo "active";?>"
 				style="width: 44%; float: right;"><?php if($task["following"]){echo "Unfollow";} else{echo "Follow";}?></div>
+				<?php
+				if ($task ["head"]) {
+					echo "--><div class = 'button deactive'>Locked for Heads</div>";
+				}
+				if (! isset ( $_COOKIE ["token"] )) {
+					echo "--><div class = 'button deactive' onclick=\"window.location.href='/user/user.php'\">Please login</div>";
+				}
+				?>
 		</div>
 	</div>
 
