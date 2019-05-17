@@ -265,13 +265,36 @@ nav a.right {
 
 .task-page-top .buttons {
 	position: absolute;
-	top: 44px;
 	right:15px;
 	z-index:2;
 	background:#ccc;
 	padding:5px;
 	border:2px solid black;
+	user-select:none;
 }
+
+.task-page-top:not(:hover) .buttons{
+	animation-name:move-buttons-up;
+	animation-duration:1s;
+	animation-fill-mode:forwards;
+}
+
+.task-page-top:hover .buttons{
+	animation-name:move-buttons;
+	animation-duration:1s;
+	animation-fill-mode:forwards;
+}
+
+@keyframes move-buttons{
+	from {top:0px;}
+	to {top:44px;}
+}
+
+@keyframes move-buttons-up{
+	from {top:44px;}
+	to {top:0px;}
+}
+
 
 .task-page-top .buttons button {
 	border: none;
@@ -288,7 +311,7 @@ nav a.right {
 	margin-right: 30px;
 	padding: 20px;
 	padding-right: 50px;
-	padding-top: 10px;
+	padding-top: 5px;
 	height: -webkit-fill-available;
 	font-size: 18px;
 }
