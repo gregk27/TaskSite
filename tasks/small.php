@@ -17,7 +17,7 @@
 
 	}
 	function sendRequest(id, mode, source){
-		xhttp.open("POST", "/cards/join.php", false);
+		xhttp.open("POST", "/tasks/join.php", false);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.send("task="+id+"&mode="+mode);
 
@@ -81,9 +81,9 @@
  */
 ?>
 
-<div class="task">
+<div class="task-small">
 	<div class="top">
-		<h2>
+		<h2 onclick="window.location.href='/tasks/page.php?task=<?php echo $task["ID"]?>'">
 			<?php echo $task["name"]?>
 		</h2>
 		<div class="progress" id="progress" style="<?php echo "background-image:linear-gradient(120deg, #33cc33 ".($task["progress"] - 5)."%, gray " . ($task["progress"] + 5) . "%)"?>">
@@ -115,7 +115,7 @@
 					echo "--><div class = 'button deactive'>Locked for Heads</div>";
 				}
 				if (! isset ( $_COOKIE ["token"] )) {
-					echo "--><div class = 'button deactive' onclick=\"window.location.href='/user/user.php'\">Please login</div>";
+					echo "--><div class = 'button deactive' v>Please login</div>";
 				}
 				?>
 		</div>

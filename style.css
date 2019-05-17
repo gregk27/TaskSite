@@ -10,7 +10,7 @@ header {
 	overflow: hidden;
 	font-size: 25px;
 	color: #ccc;
-	margin-bottom:50px;
+	margin-bottom: 50px;
 }
 
 header h1 {
@@ -94,7 +94,8 @@ nav a.right {
 	margin: auto;
 }
 
-.task {
+/*SMALL CARD*/
+.task-small {
 	background-color: #ccc;
 	width: 60%;
 	margin-left: 5%;
@@ -102,17 +103,17 @@ nav a.right {
 	padding-top: 60px;
 	min-width: 500px;
 	padding-bottom: 10px;
-	margin-top:25px;
-	margin-bottom:25px;
+	margin-top: 25px;
+	margin-bottom: 25px;
 }
 
-.task .top{
-	width:100%;
-	position:relative;
-	top:-60px;
+.task-small .top {
+	width: 100%;
+	position: relative;
+	top: -60px;
 }
 
-.task h2 {
+.task-small h2 {
 	color: white;
 	background-color: #4a2a7c;
 	display: inline-block;
@@ -122,9 +123,11 @@ nav a.right {
 	z-index: 1;
 	position: absolute;
 	top: 0px;
+	user-select: none;
+	cursor: pointer;
 }
 
-.progress {
+.task-small .progress {
 	background-image: linear-gradient(120deg, green 45%, gray 55%);
 	width: 100%;
 	height: 50px;
@@ -139,54 +142,54 @@ nav a.right {
 	border-bottom: 1px solid #2d1a4c;
 }
 
-.progress #detail {
+.task-small .progress #detail {
 	font-size: 20px;
-	position:relative;
-	top:-5px;
+	position: relative;
+	top: -5px;
 }
 
-.task #desc {
+.task-small #desc {
 	padding-left: 10px;
 }
 
-.task #sub {
+.task-small #sub {
 	float: right;
 	margin-right: 10px;
 	padding-left: 20px;
 	width: 175px;
 }
 
-.task #sub table {
+.task-small #sub table {
 	margin-left: auto;
 }
 
-.task #sub td {
+.task-small #sub td {
 	padding: 0px;
 	padding-right: 15px;
 }
 
-.task #people {
+.task-small #people {
 	width: 90%;
 	padding-top: 15px;
 	margin: auto;
 }
 
-.task #people #heads {
+.task-small #people #heads {
 	
 }
 
-.task #people #show-contributors {
+.task-small #people #show-contributors {
 	float: right;
 	user-select: none;
 	cursor: pointer;
 }
 
-.task #people #contributors {
+.task-small #people #contributors {
 	padding-top: 5px;
 	display: none;
 }
 
-.task #buttons {
+.task-small #buttons {
 	margin-top: 10px;
 	text-align: center;
 }
@@ -212,4 +215,122 @@ nav a.right {
 
 .button.deactive:hover {
 	background-color: #170d26;
+}
+
+/*TASK PAGE*/
+.task-page {
+	margin-left: 25px;
+}
+
+.sticky#top {
+	position: fixed !important;
+	top: 0px !important;
+}
+
+.task-page-top {
+	width: 100%;
+	position: relative;
+	top: -50px;
+	height: 50px;
+	margin-bottom: 25px;
+}
+
+.task-page-top h2 {
+	color: white;
+	background-color: #4a2a7c;
+	display: inline-block;
+	padding: 5px 15px 5px 25px;
+	margin: 0px;
+	font-size: 30px;
+	z-index: 4;
+	position: absolute;
+	top: 0px;
+}
+
+.task-page-top .progress {
+	background-image: linear-gradient(120deg, green 45%, gray 55%);
+	width: 100%;
+	height: 50px;
+	display: block;
+	float: right;
+	position: absolute;
+	top: 0px;
+	min-width: 500px;
+	text-align: right;
+	color: white;
+	font-size: 45px;
+	border-bottom: 1px solid #2d1a4c;
+	z-index:3;
+}
+
+.task-page-top .buttons {
+	position: absolute;
+	top: 44px;
+	right:15px;
+	z-index:2;
+	background:#ccc;
+	padding:5px;
+	border:2px solid black;
+}
+
+.task-page-top .buttons button {
+	border: none;
+	background-color: #4a2a7c;
+	color: white;
+	padding: 5px;
+	font-size:16px;
+	cursor:pointer;
+}
+
+.task-page-sidebar {
+	float: right;
+	background-color: #ccc;
+	margin-right: 30px;
+	padding: 20px;
+	padding-right: 50px;
+	padding-top: 10px;
+	height: -webkit-fill-available;
+	font-size: 18px;
+}
+
+.sticky#sidebar {
+	position: fixed !important;
+	top: 51px !important;
+	z-index:-1;
+}
+
+.task-page-sidebar h3 {
+	padding-left: 10px;
+	margin-bottom: 5px;
+}
+
+.task-page-sidebar table #task td {
+	padding-top: 5px;
+}
+
+.task-page-sidebar table #name {
+	
+}
+
+.task-page-sidebar table #percent {
+	text-align: right;
+}
+
+.task-page-sidebar table #config {
+	text-align: center;
+}
+
+.task-page-sidebar table #change {
+	border: none;
+	background-color: #4a2a7c;
+	color: white;
+	padding: 5px;
+	cursor:pointer;
+}
+
+.task-page-sidebar ul {
+	margin: 0px;
+	margin-bottom: 15px;
+	list-style-type: none;
+	padding-left: 15px;
 }

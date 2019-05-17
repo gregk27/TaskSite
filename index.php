@@ -51,7 +51,7 @@ while ( $task = mysqli_fetch_assoc ( $result ) ) {
 		}
 	}
 	
-	include("cards/small.php");
+	include("tasks/small.php");
 }
 
 ?>
