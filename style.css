@@ -18,11 +18,11 @@ header h1 {
 	margin-left: 4%;
 }
 
-nav {
+header nav {
 	width: 100%;
 }
 
-nav a {
+header nav a {
 	cursor: pointer;
 	display: inline-block;
 	padding: 9px;
@@ -35,11 +35,11 @@ nav a {
 	color: #ccc;
 }
 
-nav a:hover {
+header nav a:hover {
 	background-color: #2d1a4c;
 }
 
-nav a.right {
+header nav a.right {
 	float: right
 }
 
@@ -260,55 +260,64 @@ nav a.right {
 	color: white;
 	font-size: 45px;
 	border-bottom: 1px solid #2d1a4c;
-	z-index:3;
+	z-index: 3;
 }
 
 .task-page-top .buttons {
 	position: absolute;
-	right:15px;
-	z-index:2;
-	background:#ccc;
-	padding:5px;
-	border:2px solid black;
-	user-select:none;
+	right: 15px;
+	z-index: 2;
+	background: #ccc;
+	padding: 5px;
+	border: 2px solid black;
+	user-select: none;
 }
 
-.task-page-top:not(:hover) .buttons{
-	animation-name:move-buttons-up;
-	animation-duration:1s;
-	animation-fill-mode:forwards;
+.task-page-top:not (:hover ) .buttons {
+	animation-name: move-buttons-up;
+	animation-duration: 1s;
+	animation-fill-mode: forwards;
 }
 
-.task-page-top:hover .buttons{
-	animation-name:move-buttons;
-	animation-duration:1s;
-	animation-fill-mode:forwards;
+.task-page-top:hover .buttons {
+	animation-name: move-buttons-down;
+	animation-duration: 1s;
+	animation-fill-mode: forwards;
 }
 
-@keyframes move-buttons{
-	from {top:0px;}
-	to {top:44px;}
+@
+keyframes move-buttons-down {
+	from {top: 0px;
 }
 
-@keyframes move-buttons-up{
-	from {top:44px;}
-	to {top:0px;}
+to {
+	top: 44px;
 }
 
+}
+@
+keyframes move-buttons-up {
+	from {top: 44px;
+}
 
+to {
+	top: 0px;
+}
+
+}
 .task-page-top .buttons button {
 	border: none;
 	background-color: #4a2a7c;
 	color: white;
 	padding: 5px;
-	font-size:16px;
-	cursor:pointer;
+	font-size: 16px;
+	cursor: pointer;
 }
 
 .task-page-sidebar {
 	float: right;
 	background-color: #ccc;
-	margin-right: 30px;
+	margin-right: 2.5%;
 	padding: 20px;
 	padding-right: 50px;
 	padding-top: 5px;
@@ -319,7 +328,7 @@ nav a.right {
 .sticky#sidebar {
 	position: fixed !important;
 	top: 51px !important;
-	z-index:-1;
+	z-index: -1;
 }
 
 .task-page-sidebar h3 {
@@ -329,10 +338,6 @@ nav a.right {
 
 .task-page-sidebar table #task td {
 	padding-top: 5px;
-}
-
-.task-page-sidebar table #name {
-	
 }
 
 .task-page-sidebar table #percent {
@@ -348,7 +353,7 @@ nav a.right {
 	background-color: #4a2a7c;
 	color: white;
 	padding: 5px;
-	cursor:pointer;
+	cursor: pointer;
 }
 
 .task-page-sidebar ul {
@@ -356,4 +361,181 @@ nav a.right {
 	margin-bottom: 15px;
 	list-style-type: none;
 	padding-left: 15px;
+}
+
+.task-page-content {
+	width: 70%;
+	float: left;
+	margin-left: 5%;
+}
+
+.task-page-content>div {
+	padding: 5px 10px;
+}
+
+.task-page-content .description {
+	width: -webkit-fill-available;
+	background-color: #ccc;
+	margin-bottom: 25px;
+}
+
+.task-page-content nav {
+	background-color: #ccc;
+	overflow: auto;
+	padding-left: 50px;
+	margin-top: 75px;
+}
+
+.task-page-content nav a {
+	cursor: pointer;
+	display: inline-block;
+	padding: 9px;
+	margin: 0px;
+	padding-left: 12px;
+	padding-right: 12px;
+	text-decoration: none;
+	float: left;
+	font-size: 17px;
+	user-select: none;
+}
+
+.task-page-content nav a:hover {
+	background-color: #a0a0a0;
+}
+
+.task-page-content nav a.underline {
+	padding-bottom: 7px;
+}
+
+.task-page-content nav a.underline:after {
+	bottom: 0px;
+	content: "";
+	height: 2px;
+	display: block;
+	position: relative;
+	width: 90%;
+	margin: auto;
+	background-color: #4a2a7c;
+	display: block;
+}
+
+.task-page-content .message {
+	background-color: #ccc;
+	margin-top: 10px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+
+.task-page-content .message #title {
+	padding-top: 7px;
+	padding-left: 15px;
+	margin-bottom: 0px;
+}
+
+.task-page-content .message #info {
+	margin: 0px;
+	padding-left: 17px;
+}
+
+.task-page-content .message #content {
+	padding: 15px;
+	padding-top: 75px;
+}
+
+.task-page-content .message #about {
+	float: left;
+}
+
+.task-page-content .message #vote {
+	float: right;
+	margin-top: 25px;
+	margin-right: 40px;
+	margin-bottom: 15px;
+	background-color: #a0a0a0;
+}
+
+.task-page-content .message #vote button {
+	border: none;
+	background-color: #4a2a7c;
+	color: white;
+	font-size: 15px;
+	padding: 7px;
+	user-select: none;
+	cursor: pointer;
+}
+
+.task-page-content .message #vote #score {
+	font-size: 21px;
+	padding: 4px;
+}
+
+.task-page-content .message #show-comments {
+	text-align: right;
+	position: relative;
+	top: -8px;
+}
+
+.task-page-content .message #show-comments a {
+	user-select: none;
+	cursor: pointer;
+	width: fit-content;
+	margin: 0px 5%;
+	padding: 5px 15px;
+	background-color: #4a2a7c;
+	color: white;
+}
+
+.task-page-content .message #show-comments a:hover {
+	background-color: #2d1a4c;
+}
+
+.task-page-content .message #replies {
+	padding-left: 15px;
+	padding-right: 30px;
+}
+
+.task-page-content .message .reply {
+	padding-top:15px;
+}
+
+.task-page-content .message .reply #info {
+	height:40px;
+}
+
+.task-page-content .message .reply #vote {
+	float: right;
+	height: auto;
+	display: block;
+	margin: 0px;
+}
+
+.task-page-content .message .reply #vote #score {
+	font-size: 16px;
+	font-weight: normal;
+}
+
+.task-page-content .message .reply #vote button {
+	font-size: 12px;
+}
+
+.task-page-content .message #reply:before {
+	bottom: 0px;
+	content: "";
+	height: 2px;
+	display: block;
+	position: relative;
+	width: 90%;
+	margin: auto;
+	background-color: #4a2a7c;
+	display: block;
+}
+
+.task-page-content .message .reply #bar {
+	display: inline-block;
+	position: relative;
+	width: 95%;
+	background-color: #4a2a7c;
+	height: 4px;
+	bottom: 15px;
+	corner-radius: 10px;
 }

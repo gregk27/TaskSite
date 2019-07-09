@@ -49,6 +49,20 @@ if (isset ($_COOKIE ["token"])) {
 	}
 }
 ?>
+	<script>
+		function showReplies(element){
+			var target = element.parentElement.parentElement.querySelector("#replies");
+			console.log("Element: "+ element)
+			console.log("Target: " + target.style.display);
+			if(target.style.display == "block"){
+				target.style.display = "none";
+			}
+			else if(target.style.display == "none"){
+				target.style.display = "block";
+			}
+		}
+	</script>
+
 	<div class="task-page-top" id="top">
 		<div class="buttons">
 			<button id="change">-10</button>
@@ -60,8 +74,101 @@ if (isset ($_COOKIE ["token"])) {
 		<h2><?php echo $task["name"]?></h2>
 		<div class="progress">50%</div>
 	</div>
+	<div id="below-top">
+		<div class="task-page-content">
+			<div class="description">
+				<h2>About</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+					ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+					aliquip ex ea commodo consequat. Duis aute irure dolor in
+					reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+					pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+					culpa qui officia deserunt mollit anim id est laborum.</p>
+			</div>
+			<div>
+				<nav> <a class="underline">Announcements</a> <a class="">Progress</a>
+				<a>Discussion</a></nav>
+				<div id="messages">
+					<div class="message">
+						<div id="about">
+							<h3 id="title">Task started</h3>
+							<h5 id="info">Greg 01/01/01</h5>
+						</div>
+						<div id="vote">
+							<button>Yea</button>
+							<span id="score">7|5</span>
+							<button>Nay</button>
+						</div>
+						<div id="content">Sed ut perspiciatis unde omnis iste natus error
+							sit voluptatem accusantium doloremque laudantium, totam rem
+							aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+							architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
+							voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
+							quia consequuntur magni dolores eos qui ratione voluptatem sequi
+							nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
+							sit amet, consectetur, adipisci velit, sed quia non numquam eius
+							modi tempora incidunt ut labore et dolore magnam aliquam quaerat
+							voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem
+							ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
+							consequatur? Quis autem vel eum iure reprehenderit qui in ea
+							voluptate velit esse quam nihil molestiae consequatur, vel illum
+							qui dolorem eum fugiat quo voluptas nulla pariatur? nihil
+							molestiae consequatur, vel illum qui dolorem eum fugiat quo
+							voluptas nulla</div>
+						<div id="show-comments">
+							<a onclick="showReplies(this);"><span>Show</span> 5 comments</a>
+						</div>
+						<div id="replies" style="display: none">
+							<div class="reply">
+								<div id="data">
+									<h5 id="info">
+										<div style="position: relative; top: 15px">Greg 01/01/01</div>
+										<div id="bar" />
+										<div id="vote">
+											<button>Yea</button>
+											<span id="score">7|5</span>
+											<button>Nay</button>
+										</div>
+									</h5>
+								</div>
+								Vestibulum nulla ex, ultricies id commodo at, tempus vel mi.
+								Suspendisse tempor lorem ipsum, quis cursus magna euismod in.
+								Morbi interdum risus a orci molestie, in ultricies dolor
+								efficitur. Maecenas nulla augue, aliquam sit amet mollis eget,
+								pellentesque et sapien. Cras varius blandit tempus.
+							</div>
 
-	<div class="task-page-content"></div>
+
+							<div class="reply">
+								<div id="data">
+									<h5 id="info">
+										<div style="position: relative; top: 15px">Greg 01/01/01</div>
+										<div id="bar" />
+										<div id="vote">
+											<button>Yea</button>
+											<span id="score">7|5</span>
+											<button>Nay</button>
+										</div>
+									</h5>
+								</div>
+								Vestibulum nulla ex, ultricies id commodo at, tempus vel mi.
+								Suspendisse tempor lorem ipsum, quis cursus magna euismod in.
+								Morbi interdum risus a orci molestie, in ultricies dolor
+								efficitur. Maecenas nulla augue, aliquam sit amet mollis eget,
+								pellentesque et sapien. Cras varius blandit tempus.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	<?php
+	for($i = 0; $i < 100; $i ++) {
+		echo "<br/>";
+	}
+	?>
+		</div>
+	</div>
 
 	<div class="task-page-sidebar" id="sidebar">
 		<h3>Subtasks</h3>
@@ -126,11 +233,7 @@ if (isset ($_COOKIE ["token"])) {
 			}
 			?>
 	</div>
-	<?php
-	for($i = 0; $i < 100; $i ++) {
-		echo "<br/>";
-	}
-	?>
+	</div>
 </body>
 </html>
 
@@ -138,6 +241,8 @@ if (isset ($_COOKIE ["token"])) {
 //Get the header
 var head = document.getElementById("top");
 var subs = document.getElementById("sidebar");
+var main = document.getElementsByClassName("task-page-content")[0];
+var body = document.getElementById("below-top");
 
 //Get the offset position of the navbar
 var pos = head.offsetTop;
@@ -145,12 +250,16 @@ var subPos = subs.offsetTop;
 var subPosX = subs.offsetLeft;
 //Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
 function sticky() {
+// 	main.offsetTop = 244;
+	console.log(window.pageYOffset+"\t"+main.offsetTop);
 	if (window.pageYOffset > pos) {
+		body.style["padding-top"]= "75px";
 		head.classList.add("sticky");
 	} else {
 		head.classList.remove("sticky");
+		body.style["padding-top"]= "0px";
 	}
-	if (window.pageYOffset > subPos-pos) {
+	if (window.pageYOffset > subPos-45) {
 		subs.style.left = subPosX+"px";
 		subs.classList.add("sticky");
 	} else {
