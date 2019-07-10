@@ -49,19 +49,6 @@ if (isset ($_COOKIE ["token"])) {
 	}
 }
 ?>
-	<script>
-		function showReplies(element){
-			var target = element.parentElement.parentElement.querySelector("#replies");
-			console.log("Element: "+ element)
-			console.log("Target: " + target.style.display);
-			if(target.style.display == "block"){
-				target.style.display = "none";
-			}
-			else if(target.style.display == "none"){
-				target.style.display = "block";
-			}
-		}
-	</script>
 
 	<div class="task-page-top" id="top">
 		<div class="buttons">
@@ -90,76 +77,8 @@ if (isset ($_COOKIE ["token"])) {
 				<nav> <a class="underline">Announcements</a> <a class="">Progress</a>
 				<a>Discussion</a></nav>
 				<div id="messages">
-					<div class="message">
-						<div id="about">
-							<h3 id="title">Task started</h3>
-							<h5 id="info">Greg 01/01/01</h5>
-						</div>
-						<div id="vote">
-							<button>Yea</button>
-							<span id="score">7|5</span>
-							<button>Nay</button>
-						</div>
-						<div id="content">Sed ut perspiciatis unde omnis iste natus error
-							sit voluptatem accusantium doloremque laudantium, totam rem
-							aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-							architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-							voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
-							quia consequuntur magni dolores eos qui ratione voluptatem sequi
-							nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
-							sit amet, consectetur, adipisci velit, sed quia non numquam eius
-							modi tempora incidunt ut labore et dolore magnam aliquam quaerat
-							voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem
-							ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
-							consequatur? Quis autem vel eum iure reprehenderit qui in ea
-							voluptate velit esse quam nihil molestiae consequatur, vel illum
-							qui dolorem eum fugiat quo voluptas nulla pariatur? nihil
-							molestiae consequatur, vel illum qui dolorem eum fugiat quo
-							voluptas nulla</div>
-						<div id="show-comments">
-							<a onclick="showReplies(this);"><span>Show</span> 5 comments</a>
-						</div>
-						<div id="replies" style="display: none">
-							<div class="reply">
-								<div id="data">
-									<h5 id="info">
-										<div style="position: relative; top: 15px">Greg 01/01/01</div>
-										<div id="bar" />
-										<div id="vote">
-											<button>Yea</button>
-											<span id="score">7|5</span>
-											<button>Nay</button>
-										</div>
-									</h5>
-								</div>
-								Vestibulum nulla ex, ultricies id commodo at, tempus vel mi.
-								Suspendisse tempor lorem ipsum, quis cursus magna euismod in.
-								Morbi interdum risus a orci molestie, in ultricies dolor
-								efficitur. Maecenas nulla augue, aliquam sit amet mollis eget,
-								pellentesque et sapien. Cras varius blandit tempus.
-							</div>
-
-
-							<div class="reply">
-								<div id="data">
-									<h5 id="info">
-										<div style="position: relative; top: 15px">Greg 01/01/01</div>
-										<div id="bar" />
-										<div id="vote">
-											<button>Yea</button>
-											<span id="score">7|5</span>
-											<button>Nay</button>
-										</div>
-									</h5>
-								</div>
-								Vestibulum nulla ex, ultricies id commodo at, tempus vel mi.
-								Suspendisse tempor lorem ipsum, quis cursus magna euismod in.
-								Morbi interdum risus a orci molestie, in ultricies dolor
-								efficitur. Maecenas nulla augue, aliquam sit amet mollis eget,
-								pellentesque et sapien. Cras varius blandit tempus.
-							</div>
-						</div>
-					</div>
+					<?php include("topic.php")?>
+					<?php include("topic.php")?>
 				</div>
 			</div>
 	<?php
