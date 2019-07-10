@@ -518,18 +518,6 @@ to {
 	font-size: 12px;
 }
 
-.task-page-content .message #reply:before {
-	bottom: 0px;
-	content: "";
-	height: 2px;
-	display: block;
-	position: relative;
-	width: 90%;
-	margin: auto;
-	background-color: #4a2a7c;
-	display: block;
-}
-
 .task-page-content .message .reply #bar {
 	display: inline-block;
 	position: relative;

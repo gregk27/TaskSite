@@ -26,7 +26,11 @@ $topic = array (
 			molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
 			nulla pariatur? nihil molestiae consequatur, vel illum qui dolorem
 			eum fugiat quo voluptas nulla",
-		"replies" => array (33,197,330)
+		"replies" => array (
+				33,
+				197,
+				330
+		)
 );
 
 $format = "M d/y | h:ia";
@@ -34,7 +38,14 @@ $stamp = new DateTime ("@" . $topic ["time"]);
 date_timezone_set ($stamp, new DateTimeZone ("EST"));
 $date = date_format ($stamp, $format);
 
-?>
+$reply = array (
+		"name" => "Greg",
+		"time" => time (),
+		"up" => 6,
+		"down" => 3,
+		"text" => "Vestibulum nulla ex, ultricies id commodo at, tempus vel mi. Suspendisse tempor lorem ipsum, quis cursus magna euismod in. Morbi interdum risus a orci molestie, in ultricies dolor efficitur. Maecenas nulla augue, aliquam sit amet mollis eget, pellentesque et sapien. Cras varius blandit tempus."
+)?>
+
 
 
 <script>
@@ -66,22 +77,7 @@ $date = date_format ($stamp, $format);
 			<a onclick="showReplies(this);">Show <?php echo count($topic["replies"])?> comments</a>
 		</div>
 		<div id="replies" style="display: none">
-			<div class="reply">
-				<h4 id="info">
-					<div style="position: relative; top: 20px">Greg 01/01/01</div>
-					<div id="bar" />
-					<div id="vote">
-						<button>Yea</button>
-						<span id="score">7|5</span>
-						<button>Nay</button>
-					</div>
-				</h4>
-				Vestibulum nulla ex, ultricies id commodo at, tempus vel mi.
-				Suspendisse tempor lorem ipsum, quis cursus magna euismod in. Morbi
-				interdum risus a orci molestie, in ultricies dolor efficitur.
-				Maecenas nulla augue, aliquam sit amet mollis eget, pellentesque et
-				sapien. Cras varius blandit tempus.
-			</div>
+			<?php include("reply.php")?>
 		</div>
 	</div>
 </div>
