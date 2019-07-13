@@ -19,6 +19,7 @@ $stmt = $conn->prepare ("SELECT * FROM `tasks`.`tasks` WHERE `ID` = ?");
 $stmt->bind_param ("i", $_GET ["task"]);
 $stmt->execute ();
 $task = $stmt->get_result ()->fetch_assoc ();
+$stmt->close();
 
 $task ["subteams"] = explode (",", $task ["subteams"]);
 $task ["subtasks"] = json_decode ($task ["subtasks"], true);
@@ -48,6 +49,13 @@ if (isset ($_COOKIE ["token"])) {
 		}
 	}
 }
+
+$stmt = $conn->prepare ("SELECT * FROM `tasks`.`topics` WHERE `taskID` = ?");
+$val = 0;
+$stmt->bind_param ("i", $val);
+$stmt->execute ();
+$topics = $stmt->get_result ()->fetch_all (MYSQLI_ASSOC);
+$stmt->close ();
 ?>
 
 	<div class="task-page-top" id="top">
@@ -77,8 +85,9 @@ if (isset ($_COOKIE ["token"])) {
 				<nav> <a class="underline">Announcements</a> <a class="">Progress</a>
 				<a>Discussion</a></nav>
 				<div id="messages">
-					<?php include("topic.php")?>
-					<?php include("topic.php")?>
+				<?php foreach($topics as $topic){
+					include("topic.php");		
+				}?>
 				</div>
 			</div>
 	<?php

@@ -202,19 +202,19 @@ header nav a.right {
 }
 
 .button.active {
-	background-color: #4a2a7c;
+	background-color: #4a2a7c !important;
 }
 
 .button.active:hover {
-	background-color: #2d1a4c;
+	background-color: #2d1a4c !important;
 }
 
 .button.deactive {
-	background-color: #2d1a4c;
+	background-color: #2d1a4c !important;
 }
 
 .button.deactive:hover {
-	background-color: #170d26;
+	background-color: #170d26 !important;
 }
 
 /*TASK PAGE*/

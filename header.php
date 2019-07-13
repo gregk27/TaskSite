@@ -22,6 +22,8 @@
         echo "<a class='right' href='/user/user.php'>Sign in</a>";
     }
     mysqli_close($conn);
+    
+    mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);//TODO: Remove after debugging
     ?>
 
   </nav>
