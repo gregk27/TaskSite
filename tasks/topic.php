@@ -88,11 +88,10 @@ if (ISSET ($_GET ["focus"])) {
 		console.log(xhttp.responseText);
 
 		var t = type=="topic" ? "t" : type == "reply" ? "r" : "";
-		reload("focus", t+id);
+		window.location.href = setVal(window.location.href, "focus", t+id);
 	}
 
-	function reload(param, value){
-		var url = window.location.href;    
+	function setVal(url, param, value){
 		console.log(url);
 		console.log(url.indexOf(param));	
 		console.log(param+"="+value);	
@@ -105,22 +104,15 @@ if (ISSET ($_GET ["focus"])) {
 		}
 
 		console.log(url);
-		
-		window.location.href = url;
+		return url;
 	}
-
-	function load(){
-		document.getElementById("scrollto").scrollIntoView(false);
-		console.log('scrolling');
-	}
-
-	window.onload = load;
 </script>
 <div class="message" <?php echo $infocus ? "id = 'scrollto'" : "";?> >
 	<div id="about">
 		<h3 id="title"><?php echo $topic["title"]?></h3>
 		<h5 id="info"><?php echo $topic["user"]?><span
 				style="padding-left: 25px"><?php echo $date?></span>
+			<a class="pointer" id="<?php echo "t".$topic["ID"]?>"><?php echo "#t".$topic["ID"]?></a>
 		</h5>
 	</div>
 	<div id="vote">

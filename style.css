@@ -527,3 +527,9 @@ to {
 	bottom: 15px;
 	corner-radius: 10px;
 }
+
+.task-page-content #info .pointer{
+	padding-left: 15px;
+	text-decoration:underline;
+	cursor:pointer; 
+}

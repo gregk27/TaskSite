@@ -19,7 +19,7 @@ $stmt = $conn->prepare ("SELECT * FROM `tasks`.`tasks` WHERE `ID` = ?");
 $stmt->bind_param ("i", $_GET ["task"]);
 $stmt->execute ();
 $task = $stmt->get_result ()->fetch_assoc ();
-$stmt->close();
+$stmt->close ();
 
 $task ["subteams"] = explode (",", $task ["subteams"]);
 $task ["subtasks"] = json_decode ($task ["subtasks"], true);
@@ -85,9 +85,12 @@ $stmt->close ();
 				<nav> <a class="underline">Announcements</a> <a class="">Progress</a>
 				<a>Discussion</a></nav>
 				<div id="messages">
-				<?php foreach($topics as $topic){
-					include("topic.php");		
-				}?>
+				<?php
+				
+foreach ( $topics as $topic ) {
+					include ("topic.php");
+				}
+				?>
 				</div>
 			</div>
 	<?php
@@ -205,4 +208,35 @@ function resize(){
 
 document.onscroll = sticky;
 window.addEventListener("resize", resize);
+
+function setVal(url, param, value){
+	console.log(url);
+	console.log(url.indexOf(param));	
+	console.log(param+"="+value);	
+	if (url.indexOf('?') < 0){
+	   url += '?'+param+'='+value;
+	}else if (url.indexOf(param) > 0){
+	   url = url.replace(new RegExp("("+param+"=[^&\s]*)", 'g'), param+"="+value);
+	}else{
+	   url += '&'+param+'='+value;
+	}
+
+	console.log(url);
+	return url;
+}
+
+function load(){
+	var links = document.getElementsByClassName("pointer");
+	for(var i=0; i<links.length; i++){
+		links[i].href = setVal(window.location.href, "focus", links[i].id);
+	}
+	
+	
+	if(document.getElementById("scrollto") != null){
+		document.getElementById("scrollto").scrollIntoView();
+		window.scrollBy(0,-100);
+	}
+}
+
+window.onload = load;
 </script>
