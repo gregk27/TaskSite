@@ -161,11 +161,30 @@ header nav a.right {
 
 .task-small #sub table {
 	margin-left: auto;
+	cursor: default;
 }
 
 .task-small #sub td {
 	padding: 0px;
 	padding-right: 15px;
+}
+
+.task-small #sub tr .hover {
+	visibility: hidden;
+	background-color: #2d1a4c;
+	color: #fff;
+	text-align: center;
+	padding: 5px 15px;
+	border-radius: 6px;
+	max-width: 250px;
+	position: absolute;
+	transform: translate(-70px, 17px);
+	z-index: 1;
+	position: absolute;
+}
+
+.task-small #sub tr:hover .hover {
+	visibility: visible;
 }
 
 .task-small #people {
@@ -285,8 +304,7 @@ header nav a.right {
 	animation-fill-mode: forwards;
 }
 
-@
-keyframes move-buttons-down {
+@keyframes move-buttons-down {
 	from {top: 0px;
 }
 
@@ -295,8 +313,7 @@ to {
 }
 
 }
-@
-keyframes move-buttons-up {
+@keyframes move-buttons-up {
 	from {top: 44px;
 }
 
@@ -317,9 +334,9 @@ to {
 .task-page-sidebar {
 	float: right;
 	background-color: #ccc;
-	margin-right: 2.5%;
-	padding: 20px;
-	padding-right: 50px;
+	margin-right: 1.5%;
+	padding: 15px;
+	padding-right: 35px;
 	padding-top: 5px;
 	height: -webkit-fill-available;
 	font-size: 18px;
@@ -334,6 +351,10 @@ to {
 .task-page-sidebar h3 {
 	padding-left: 10px;
 	margin-bottom: 5px;
+}
+
+.task-page-sidebar table{
+	width:165px;
 }
 
 .task-page-sidebar table #task td {
@@ -377,13 +398,14 @@ to {
 	width: -webkit-fill-available;
 	background-color: #ccc;
 	margin-bottom: 25px;
+	padding-bottom:15px;
 }
 
 .task-page-content nav {
 	background-color: #ccc;
 	overflow: auto;
 	padding-left: 50px;
-	margin-top: 75px;
+	margin-top: 25px;
 }
 
 .task-page-content nav a {
@@ -397,6 +419,7 @@ to {
 	float: left;
 	font-size: 17px;
 	user-select: none;
+	color:black;
 }
 
 .task-page-content nav a:hover {
@@ -495,11 +518,11 @@ to {
 }
 
 .task-page-content .message .reply {
-	padding-top:15px;
+	padding-top: 15px;
 }
 
 .task-page-content .message .reply #info {
-	height:40px;
+	height: 40px;
 }
 
 .task-page-content .message .reply #vote {
@@ -528,8 +551,9 @@ to {
 	corner-radius: 10px;
 }
 
-.task-page-content #info .pointer{
+.task-page-content #info .pointer {
 	padding-left: 15px;
-	text-decoration:underline;
-	cursor:pointer; 
+	text-decoration: underline;
+	cursor: pointer;
+	color: black;
 }

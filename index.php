@@ -16,14 +16,19 @@ include "passwords.php";
 $conn = new mysqli ( $dbAddress, $dbUser, $dbPass );
 $result = $conn->query ( "SELECT * FROM `tasks`.`tasks`" );
 
+$stmt = $conn->prepare("SELECT * FROM tasks.subtasks WHERE parent = ?");
+
 while ( $task = mysqli_fetch_assoc ( $result ) ) {
 // 	foreach($task as $key=>$value){
 // 		echo $key."\t".$value."<br/>";
 // 	}
 	
+	$stmt->bind_param("i", $task["ID"]);
+	$stmt->execute();
+	$subs = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 	
 	$task ["subteams"] = explode ( ",", $task ["subteams"] );
-	$task ["subtasks"] = json_decode ( $task ["subtasks"], true );
+	$task ["subtasks"] = $subs; //json_decode ( $task ["subtasks"], true );
 	$task ["heads"] = explode ( ",", $task ["heads"] );
 	$task ["contributors"] = explode ( ",", $task ["contributors"] );
 	$task ["followers"] = explode ( ",", $task ["followers"] );
@@ -53,6 +58,9 @@ while ( $task = mysqli_fetch_assoc ( $result ) ) {
 	
 	include("tasks/small.php");
 }
+
+$stmt -> close();
+$conn->close();
 
 ?>
 </body>

@@ -83,7 +83,8 @@
 
 <div class="task-small">
 	<div class="top">
-		<h2 onclick="window.location.href='/tasks/page.php?task=<?php echo $task["ID"]?>'">
+		<h2
+			onclick="window.location.href='/tasks/page.php?task=<?php echo $task["ID"]?>'">
 			<?php echo $task["name"]?>
 		</h2>
 		<div class="progress" id="progress" style="<?php echo "background-image:linear-gradient(120deg, #33cc33 ".($task["progress"] - 5)."%, gray " . ($task["progress"] + 5) . "%)"?>">
@@ -96,8 +97,8 @@
 		<strong>Subtasks</strong>
 		<table>
 			<?php
-			foreach ( $task ["subtasks"] as $value ) {
-				echo "<tr><td>" . $value ["name"] . "</td><td>" . $value ["progress"] . "%</td></tr>";
+			foreach ( $task ["subtasks"] as $sub ) {
+				echo "<tr><td class='hover'>" . $sub ["description"] . "</td><td>" . $sub ["name"] . "</td><td>" . $sub ["progress"] . "%</td></tr>";
 			}
 			?>
 		</table>
@@ -114,7 +115,7 @@
 				if ($task ["head"]) {
 					echo "--><div class = 'button deactive'>Locked for Heads</div>";
 				}
-				if (! isset ( $_COOKIE ["token"] )) {
+				if (! isset ($_COOKIE ["token"])) {
 					echo "--><div class = 'button deactive' v>Please login</div>";
 				}
 				?>

@@ -22,13 +22,18 @@ $task = $stmt->get_result ()->fetch_assoc ();
 $stmt->close ();
 
 $task ["subteams"] = explode (",", $task ["subteams"]);
-$task ["subtasks"] = json_decode ($task ["subtasks"], true);
 $task ["heads"] = explode (",", $task ["heads"]);
 $task ["contributors"] = explode (",", $task ["contributors"]);
 $task ["followers"] = explode (",", $task ["followers"]);
 $task ["joined"] = false;
 $task ["following"] = false;
 $task ["head"] = false;
+
+$stmt = $conn->prepare ("SELECT * FROM `tasks`.`subtasks` WHERE `parent`  = ?");
+$stmt->bind_param ("i", $_GET ["task"]);
+$stmt->execute ();
+$subtasks = $stmt->get_result ()->fetch_all (MYSQLI_ASSOC);
+$stmt->close ();
 
 if (isset ($_COOKIE ["token"])) {
 	$ID = $_COOKIE ["token"];
@@ -50,16 +55,24 @@ if (isset ($_COOKIE ["token"])) {
 	}
 }
 
-$stmt = $conn->prepare ("SELECT * FROM `tasks`.`topics` WHERE `taskID` = ?");
-$val = 0;
-$stmt->bind_param ("i", $val);
+$level = 0;
+if (ISSET ($_GET ["lv"])) {
+	$level = $_GET ["lv"];
+}
+$taskID = -1;
+if (ISSET ($_GET["task"])){
+	$taskID = $_GET["task"];
+}
+
+
+$stmt = $conn->prepare ("SELECT * FROM `tasks`.`topics` WHERE `taskID` = ? AND 'level' = ?");
+$stmt->bind_param ("ii", $taskID, $level);
 $stmt->execute ();
 $topics = $stmt->get_result ()->fetch_all (MYSQLI_ASSOC);
 $stmt->close ();
 ?>
-
 	<div class="task-page-top" id="top">
-		<div class="buttons">
+		<div class="buttons" style="display:<?php echo $task["head"]? "block":"none"?>">
 			<button id="change">-10</button>
 			<button id="change">-5</button>
 			&nbsp&nbsp
@@ -73,21 +86,19 @@ $stmt->close ();
 		<div class="task-page-content">
 			<div class="description">
 				<h2>About</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-					ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-					aliquip ex ea commodo consequat. Duis aute irure dolor in
-					reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-					pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-					culpa qui officia deserunt mollit anim id est laborum.</p>
+				<?php echo $task["description"]?>
 			</div>
 			<div>
-				<nav> <a class="underline">Announcements</a> <a class="">Progress</a>
-				<a>Discussion</a></nav>
+				<nav> <a href="?task=<?php echo $task["ID"]?>&lv=0"
+					class="<?php echo $level == 0 ? 'underline' : ''?>">Announcements</a>
+				<a href="?task=<?php echo $task["ID"]?>&lv=1"
+					class="<?php echo $level == 1 ? 'underline' : ''?>">Progress</a> <a
+					href="?task=<?php echo $task["ID"]?>&lv=2"
+					class="<?php echo $level == 2 ? 'underline' : ''?>">Discussion</a></nav>
 				<div id="messages">
 				<?php
 				
-foreach ( $topics as $topic ) {
+				foreach ( $topics as $topic ) {
 					include ("topic.php");
 				}
 				?>
@@ -104,65 +115,46 @@ foreach ( $topics as $topic ) {
 	<div class="task-page-sidebar" id="sidebar">
 		<h3>Subtasks</h3>
 		<table>
-			<tr id="task">
-				<td id="name">Subtask 1</td>
-				<td id="percent">50%</td>
-			</tr>
-			<tr>
-				<td id="config" colspan="2">
-					<button id="change">-10</button>
-					<button id="change">-5</button> &nbsp&nbsp
-					<button id="change">+5</button>
-					<button id="change">+10</button>
-				</td>
-			</tr>
-			<tr id="task">
-				<td id="name">Subtask 1</td>
-				<td id="percent">50%</td>
-			</tr>
-			<tr>
-				<td id="config" colspan="2">
-					<button id="change">-10</button>
-					<button id="change">-5</button> &nbsp&nbsp
-					<button id="change">+5</button>
-					<button id="change">+10</button>
-				</td>
-			</tr>
-			<tr id="task">
-				<td id="name">Subtask 1</td>
-				<td id="percent">50%</td>
-			</tr>
-			<tr>
-				<td id="config" colspan="2">
-					<button id="change">-10</button>
-					<button id="change">-5</button> &nbsp&nbsp
-					<button id="change">+5</button>
-					<button id="change">+10</button>
-				</td>
-			</tr>
+			<?php
+			foreach ( $subtasks as $sub ) {
+				echo '<tr id="task">
+					<td id="name">' . $sub ["name"] . '</td>
+					<td id="percent">' . $sub ["progress"] . '%</td>
+				</tr>';
+				if (preg_match ("/\|" . $ID . "\b/", $sub ["heads"])) {
+					echo '<tr>
+						<td id="config" colspan="2">
+							<button id="change">-10</button>
+							<button id="change">-5</button> &nbsp&nbsp
+							<button id="change">+5</button>
+							<button id="change">+10</button>
+						</td>
+					</tr>';
+				}
+			}
+			?>
 		</table>
 		<div
 			style="width: 100%; background-color: black; height: 2px; margin-top: 5px; margin-bottom: 5px"></div>
 		<h3>People</h3>
 		<strong>Heads</strong>
 		<ul>
-			<li>Greg</li>
-			<li>Greg (Again)</li>
+			<?php
+			
+foreach ( $task ["heads"] as $head ) {
+				echo "<li>" . explode ("|", $head) [0] . "</li>";
+			}
+			?>
 		</ul>
 		<strong>Contributors</strong>
 		<ul>
-			<li>Rookie 1</li>
-			<li>Rookie 2</li>
-			<li>Rookie 3</li>
-			<li>Rookie 4</li>
-			<li>Rookie 5</li>
-			<li>Rookie 6</li>
-		</ul>
 			<?php
-			for($i = 0; $i < 15; $i ++) {
-				echo "<br/>";
+			
+foreach ( $task ["contributors"] as $cont ) {
+				echo "<li>" . explode ("|", $cont) [0] . "</li>";
 			}
 			?>
+		</ul>
 	</div>
 	</div>
 </body>
