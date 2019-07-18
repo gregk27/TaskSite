@@ -14,9 +14,9 @@ include "header.php";
 include "passwords.php";
 
 $conn = new mysqli ( $dbAddress, $dbUser, $dbPass );
-$result = $conn->query ( "SELECT * FROM `tasks`.`tasks`" );
+$result = $conn->query ( "SELECT * FROM `tasks`.`tasks` WHERE parent = -1" );
 
-$stmt = $conn->prepare("SELECT * FROM tasks.subtasks WHERE parent = ?");
+$stmt = $conn->prepare("SELECT * FROM tasks.tasks WHERE parent = ?");
 
 while ( $task = mysqli_fetch_assoc ( $result ) ) {
 // 	foreach($task as $key=>$value){

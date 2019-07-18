@@ -29,7 +29,7 @@ $task ["joined"] = false;
 $task ["following"] = false;
 $task ["head"] = false;
 
-$stmt = $conn->prepare ("SELECT * FROM `tasks`.`subtasks` WHERE `parent`  = ?");
+$stmt = $conn->prepare ("SELECT * FROM `tasks`.`tasks` WHERE `parent` = ?");
 $stmt->bind_param ("i", $_GET ["task"]);
 $stmt->execute ();
 $subtasks = $stmt->get_result ()->fetch_all (MYSQLI_ASSOC);
@@ -64,6 +64,23 @@ if (ISSET ($_GET["task"])){
 	$taskID = $_GET["task"];
 }
 
+//Create title
+$title = $task["name"];
+$stmt = $conn->prepare("SELECT name,parent FROM tasks.tasks WHERE ID = ?");
+$val = $task["parent"];
+$res = "temp";
+$stmt->bind_param("i", $val);
+$stmt->bind_result($res, $val);
+//Iterate over parents until top-level is found
+while($val != -1){
+	$tempID = $val;
+	$stmt->execute();
+	$stmt->fetch();
+	$title = "<a class='plain' href='?task=".$tempID."'>".$res."</a>&nbsp> ".$title;
+}
+$stmt->close();
+
+
 
 $stmt = $conn->prepare ("SELECT * FROM `tasks`.`topics` WHERE `taskID` = ? AND 'level' = ?");
 $stmt->bind_param ("ii", $taskID, $level);
@@ -79,7 +96,7 @@ $stmt->close ();
 			<button id="change">+5</button>
 			<button id="change">+10</button>
 		</div>
-		<h2><?php echo $task["name"]?></h2>
+		<h2><?php echo $title?></h2>
 		<div class="progress">50%</div>
 	</div>
 	<div id="below-top">
@@ -118,7 +135,7 @@ $stmt->close ();
 			<?php
 			foreach ( $subtasks as $sub ) {
 				echo '<tr id="task">
-					<td id="name">' . $sub ["name"] . '</td>
+					<td id="name"><a class="plain" href="?task='.$sub["ID"].'">' . $sub ["name"] . '</a></td>
 					<td id="percent">' . $sub ["progress"] . '%</td>
 				</tr>';
 				if (preg_match ("/\|" . $ID . "\b/", $sub ["heads"])) {
