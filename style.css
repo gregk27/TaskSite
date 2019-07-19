@@ -258,6 +258,7 @@ header nav a.right {
 	top: -50px;
 	height: 50px;
 	margin-bottom: 25px;
+	z-index:10;
 }
 
 .task-page-top h2 {
@@ -410,7 +411,7 @@ to {
 .task-page-content nav {
 	background-color: #ccc;
 	overflow: auto;
-	padding-left: 50px;
+	padding-left: 25px;
 	margin-top: 25px;
 }
 
@@ -427,6 +428,14 @@ to {
 	user-select: none;
 	color:black;
 }
+
+.task-page-content nav a#interact{
+	float:right;
+	padding-left:10px;
+	padding-right:15px;
+	color:white;
+}
+
 
 .task-page-content nav a:hover {
 	background-color: #a0a0a0;
@@ -562,4 +571,8 @@ to {
 	text-decoration: underline;
 	cursor: pointer;
 	color: black;
+}
+
+.task-page-content #content .task-small{
+	width:90%;
 }

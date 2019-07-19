@@ -79,6 +79,8 @@
  * boolean joined
  * boolean following
  */
+
+//old gradient colour: #33cc33;
 ?>
 
 <div class="task-small">
@@ -87,7 +89,7 @@
 			onclick="window.location.href='/tasks/page.php?task=<?php echo $task["ID"]?>'">
 			<?php echo $task["name"]?>
 		</h2>
-		<div class="progress" id="progress" style="<?php echo "background-image:linear-gradient(120deg, #33cc33 ".($task["progress"] - 5)."%, gray " . ($task["progress"] + 5) . "%)"?>">
+		<div class="progress" id="progress" style="<?php echo "background-image:linear-gradient(120deg, green ".($task["progress"] - 5)."%, gray " . ($task["progress"] + 5) . "%)"?>">
 			<span id="percent"> <?php echo $task["progress"]."%"?>&nbsp&nbsp
 		</span><br /> <span id="detail">Subteam: <?php echo implode("/", $task["subteams"])?>&nbsp&nbsp
 		</span>

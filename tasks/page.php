@@ -35,22 +35,30 @@ $stmt->execute ();
 $subtasks = $stmt->get_result ()->fetch_all (MYSQLI_ASSOC);
 $stmt->close ();
 
+$ID = -1;
 if (isset ($_COOKIE ["token"])) {
 	$ID = $_COOKIE ["token"];
 	// If the user is a head, they are involved
 	foreach ( $task ["heads"] as $value ) {
-		if (explode ("|", $value) [1] == $ID) {
-			$task ["head"] = true;
+		if (count (explode ("|", $value)) > 1) {
+			if (explode ("|", $value) [1] == $ID) {
+				$task ["head"] = true;
+				$task ["joined"] = true;
+			}
 		}
 	}
 	foreach ( $task ["contributors"] as $value ) {
-		if (explode ("|", $value) [1] == $ID) {
-			$task ["joined"] = true;
+		if (count (explode ("|", $value)) > 1) {
+			if (explode ("|", $value) [1] == $ID) {
+				$task ["joined"] = true;
+			}
 		}
 	}
 	foreach ( $task ["followers"] as $value ) {
-		if ($value == $ID) {
-			$task ["following"] = true;
+		if (count (explode ("|", $value)) > 1) {
+			if ($value == $ID) {
+				$task ["following"] = true;
+			}
 		}
 	}
 }
@@ -59,34 +67,46 @@ $level = 0;
 if (ISSET ($_GET ["lv"])) {
 	$level = $_GET ["lv"];
 }
-$taskID = -1;
-if (ISSET ($_GET["task"])){
-	$taskID = $_GET["task"];
+$taskID = - 1;
+if (ISSET ($_GET ["task"])) {
+	$taskID = $_GET ["task"];
 }
 
-//Create title
-$title = $task["name"];
-$stmt = $conn->prepare("SELECT name,parent FROM tasks.tasks WHERE ID = ?");
-$val = $task["parent"];
+// Create title
+$title = $task ["name"];
+$stmt = $conn->prepare ("SELECT name,parent FROM tasks.tasks WHERE ID = ?");
+$val = $task ["parent"];
 $res = "temp";
-$stmt->bind_param("i", $val);
-$stmt->bind_result($res, $val);
-//Iterate over parents until top-level is found
-while($val != -1){
+$stmt->bind_param ("i", $val);
+$stmt->bind_result ($res, $val);
+// Iterate over parents until top-level is found
+while ( $val != - 1 ) {
 	$tempID = $val;
-	$stmt->execute();
-	$stmt->fetch();
-	$title = "<a class='plain' href='?task=".$tempID."'>".$res."</a>&nbsp> ".$title;
+	$stmt->execute ();
+	$stmt->fetch ();
+	$title = "<a class='plain' href='?task=" . $tempID . "'>" . $res . "</a>&nbsp> " . $title;
 }
-$stmt->close();
-
-
+$stmt->close ();
 
 $stmt = $conn->prepare ("SELECT * FROM `tasks`.`topics` WHERE `taskID` = ? AND 'level' = ?");
 $stmt->bind_param ("ii", $taskID, $level);
 $stmt->execute ();
 $topics = $stmt->get_result ()->fetch_all (MYSQLI_ASSOC);
 $stmt->close ();
+
+$canPost = false;
+if ($level == 0 && $task ["head"]) {
+	$canPost = true;
+}
+if ($level == 1 && $task ["joined"]) {
+	$canPost = true;
+}
+if($level == 2 && $ID > 0){
+	$canPost = true;
+}
+if ($level == 4 && $task ["joined"]) {
+	$canPost = true;
+}
 ?>
 	<div class="task-page-top" id="top">
 		<div class="buttons" style="display:<?php echo $task["head"]? "block":"none"?>">
@@ -111,12 +131,83 @@ $stmt->close ();
 				<a href="?task=<?php echo $task["ID"]?>&lv=1"
 					class="<?php echo $level == 1 ? 'underline' : ''?>">Progress</a> <a
 					href="?task=<?php echo $task["ID"]?>&lv=2"
-					class="<?php echo $level == 2 ? 'underline' : ''?>">Discussion</a></nav>
-				<div id="messages">
+					class="<?php echo $level == 2 ? 'underline' : ''?>">Discussion</a>
+				<a href="?task=<?php echo $task["ID"]?>&lv=3"
+					class="<?php echo $level == 3 ? 'underline' : ''?>">Chat</a> <a
+					href="?task=<?php echo $task["ID"]?>&lv=4"
+					class="<?php echo $level == 4 ? 'underline' : ''?>">Subtasks</a>
+					<?php echo $canPost ? '<a id="interact" class="button active" style="float:right">New</a>' : '';?>
+					</nav>
+				<div id="content">
 				<?php
-				
-				foreach ( $topics as $topic ) {
-					include ("topic.php");
+				if ($level == 4) {
+					$stmt = $conn->prepare ("SELECT * FROM tasks.tasks WHERE parent = ?");
+					$stmt->bind_param ("i", $taskID);
+					$stmt->execute ();
+					$result = $stmt->get_result ()->fetch_all (MYSQLI_ASSOC);
+					
+					if(count($result) == 0){
+						echo "<div style='text-align:center; background-color:#e9e9e9; padding:25px 100px; margin:50px;'>No subtasks found.</div>";
+					}
+					
+					foreach ( $result as $task ) {
+						// foreach($task as $key=>$value){
+						// echo $key."\t".$value."<br/>";
+						// }
+						
+						$stmt->bind_param ("i", $task ["ID"]);
+						$stmt->execute ();
+						$subs = $stmt->get_result ()->fetch_all (MYSQLI_ASSOC);
+						
+						$task ["subteams"] = explode (",", $task ["subteams"]);
+						$task ["subtasks"] = $subs; // json_decode ( $task ["subtasks"], true );
+						$task ["heads"] = explode (",", $task ["heads"]);
+						$task ["contributors"] = explode (",", $task ["contributors"]);
+						$task ["followers"] = explode (",", $task ["followers"]);
+						$task ["joined"] = false;
+						$task ["following"] = false;
+						$task ["head"] = false;
+						
+						if (isset ($_COOKIE ["token"])) {
+							$ID = $_COOKIE ["token"];
+							// If the user is a head, they are involved
+							foreach ( $task ["heads"] as $value ) {
+								if (count (explode ("|", $value)) > 1) {
+									if (explode ("|", $value) [1] == $ID) {
+										$task ["head"] = true;
+									}
+								}
+							}
+							foreach ( $task ["contributors"] as $value ) {
+								if (count (explode ("|", $value)) > 1) {
+									if (explode ("|", $value) [1] == $ID) {
+										$task ["joined"] = true;
+									}
+								}
+							}
+							foreach ( $task ["followers"] as $value ) {
+								if (count (explode ("|", $value)) > 1) {
+									if ($value == $ID) {
+										$task ["following"] = true;
+									}
+								}
+							}
+						}
+						
+						include ("small.php");
+					}
+					
+					$stmt->close ();
+				} else if ($level == 3){
+					echo "<div style='text-align:center; background-color:#e9e9e9; padding:25px 100px; margin:50px;'>Live(ish) chat will be added. Eventually.</div>";
+				} else {
+					foreach ( $topics as $topic ) {
+						include ("topic.php");
+					}
+					
+					if(count($topics) == 0){
+						echo "<div style='text-align:center; background-color:#e9e9e9; padding:25px 100px; margin:50px;'>No one has posted yet.</div>";
+					}
 				}
 				?>
 				</div>
@@ -133,9 +224,12 @@ $stmt->close ();
 		<h3>Subtasks</h3>
 		<table>
 			<?php
+			if(count($subtasks) == 0){
+				echo "<tr><td>No subtasks</td></tr>";
+			}
 			foreach ( $subtasks as $sub ) {
 				echo '<tr id="task">
-					<td id="name"><a class="plain" href="?task='.$sub["ID"].'">' . $sub ["name"] . '</a></td>
+					<td id="name"><a class="plain" href="?task=' . $sub ["ID"] . '">' . $sub ["name"] . '</a></td>
 					<td id="percent">' . $sub ["progress"] . '%</td>
 				</tr>';
 				if (preg_match ("/\|" . $ID . "\b/", $sub ["heads"])) {
@@ -158,7 +252,7 @@ $stmt->close ();
 		<ul>
 			<?php
 			
-foreach ( $task ["heads"] as $head ) {
+			foreach ( $task ["heads"] as $head ) {
 				echo "<li>" . explode ("|", $head) [0] . "</li>";
 			}
 			?>
@@ -167,7 +261,7 @@ foreach ( $task ["heads"] as $head ) {
 		<ul>
 			<?php
 			
-foreach ( $task ["contributors"] as $cont ) {
+			foreach ( $task ["contributors"] as $cont ) {
 				echo "<li>" . explode ("|", $cont) [0] . "</li>";
 			}
 			?>
