@@ -3,6 +3,7 @@
 <?php
 require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
 
+$stmt = $conn->prepare ("SELECT * FROM `tasks`.`replies` WHERE `parentID` = ?");
 $stmt->bind_param ("i", $topic ["ID"]);
 $stmt->execute ();
 $replies = $stmt->get_result ()->fetch_all (MYSQLI_ASSOC);
@@ -41,8 +42,8 @@ $stamp = new DateTime ("@" . $topic ["time"]);
 date_timezone_set ($stamp, new DateTimeZone ("EST"));
 $date = date_format ($stamp, $format);
 
-$voteUp = in_array ($_COOKIE ["token"], explode (",", $topic ["up"]));
-$voteDown = in_array ($_COOKIE ["token"], explode (",", $topic ["down"]));
+$voteUp = in_array (USER["ID"], explode (",", $topic ["up"]));
+$voteDown = in_array (USER["ID"], explode (",", $topic ["down"]));
 
 $infocus = false;
 

@@ -8,17 +8,10 @@
         die("Connection failed" . $conn->connect_error);
     }
 
-    if (isset($_COOKIE["token"])) {
-        $ID = $_COOKIE["token"];
-		$stmt = $conn->prepare("SELECT `username` FROM `tasks`.`users` WHERE `ID`= ?"); 
-		$stmt->bind_param("i", $ID);
-		$stmt->execute();
-		
-        $users = $stmt->get_result()->fetch_assoc();
-
-        echo "<a class='right' href = '/user/user.php'>" . $users["username"] . "</a>";
-    } else {
+    if(USER["ID"] == -1){
         echo "<a class='right' href='/user/user.php'>Sign in</a>";
+    } else {
+        echo "<a class='right' href = '/user/user.php'>" . USER["username"] . "</a>";
     }
 
     ?>

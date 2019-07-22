@@ -1,0 +1,45 @@
+<div class="popup" style="display:none">
+    <div id="around" onclick="hideDiag()">
+    </div>
+    <div id="dialog">
+        <h1>Create topic</h1>
+        <form>
+            <!--Changing these values won't bypass security, it will just make you post somewhere else (or not at all)-->
+            <input type="hidden" name="level" value="<?php echo $_GET['lv']?>"/>
+            <input type="hidden" name="task" value="<?php echo $_GET['task']?>"/>
+
+            <label>Title <input type="text" name="title" placeholder="The title for the topic"/></label>
+            <br/> <br/>
+
+            <label>
+                Text<br/>
+                <textarea id="text" name="text" rows="15" oninput="preview()"></textarea>
+            </label>
+
+            <div id="preview">
+
+
+            </div>
+            <button type="submit">Submit</button>
+            <button type="button" onclick = "hideDiag()">Cancel</button>
+        </form>
+
+    </div>
+
+    <script>
+        function showDiag() {
+            document.getElementsByClassName("popup")[0].style.display="block";
+        }
+        function hideDiag(){
+            document.getElementsByClassName("popup")[0].style.display="none";
+        }
+
+        function preview() {
+            console.log("update");
+            let val = document.getElementById("text").value.replace(/\n/g, "<br/>").replace(/<script/g, "&lt;script").replace(/<\/script/g, "&lt;/script");
+            console.log(val);
+            document.getElementById("preview").innerHTML = val;
+        }
+    </script>
+
+</div>

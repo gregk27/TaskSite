@@ -1,7 +1,6 @@
 <?php
-$uID = $_POST ["token"]; // $_COOKIE["token"];
-
 require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
+$uID = $_POST ["token"]; // $_COOKIE["token"];
 
 if (! ISSET ($_POST ["mode"])) {
 	echo "ERROR: Page Error";
@@ -23,7 +22,7 @@ if (! ISSET ($_POST ["mode"])) {
 } else if ($_POST ["mode"] == "topic") {
 	$level = $_POST ["level"];
 	$title = $_POST ["title"];
-	$uName = $_POST ["user"];
+	$uName = USER["username"];
 	$time = time ();
 	$text = $_POST ["text"];
 	$taskID = $_POST ["task"];

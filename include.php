@@ -3,15 +3,30 @@
 
 <?php
 include_once("passwords.php");
+
 $conn = new mysqli ($dbAddress, $dbUser, $dbPass);
 // TODO: Remove after debugging
 mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
 
+$usrStmt = $conn->prepare("SELECT username,ID FROM tasks.users WHERE ID = ?");
+$permsStmt = $conn->prepare("SELECT heads,contributors FROM tasks.tasks WHERE ID = ?");
+
+if(ISSET($_COOKIE["token"])){
+    if(isUser($_COOKIE["token"])){
+        define("USER", getUser($_COOKIE["token"]));
+    } else {
+        //If the user doesn't exist, then delete the token to prevent issues
+        setcookie("token", "", time()-3600);
+        header("Refresh:0");
+    }
+} else {
+    define("USER", array("name"=>"NULL", "ID"=>-1));
+}
 
 // TaskID: The ID of the parent task
 // level: 0 for head, 1 for contributor, 2 for registered user
 function hasPerms($taskID, $level, $uID) {
-    global $conn;
+    global $permsStmt;
 
     // If the taskID is an integer value, than it's not a risk for injection
     if (!is_int(( int )$taskID)) {
@@ -24,7 +39,9 @@ function hasPerms($taskID, $level, $uID) {
         return isset ($_POST ["token"]);
     }
 
-    $users = $conn->query("SELECT heads,contributors FROM tasks.tasks WHERE ID = " . $taskID)->fetch_assoc();
+    $permsStmt->bind_param("i", $taskID);
+    $permsStmt->execute();
+    $users = $permsStmt->execute()->fetch_assoc();
     $isHead = preg_match("/\|" . $uID . "\b/", $users ['heads']);
     $isCont = preg_match("/\|" . $uID . "\b/", $users ["contributors"]);
 
@@ -38,18 +55,22 @@ function hasPerms($taskID, $level, $uID) {
 }
 
 function isUser($uID) {
-    global $conn;
+    global $usrStmt;
     //If the ID is an int, then it isn't injection
     if (!is_int(( int )$uID)) {
         return false;
     }
-    $result = $conn->query("SELECT username FROM tasks.users WHERE ID = " . $uID)->fetch_assoc();
+    $usrStmt->bind_param("i", $uID);
+    $usrStmt->execute();
+    $result = $usrStmt->get_result()->fetch_assoc();
     return count($result) > 0;
 }
 
 function getUser($uID) {
-    global $conn;
-    return $conn->query("SELECT username FROM tasks.users WHERE ID = " . $uID)->fetch_assoc();
+    global $usrStmt;
+    $usrStmt->bind_param("i", $uID);
+    $usrStmt->execute();
+    return $usrStmt->get_result()->fetch_assoc();
 }
 
 ?>
