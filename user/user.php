@@ -45,8 +45,9 @@ if (isset($_POST["mode"])) {
 			$stmt->bind_param("ssi", $_POST['username'], $_POST['password'], $num);
 			$stmt->execute();
             // Set the cookie
-            echo setcookie("token", $num, time() + 12000000, "/");
-            header("Refresh:0");
+			echo setcookie("token", $num, time() + 12000000, "/");
+			header("Location: /index.php");
+			exit();
         } else {
             $err = "Username taken. Contact Greg if someone else has your name.";
         }
@@ -60,7 +61,8 @@ if (isset($_POST["mode"])) {
         if (mysqli_num_rows($users) == 1) {
             // Set a cookie based on result
             setcookie("token", $users->fetch_assoc()["ID"], time() + 12000000, "/");
-            header("Refresh:0");
+            header("Location: /index.php");
+            exit();
         } else{
 			$err = "Invalid username/password";
 		}
