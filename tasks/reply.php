@@ -1,4 +1,5 @@
 <?php
+require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
 $format = "M d/y | h:ia";
 $stamp = new DateTime ("@" . $reply ["time"]);
 date_timezone_set ($stamp, new DateTimeZone ("EST"));

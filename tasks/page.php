@@ -9,11 +9,7 @@
 </head>
 <body>
 <?php
-include $_SERVER ['DOCUMENT_ROOT'] . "/header.php";
-
-include $_SERVER ['DOCUMENT_ROOT'] . "/passwords.php";
-
-$conn = new mysqli ($dbAddress, $dbUser, $dbPass);
+require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
 
 $stmt = $conn->prepare ("SELECT * FROM `tasks`.`tasks` WHERE `ID` = ?");
 $stmt->bind_param ("i", $_GET ["task"]);
@@ -88,7 +84,7 @@ while ( $val != - 1 ) {
 }
 $stmt->close ();
 
-$stmt = $conn->prepare ("SELECT * FROM `tasks`.`topics` WHERE `taskID` = ? AND 'level' = ?");
+$stmt = $conn->prepare ("SELECT * FROM `tasks`.`topics` WHERE taskID = ? AND level = ?");
 $stmt->bind_param ("ii", $taskID, $level);
 $stmt->execute ();
 $topics = $stmt->get_result ()->fetch_all (MYSQLI_ASSOC);

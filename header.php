@@ -3,8 +3,7 @@
 	<nav>
 		<a href="/index.php">Home</a> <a href="">Test 1</a> <a href="">Test 2</a>
     <?php
-    include $_SERVER['DOCUMENT_ROOT']."/passwords.php";
-    $conn = new mysqli($dbAddress, $dbUser, $dbPass);
+    require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
     if ($conn->connect_error) {
         die("Connection failed" . $conn->connect_error);
     }
@@ -21,9 +20,7 @@
     } else {
         echo "<a class='right' href='/user/user.php'>Sign in</a>";
     }
-    mysqli_close($conn);
-    
-    mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);//TODO: Remove after debugging
+
     ?>
 
   </nav>

@@ -5,10 +5,7 @@ $mode = $_POST ["mode"]; // up or down
 
 $user = $_COOKIE ["token"]; // $_COOKIE["token"];
 
-include $_SERVER ['DOCUMENT_ROOT'] . "/passwords.php";
-
-$conn = new mysqli ($dbAddress, $dbUser, $dbPass);
-mysqli_report(MYSQLI_REPORT_ALL);//TODO: Remove after debugging
+require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
 
 // Ensure that type is as safe value
 echo $type;

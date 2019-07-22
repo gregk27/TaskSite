@@ -11,9 +11,9 @@
 <body>
 
 <?php
+require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
 $err = "";
 if (isset($_POST["mode"])) {
-	include $_SERVER['DOCUMENT_ROOT']."/passwords.php";
 	$conn = new mysqli($dbAddress, $dbUser, $dbPass);
     if ($conn->connect_error) {
         die("Connection failed" . $conn->connect_error);

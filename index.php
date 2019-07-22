@@ -9,11 +9,7 @@
 </head>
 <body>
 <?php
-include "header.php";
-
-include "passwords.php";
-
-$conn = new mysqli ($dbAddress, $dbUser, $dbPass);
+require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
 
 $stmt = $conn->prepare ("SELECT * FROM `tasks`.`tasks` WHERE parent = -1");
 $stmt->execute ();

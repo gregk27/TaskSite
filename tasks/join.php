@@ -1,6 +1,5 @@
 <?php
-include $_SERVER ['DOCUMENT_ROOT'] . "/passwords.php";
-$conn = new mysqli ( $dbAddress, $dbUser, $dbPass );
+require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
 
 $ID = $_COOKIE["token"]; // $_COOKIE["token"];
 

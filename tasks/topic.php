@@ -1,7 +1,8 @@
 
 <link href="/style.css" rel="stylesheet" type="text/css" media="screen" />
 <?php
-$stmt = $conn->prepare ("SELECT * FROM `tasks`.`replies` WHERE `parentID` = ?");
+require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
+
 $stmt->bind_param ("i", $topic ["ID"]);
 $stmt->execute ();
 $replies = $stmt->get_result ()->fetch_all (MYSQLI_ASSOC);
@@ -124,7 +125,7 @@ if (ISSET ($_GET ["focus"])) {
 	</div>
 	<div id="content"><?php echo $topic["text"]?></div>
 	<div id="show-comments">
-		<a onclick="showReplies(this);">Show <?php echo count($replies)?> comments</a>
+		<a onclick="showReplies(this);">Show <?php echo count($replies)?> replies</a>
 	</div>
 	<div id="replies" style="display: <?php echo $infocus ? "block" : "none"?>">
 			<?php

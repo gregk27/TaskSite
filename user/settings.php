@@ -1,6 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT']."/passwords.php";
-$conn = new mysqli ( $dbAddress, $dbUser, $dbPass );
+require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
 
 //TODO: Rewrite this page to use a more efficient, secure sytstem
 

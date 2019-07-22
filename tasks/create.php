@@ -1,39 +1,7 @@
 <?php
 $uID = $_POST ["token"]; // $_COOKIE["token"];
 
-include $_SERVER ['DOCUMENT_ROOT'] . "/passwords.php";
-
-$conn = new mysqli ($dbAddress, $dbUser, $dbPass);
-// TODO: Remove after debugging
-mysqli_report (MYSQLI_REPORT_ALL);
-
-// TaskID: The ID of the parent task
-// level: 0 for head, 1 for contributor, 2 for registered user
-function hasPerms($taskID, $level) {
-	global $conn, $uID;
-	// If the taskID is an integer value, than it's not a risk for injection
-	if (! is_int (( int ) $taskID)) {
-		echo "ERROR: Page Error";
-		return false;
-	}
-	
-	// TOOD: Check if the userID is registered
-	if ($level == 2) {
-		return isset ($_POST ["token"]);
-	}
-	
-	$users = $conn->query ("SELECT heads,contributors FROM tasks.tasks WHERE ID = " . $taskID)->fetch_assoc ();
-	$isHead = preg_match ("/\|" . $uID . "\b/", $users ['heads']);
-	$isCont = preg_match ("/\|" . $uID . "\b/", $users ["contributors"]);
-	
-	if ($level == 0 && $isHead)
-		return true;
-	else if ($level == 1 && ($isHead || $isCont))
-		return true;
-	
-	echo "Invalid permissions";
-	return false;
-}
+require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
 
 if (! ISSET ($_POST ["mode"])) {
 	echo "ERROR: Page Error";
@@ -45,7 +13,7 @@ if (! ISSET ($_POST ["mode"])) {
 	$heads = $_POST ["heads"];
 	
 	if ($parent == - 1) { // Special permission check for top-level tasks
-	} else if (hasPerms ($parent, 0)) {
+	} else if (hasPerms ($parent, 0, $uID)) {
 		echo "Has permission";
 		$stmt = $conn->prepare ("INSERT INTO tasks.tasks(parent,name,subteams,description,heads) VALUES (?,?,?,?,?)");
 		$stmt->bind_param ("issss", $parent, $name, $subteams, $desc, $heads);
@@ -60,7 +28,7 @@ if (! ISSET ($_POST ["mode"])) {
 	$text = $_POST ["text"];
 	$taskID = $_POST ["task"];
 	
-	if (hasPerms ($taskID, $level)) {
+	if (hasPerms ($taskID, $level, $uID)) {
 		echo "Has permission";
 		$stmt = $conn->prepare ("INSERT INTO tasks.topics(level,title,user,time,text,taskID) VALUES (?,?,?,?,?,?)");
 		$stmt->bind_param ("issisi", $level, $title, $uName, $time, $text, $taskID);
@@ -76,7 +44,7 @@ if (! ISSET ($_POST ["mode"])) {
 	$text = $_POST ["text"];
 	
 	// Up the level by one, so that lower-perms can reply
-	if (hasPerms ($taskID, $level + 1)) {
+	if (hasPerms ($taskID, $level + 1, $uID)) {
 		echo "Has permission";
 		$stmt = $conn->prepare ("INSERT INTO tasks.replies(parentID,user,time,text) VALUES (?,?,?,?)");
 		$stmt->bind_param ("isis", $parent, $uName, $time, $text);
