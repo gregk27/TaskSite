@@ -1,0 +1,69 @@
+<div class="popup" style="display:block">
+    <div id="around" onclick="hideDiag()">
+    </div>
+    <div id="dialog">
+        <h1>Create task</h1>
+        <form>
+            <!--Changing these values won't bypass security, it will just make you post somewhere else (or not at all)-->
+            <input type="hidden" name="parent" value="<?php echo $_GET['task']?>"/>
+            <input type="hidden" name="heads" value="<?php echo USER['username']?>"/>
+
+            <label>Name <input type="text" name="name" placeholder="The task name"/></label>
+            <label style="margin-left:10%">Weight <input type="number" name="weight" value="0"/></label>
+            <br/>
+            <br/>
+
+            <span style="width:100%; text-align:center; display:block">Subteams</span>
+            <div id="subteams">
+                <select name='team1'>
+                    <?php foreach(SUBTEAMS as $team){
+                    echo "<option value='".$team["name"]."'>".$team["name"]."</option>";
+                    }?>
+                </select>
+
+                <select name='team2'>
+                    <?php foreach(SUBTEAMS as $team){
+                    echo "<option value='".$team["name"]."'>".$team["name"]."</option>";
+                    }?>
+                </select>
+
+                <select name='team3'>
+                    <?php foreach(SUBTEAMS as $team){
+                    echo "<option value='".$team["name"]."'>".$team["name"]."</option>";
+                    }?>
+                </select>
+            </div>
+            <br/>
+            <label>
+                Description<br/>
+                <textarea id="description" name="desc" rows="15" oninput="preview()"></textarea>
+            </label>
+
+            <div id="preview">
+
+
+            </div>
+            <button type="submit">Submit</button>
+            <button type="button" onclick="hideDiag()">Cancel</button>
+        </form>
+
+    </div>
+
+    <script>
+        function showDiag() {
+            document.getElementsByClassName("popup")[0].style.display = "block";
+        }
+
+        function hideDiag() {
+            document.getElementsByClassName("popup")[0].style.display = "none";
+        }
+
+        function preview() {
+            console.log("update");
+            let val = document.getElementById("text").value.replace(/\n/g, "<br/>").replace(/<script/g, "&lt;script").replace(/<\/script/g, "&lt;/script");
+            console.log(val);
+            document.getElementById("preview").innerHTML = val;
+        }
+    </script>
+
+</div>

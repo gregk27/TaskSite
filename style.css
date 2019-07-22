@@ -646,3 +646,16 @@ header nav a.right {
     margin-top:15px;
     margin-right:25px;
 }
+
+.popup #subteams{
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.popup #subteams select{
+    border:none;
+    padding:5px;
+    font-size:13px;
+}

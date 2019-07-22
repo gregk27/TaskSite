@@ -10,12 +10,16 @@ if (! ISSET ($_POST ["mode"])) {
 	$subteams = $_POST ["subteams"];
 	$desc = $_POST ["desc"];
 	$heads = $_POST ["heads"];
-	
+    $weight = 0;
+    if(ISSET($_POST["weight"])){
+        $weight = $_POST["weight"];
+    }
+
 	if ($parent == - 1) { // Special permission check for top-level tasks
 	} else if (hasPerms ($parent, 0, $uID)) {
 		echo "Has permission";
-		$stmt = $conn->prepare ("INSERT INTO tasks.tasks(parent,name,subteams,description,heads) VALUES (?,?,?,?,?)");
-		$stmt->bind_param ("issss", $parent, $name, $subteams, $desc, $heads);
+		$stmt = $conn->prepare ("INSERT INTO tasks.tasks(parent,name,subteams,description,heads,weight) VALUES (?,?,?,?,?,?)");
+		$stmt->bind_param ("issssi", $parent, $name, $subteams, $desc, $heads, $weight);
 		$stmt->execute ();
 		$stmt->close ();
 	}
@@ -26,6 +30,9 @@ if (! ISSET ($_POST ["mode"])) {
 	$time = time ();
 	$text = $_POST ["text"];
 	$taskID = $_POST ["task"];
+
+	//Minimum privilege level is head, to prevent tampering
+	if($level > 0) $level = 0;
 	
 	if (hasPerms ($taskID, $level, $uID)) {
 		echo "Has permission";

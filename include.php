@@ -9,18 +9,22 @@ $conn = new mysqli ($dbAddress, $dbUser, $dbPass);
 mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
 
 $usrStmt = $conn->prepare("SELECT username,ID FROM tasks.users WHERE ID = ?");
+$allUsrStmt = $conn->prepare("SELECT username,ID FROM tasks.users");
 $permsStmt = $conn->prepare("SELECT heads,contributors FROM tasks.tasks WHERE ID = ?");
 
-if(ISSET($_COOKIE["token"])){
-    if(isUser($_COOKIE["token"])){
+define("SUBTEAMS", $conn->query("SELECT * FROM tasks.subteams")->fetch_all(MYSQLI_ASSOC));
+
+
+if (ISSET($_COOKIE["token"])) {
+    if (isUser($_COOKIE["token"])) {
         define("USER", getUser($_COOKIE["token"]));
     } else {
         //If the user doesn't exist, then delete the token to prevent issues
-        setcookie("token", "", time()-3600);
+        setcookie("token", "", time() - 3600);
         header("Refresh:0");
     }
 } else {
-    define("USER", array("name"=>"NULL", "ID"=>-1));
+    define("USER", array("name" => "NULL", "ID" => -1));
 }
 
 // TaskID: The ID of the parent task
@@ -71,6 +75,12 @@ function getUser($uID) {
     $usrStmt->bind_param("i", $uID);
     $usrStmt->execute();
     return $usrStmt->get_result()->fetch_assoc();
+}
+
+function getUsers() {
+    global $allUsrStmt;
+    $allUsrStmt->execute();
+    return $allUsrStmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
 ?>
