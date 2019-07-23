@@ -3,8 +3,9 @@
     </div>
     <div id="dialog">
         <h1>Create topic</h1>
-        <form>
+        <form action="create.php" method="post" target="_blank">
             <!--Changing these values won't bypass security, it will just make you post somewhere else (or not at all)-->
+            <input type="hidden" name="mode" value="topic"/>
             <input type="hidden" name="level" value="<?php echo $_GET['lv']?>"/>
             <input type="hidden" name="task" value="<?php echo $_GET['task']?>"/>
 
@@ -20,7 +21,7 @@
 
 
             </div>
-            <button type="submit">Submit</button>
+            <button type="submit" onclick="location.reload()">Submit</button>
             <button type="button" onclick = "hideDiag()">Cancel</button>
         </form>
 

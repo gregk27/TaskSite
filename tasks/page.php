@@ -331,8 +331,8 @@ if ($level == 4 && $task ["joined"]) {
         }
 
 
-        if (document.getElementById("scrollto") != null) {
-            document.getElementById("scrollto").scrollIntoView();
+        if (document.getElementsByClassName("scrollto")[0] != null) {
+            document.getElementsByClassName("scrollto")[0].scrollIntoView();
             window.scrollBy(0, -100);
         }
     }

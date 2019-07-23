@@ -1,62 +1,92 @@
 <?php
-require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
-$uID = $_POST ["token"]; // $_COOKIE["token"];
+require_once($_SERVER['DOCUMENT_ROOT'] . "/include.php");
+$uID = USER["ID"]; // $_COOKIE["token"];
 
-if (! ISSET ($_POST ["mode"])) {
-	echo "ERROR: Page Error";
+echo implode(",", $_POST);
+
+if (!ISSET ($_POST ["mode"])) {
+    echo "ERROR: Page Error";
+    echo "Invalid mode";
 } else if ($_POST ["mode"] == "task") {
-	$parent = $_POST ["parent"];
-	$name = $_POST ["name"];
-	$subteams = $_POST ["subteams"];
-	$desc = $_POST ["desc"];
-	$heads = $_POST ["heads"];
+    $parent = $_POST ["parent"];
+    $name = $_POST ["name"];
+    $sub1 = $_POST ["team1"];
+    $sub2 = $_POST ["team2"];
+    $sub3 = $_POST ["team3"];
+    $desc = $_POST ["desc"];
+    $headlist = explode(",", $_POST ["heads"]);
     $weight = 0;
-    if(ISSET($_POST["weight"])){
+    if (ISSET($_POST["weight"])) {
         $weight = $_POST["weight"];
     }
 
-	if ($parent == - 1) { // Special permission check for top-level tasks
-	} else if (hasPerms ($parent, 0, $uID)) {
-		echo "Has permission";
-		$stmt = $conn->prepare ("INSERT INTO tasks.tasks(parent,name,subteams,description,heads,weight) VALUES (?,?,?,?,?,?)");
-		$stmt->bind_param ("issssi", $parent, $name, $subteams, $desc, $heads, $weight);
-		$stmt->execute ();
-		$stmt->close ();
-	}
-} else if ($_POST ["mode"] == "topic") {
-	$level = $_POST ["level"];
-	$title = $_POST ["title"];
-	$uName = USER["username"];
-	$time = time ();
-	$text = $_POST ["text"];
-	$taskID = $_POST ["task"];
+    $subteams = array();
+    if($sub1 != "None") {
+        array_push($subteams, $sub1);
+    }
+    if($sub2 != "None") {
+        array_push($subteams, $sub2);
+    }
+    if($sub3 != "None") {
+        array_push($subteams, $sub3);
+    }
 
-	//Minimum privilege level is head, to prevent tampering
-	if($level > 0) $level = 0;
-	
-	if (hasPerms ($taskID, $level, $uID)) {
-		echo "Has permission";
-		$stmt = $conn->prepare ("INSERT INTO tasks.topics(level,title,user,time,text,taskID) VALUES (?,?,?,?,?,?)");
-		$stmt->bind_param ("issisi", $level, $title, $uName, $time, $text, $taskID);
+    $subteams = implode(",", $subteams);
+
+    echo "<br/>".$subteams;
+
+    $heads = array();
+
+    $users = getUsers();
+    foreach ($headlist as $h) {
+        array_push($heads, $h."|".$users[$h]);
+    }
+
+    $heads = implode(",", $heads);
+
+    echo "<br/>".$heads;
+
+    if ($parent == -1) { // Special permission check for top-level tasks
+    } else if (hasPerms($parent, 0, $uID)) {
+        echo "Has permission";
+        $stmt = $conn->prepare("INSERT INTO tasks.tasks(parent,name,subteams,description,heads,weight) VALUES (?,?,?,?,?,?)");
+        $stmt->bind_param("issssi", $parent, $name, $subteams, $desc, $heads, $weight);
 		$stmt->execute ();
-		$stmt->close ();
-	}
+        $stmt->close();
+    }
+} else if ($_POST ["mode"] == "topic") {
+    $level = $_POST ["level"];
+    $title = $_POST ["title"];
+    $uName = USER["username"];
+    $time = time();
+    $text = $_POST ["text"];
+    $taskID = $_POST ["task"];
+
+    if (hasPerms($taskID, $level, $uID)) {
+        echo "Has permission";
+        $stmt = $conn->prepare("INSERT INTO tasks.topics(level,title,user,time,text,taskID) VALUES (?,?,?,?,?,?)");
+        $stmt->bind_param("issisi", $level, $title, $uName, $time, $text, $taskID);
+        $stmt->execute();
+        $stmt->close();
+    }
 } else if ($_POST ["mode"] == "reply") {
-	$taskID = $_POST["task"];
-	$level = $_POST ["level"];
-	$parent = $_POST ["parent"];
-	$uName = $_POST ["user"];
-	$time = time ();
-	$text = $_POST ["text"];
-	
-	// Up the level by one, so that lower-perms can reply
-	if (hasPerms ($taskID, $level + 1, $uID)) {
-		echo "Has permission";
-		$stmt = $conn->prepare ("INSERT INTO tasks.replies(parentID,user,time,text) VALUES (?,?,?,?)");
-		$stmt->bind_param ("isis", $parent, $uName, $time, $text);
-		$stmt->execute ();
-		$stmt->close ();
-	}
+    $taskID = $_POST["task"];
+    $level = $_POST ["level"];
+    $parent = $_POST ["parent"];
+    $uName = $_POST ["user"];
+    $time = time();
+    $text = $_POST ["text"];
+
+    // Up the level by one, so that lower-perms can reply
+    if (hasPerms($taskID, $level + 1, $uID)) {
+        echo "Has permission";
+        $stmt = $conn->prepare("INSERT INTO tasks.replies(parentID,user,time,text) VALUES (?,?,?,?)");
+        $stmt->bind_param("isis", $parent, $uName, $time, $text);
+//        $stmt->execute();
+        $stmt->close();
+    }
 }
 
 ?>
+
+<script>window.close()</script>

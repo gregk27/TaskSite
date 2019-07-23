@@ -271,6 +271,10 @@ header nav a.right {
     z-index: 4;
     position: absolute;
     top: 0px;
+    max-width: 75%;
+    overflow-x: overlay;
+    overflow-y: hidden;
+    white-space: nowrap;
 }
 
 .task-page-top .progress {
@@ -532,6 +536,7 @@ header nav a.right {
 .task-page-content .message #replies {
     padding-left: 15px;
     padding-right: 30px;
+    padding-bottom:30px;
 }
 
 .task-page-content .message .reply {
@@ -566,6 +571,24 @@ header nav a.right {
     height: 4px;
     bottom: 15px;
     corner-radius: 10px;
+}
+
+.task-page-content .message #replies #new{
+    float:right;
+    width:85%;
+}
+
+.task-page-content .message #replies #new textarea{
+    float:left;
+    width:85%;
+    resize:none;
+    margin-top:7px;
+}
+
+.task-page-content .message #replies #new .button{
+    float:right;
+    display:block;
+    transform:translate(-2px,55px);
 }
 
 .task-page-content #info .pointer {
@@ -620,42 +643,42 @@ header nav a.right {
     width: 85%;
     margin: auto;
     display: block;
-    resize:none;
+    resize: none;
 }
 
-.popup input{
-    border:0px;
-    padding:4px;
+.popup input {
+    border: 0px;
+    padding: 4px;
 }
 
-.popup #preview{
-    width:100%;
-    min-height:100px;
-    max-height: 300px;
-    overflow:scroll;
-    margin-top:15px;
-    background-color:#cccccc;
-}
-
-.popup button{
-    background-color: #4a2a7c;
-    color:white;
-    border:none;
-    padding:5px 10px;
-    font-size: 17px;
-    margin-top:15px;
-    margin-right:25px;
-}
-
-.popup #subteams{
+.popup #preview {
     width: 100%;
-    display:flex;
+    min-height: 100px;
+    max-height: 300px;
+    overflow: scroll;
+    margin-top: 15px;
+    background-color: #cccccc;
+}
+
+.popup button {
+    background-color: #4a2a7c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 17px;
+    margin-top: 15px;
+    margin-right: 25px;
+}
+
+.popup #subteams {
+    width: 100%;
+    display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
 
-.popup #subteams select{
-    border:none;
-    padding:5px;
-    font-size:13px;
+.popup #subteams select {
+    border: none;
+    padding: 3px;
+    font-size: 15px;
 }
