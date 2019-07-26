@@ -86,8 +86,31 @@ if (ISSET ($_GET ["focus"])) {
 
         console.log(xhttp.responseText);
 
-        var t = type == "topic" ? "t" : type == "reply" ? "r" : "";
-        window.location.href = setVal(window.location.href, "focus", t + id);
+        xhttp.open("GET", window.location.href, false);
+        xhttp.send();
+        text = xhttp.responseText;
+        // console.log(text);
+        let doc = new DOMParser().parseFromString(text, "text/html");
+        // console.log(doc);
+        // console.log(document);
+        // console.log(topic);
+        console.log(type);
+        if (type == "topic") {
+            console.log("topic: t"+id);
+            let msg = doc.getElementById("t" + id);
+            let page = document.getElementById("t" + id);
+            // console.log(msg);
+            // console.log(page);
+            page.getElementsByTagName("div")[1].innerHTML = msg.getElementsByTagName("div")[1].innerHTML;
+        } else if (type == "reply") {
+            console.log("reply: r"+id);
+            let msg = doc.getElementById("r" + id);
+            let page = document.getElementById("r" + id);
+            // console.log(msg);
+            // console.log(page);
+            page.innerHTML = msg.innerHTML;
+
+        }
     }
 
     function setVal(url, param, value) {
@@ -112,7 +135,7 @@ if (ISSET ($_GET ["focus"])) {
         console.log(text);
         xhttp.open("POST", "create.php", false);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("task=<?php echo $_GET["task"]?>&mode=reply&parent="+topic+"&text="+text+"&level=<?php echo $_GET["lv"]?>");
+        xhttp.send("task=<?php echo $_GET["task"]?>&mode=reply&parent=" + topic + "&text=" + text + "&level=<?php echo $_GET["lv"]?>");
         console.log("ajax sent");
 
         xhttp.open("GET", setVal(window.location.href, "focus", topic), false);
@@ -123,28 +146,28 @@ if (ISSET ($_GET ["focus"])) {
         // console.log(doc);
         // console.log(document);
         // console.log(topic);
-        let msg = doc.getElementById(topic);
-        let page = document.getElementById(topic);
+        let msg = doc.getElementById("t" + topic);
+        let page = document.getElementById("t" + topic);
         // console.log(msg);
         // console.log(page);
         page.getElementsByTagName("div")[4].innerHTML = msg.getElementsByTagName("div")[4].innerHTML;
         page.getElementsByTagName("div")[3].innerHTML = msg.getElementsByTagName("div")[3].innerHTML;
     }
 
-    function showbox(element){
+    function showbox(element) {
         console.log("show");
         let box = element.parentElement.getElementsByTagName("div")[0];
         console.log(box.style);
-        if(box.style.display == "block"){
+        if (box.style.display == "block") {
             box.style.display = "none";
             element.parentElement.style.height = "0px";
-        } else if (box.style.display == "none"){
+        } else if (box.style.display == "none") {
             box.style.display = "block";
             element.parentElement.style.height = "60px";
         }
     }
 </script>
-<div class="message <?php echo $infocus ? "scrollto" : ""; ?>" id="<?php echo($topic["ID"])?>">
+<div class="message <?php echo $infocus ? "scrollto" : ""; ?>" id="<?php echo("t" . $topic["ID"]) ?>">
     <div id="about">
         <h3 id="title"><?php echo $topic["title"] ?></h3>
         <h5 id="info"><a><?php echo getUser($topic["user"])["name"] ?></a><span
@@ -162,19 +185,22 @@ if (ISSET ($_GET ["focus"])) {
         </button>
     </div>
     <div id="content"><?php echo $topic["text"] ?></div>
-    <div id="show-comments" style="display:<?php echo count($replies)==0 ? "none" : "block" ?>">
+    <div id="show-comments" style="display:<?php echo count($replies) == 0 ? "none" : "block" ?>">
         <a onclick="showReplies(this);">Show <?php echo count($replies) ?> replies</a>
     </div>
-    <div id="replies" style="display: <?php echo $infocus||count($replies)==0 ? "block" : "none" ?>">
+    <div id="replies" style="display: <?php echo $infocus || count($replies) == 0 ? "block" : "none" ?>">
         <?php
         foreach ($replies as $reply) {
             include("reply.php");
         }
         ?>
         <div style="height:0px;">
-            <a onclick="showbox(this)" class="button <?php echo hasPerms($task["ID"], $level + 1, USER["ID"]) ? 'active' : 'deactive' ?>"
+            <a onclick="showbox(this)"
+               class="button <?php echo hasPerms($task["ID"], $level + 1, USER["ID"]) ? 'active' : 'deactive' ?>"
                style="float:right; margin-right:15px">Reply</a>
-            <div id="new" style="display:none"><textarea rows="5"></textarea> <a class="button active" onclick="comment(this, <?php echo $topic["ID"]?>)">Submit</a></div>
+            <div id="new" style="display:none"><textarea rows="5"></textarea> <a class="button active"
+                                                                                 onclick="comment(this, <?php echo $topic["ID"] ?>)">Submit</a>
+            </div>
         </div>
     </div>
 </div>

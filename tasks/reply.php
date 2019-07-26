@@ -10,7 +10,7 @@ $voteDown = in_array($_COOKIE ["token"], explode(",", $reply ["down"]));
 
 ?>
 
-<div class="reply">
+<div class="reply" id="<?php echo "r".$reply["ID"] ?>">
     <h4 id="info">
         <div style="position: relative; top: 17px">
             <a><?php echo getUser($reply["user"])["name"] ?></a><span

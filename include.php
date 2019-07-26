@@ -122,4 +122,10 @@ function formatString($in) {
     return $out;
 }
 
+function inList($check, $list){
+    //We need a string for the regex to work
+    if(is_array($list))
+        $list = implode(",", $list);
+    return preg_match("/\b".$check."\b/", $list);
+}
 ?>

@@ -8,6 +8,11 @@
 </head>
 <body>
 <?php
+//Ensure that level is set, if not the default is announcements
+if(!isset($_GET["lv"])){
+    header("Location: ".$_SERVER["REQUEST_URI"]."&lv=0");
+}
+
 require_once($_SERVER['DOCUMENT_ROOT'] . "/header.php");
 
 $stmt = $conn->prepare("SELECT * FROM `tasks`.`tasks` WHERE `ID` = ?");
@@ -167,24 +172,19 @@ if ($level == 4 && $task ["joined"]) {
                             $ID = $_COOKIE ["token"];
                             // If the user is a head, they are involved
                             foreach ($task ["heads"] as $value) {
-                                if (count(explode("|", $value)) > 1) {
-                                    if (explode("|", $value) [1] == $ID) {
-                                        $task ["head"] = true;
-                                    }
+                                if($value == USER["ID"]){
+                                    $task["head"] = true;
+                                    $task["joined"] = true;
                                 }
                             }
                             foreach ($task ["contributors"] as $value) {
-                                if (count(explode("|", $value)) > 1) {
-                                    if (explode("|", $value) [1] == $ID) {
-                                        $task ["joined"] = true;
-                                    }
+                                if($value == USER["ID"]){
+                                    $task["joined"] = true;
                                 }
                             }
                             foreach ($task ["followers"] as $value) {
-                                if (count(explode("|", $value)) > 1) {
-                                    if ($value == $ID) {
-                                        $task ["following"] = true;
-                                    }
+                                if($value == USER["ID"]){
+                                    $task["following"] = true;
                                 }
                             }
                         }
@@ -227,7 +227,7 @@ if ($level == 4 && $task ["joined"]) {
 					<td id="name"><a class="plain" href="?task=' . $sub ["ID"] . '">' . $sub ["name"] . '</a></td>
 					<td id="percent">' . $sub ["progress"] . '%</td>
 				</tr>';
-            if (preg_match("/\|" . $ID . "\b/", $sub ["heads"])) {
+            if (preg_match("/\|" . $ID . "\b/", $sub ["heads"])) { //TODO:FIX for new system
                 echo '<tr>
 						<td id="config" colspan="2">
 							<button id="change">-10</button>
@@ -248,7 +248,7 @@ if ($level == 4 && $task ["joined"]) {
         <?php
 
         foreach ($task ["heads"] as $head) {
-            echo "<li>" . explode("|", $head) [0] . "</li>";
+            echo "<li>" . getUser($head)["name"] . "</li>";
         }
         ?>
     </ul>
@@ -257,7 +257,7 @@ if ($level == 4 && $task ["joined"]) {
         <?php
 
         foreach ($task ["contributors"] as $cont) {
-            echo "<li>" . explode("|", $cont) [0] . "</li>";
+            echo "<li>" . getUser($cont)["name"] . "</li>";
         }
         ?>
     </ul>
