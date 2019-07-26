@@ -16,14 +16,27 @@
 		}
 
 	}
-	function sendRequest(id, mode, source){
+	function sendRequest(id, mode){
 		xhttp.open("POST", "/tasks/join.php", false);
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhttp.send("task="+id+"&mode="+mode);
 
 		console.log(xhttp.responseText);
 		
-		location.reload();
+        xhttp.open("GET", window.location.href, false);
+        xhttp.send();
+        let text = xhttp.responseText;
+        // console.log(text);
+        let doc = new DOMParser().parseFromString(text, "text/html");
+        // console.log(doc);
+        // console.log(document);
+        // console.log(topic);
+        let msg = doc.getElementById("tsk" + id);
+        let page = document.getElementById("tsk" + id);
+        // console.log(msg);
+        // console.log(page);
+        page.innerHTML = msg.innerHTML;
+
 	}
 </script>
 <?php
@@ -93,9 +106,9 @@ $subs = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
 $task ["subteams"] = explode(",", $task ["subteams"]);
 $task ["subtasks"] = $subs; // json_decode ( $task ["subtasks"], true );
-$task ["heads"] = explode(",", $task ["heads"]);
-$task ["contributors"] = explode(",", $task ["contributors"]);
-$task ["followers"] = explode(",", $task ["followers"]);
+$task ["heads"] = array_filter(explode(",", $task ["heads"]));
+$task ["contributors"] = array_filter(explode(",", $task ["contributors"]));
+$task ["followers"] = array_filter(explode(",", $task ["followers"]));
 $task ["joined"] = false;
 $task ["following"] = false;
 $task ["head"] = false;
@@ -108,13 +121,13 @@ if (inList(USER["ID"], $task["heads"])) {
 if (inList(USER["ID"], $task["contributors"])) {
     $task ["joined"] = true;
 }
-if (inList(USER["ID"], $task["following"])) {
+if (inList(USER["ID"], $task["followers"])) {
     $task ["following"] = true;
 }
 
 ?>
 
-<div class="task-small">
+<div class="task-small" id="tsk<?php echo $task["ID"]?>">
 	<div class="top">
 		<h2
 			onclick="window.location.href='/tasks/page.php?task=<?php echo $task["ID"]?>'">
@@ -138,10 +151,10 @@ if (inList(USER["ID"], $task["following"])) {
 		<div id="buttons">
 			<?php if($task["head"] || !isset($_COOKIE["token"])){echo "<!--";}?>
 			<div
-				onclick="sendRequest(<?php echo $task["ID"]?>, 'contribute', this)"
+				onclick="sendRequest(<?php echo $task["ID"]?>, 'contribute')"
 				class="button <?php if($task["joined"]){echo "de";} echo "active";?>"
 				style="width: 44%; float: left;"><?php if($task["joined"]){echo "Quit";} else{echo "Join";}?></div>
-			<div onclick="sendRequest(<?php echo $task["ID"]?>, 'follow', this)"
+			<div onclick="sendRequest(<?php echo $task["ID"]?>, 'follow')"
 				class="button <?php if($task["following"]){echo "de";} echo "active";?>"
 				style="width: 44%; float: right;"><?php if($task["following"]){echo "Unfollow";} else{echo "Follow";}?></div>
 				<?php
@@ -159,9 +172,9 @@ if (inList(USER["ID"], $task["following"])) {
 
 
 	<div id="people">
-		<span id="heads"> <strong>Head:</strong> <?php foreach($task["heads"] as $value){echo "<a>".explode("|",$value)[0]."</a>, ";}?></span>
+		<span id="heads"> <strong>Head:</strong> <?php foreach($task["heads"] as $value){echo "<a>".getUser($value)["name"]."</a>, ";}?></span>
 		<span id="show-contributors" onclick="showPeople(this)"> <?php echo count($task["contributors"])?> Contributors </span>
-		<span id="contributors"><?php foreach($task["contributors"] as $value){echo "<a>".explode("|",$value)[0]."</a>, ";}?></span>
+		<span id="contributors"><?php foreach($task["contributors"] as $value){echo "<a>".getUser($value)["name"]."</a>, ";}?></span>
 	</div>
 
 

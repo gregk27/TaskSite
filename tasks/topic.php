@@ -152,10 +152,6 @@ if (ISSET ($_GET ["focus"])) {
         console.log(page);
         page.innerHTML = msg.innerHTML;
 
-        console.log("copied");
-
-        page = document.getElementById("t" + topic);
-        console.log(page.getElementsByTagName("div")[4]);
     }
 
     function showbox(element) {
@@ -183,7 +179,7 @@ if (ISSET ($_GET ["focus"])) {
         <button onclick="vote('topic', <?php echo $topic['ID'] ?>, 'up')"
                 class="button <?php if ($voteUp) echo "de" ?>active">Yea
         </button>
-        <span id="score"><?php echo count(explode(",", $topic["up"])) . "|" . count(explode(",", $topic["down"])) ?></span>
+        <span id="score"><?php echo count(array_filter(explode(",", $topic["up"]))) . "|" . count(array_filter(explode(",", $topic["down"]))) ?></span>
         <button onclick="vote('topic', <?php echo $topic['ID'] ?>, 'down')"
                 class="button <?php if ($voteDown) echo "de" ?>active">Nay
         </button>

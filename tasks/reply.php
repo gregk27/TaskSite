@@ -23,7 +23,7 @@ $voteDown = in_array($_COOKIE ["token"], explode(",", $reply ["down"]));
             <button onclick="vote('reply', <?php echo $reply['ID'] ?>, 'up')"
                     class="button <?php if ($voteUp) echo "de" ?>active">Yea
             </button>
-            <span id="score"><?php echo count(explode(",", $reply["up"])) . "|" . count(explode(",", $reply["down"])) ?></span>
+            <span id="score"><?php echo count(array_filter(explode(",", $reply["up"]))) . "|" . count(array_filter(explode(",", $reply["down"]))) ?></span>
             <button onclick="vote('reply', <?php echo $reply['ID'] ?>, 'down')"
                     class="button <?php if ($voteDown) echo "de" ?>active">Nay
             </button>

@@ -1,7 +1,7 @@
 <?php
-require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
+include $_SERVER ['DOCUMENT_ROOT'] . "/include.php";
 
-$ID = $_COOKIE["token"]; // $_COOKIE["token"];
+$ID = USER["ID"];//$_COOKIE["token"]; // $_COOKIE["token"];
 
 echo "Isset" . isset($_POST["task"]);
 echo "Implode" . implode(",", $_POST);
@@ -25,19 +25,16 @@ if ($mode == "contribute") {
 	$found = false;
 	$array = explode ( ",", $result ["contributors"] );
 	foreach ( $array as $key => $value ) {
-		if (explode ( "|", $value ) [1] == $ID) {
+		if ($value == $ID) {
 			unset ( $array [$key] );
 			$found = true;
 		}
 	}
 	array_values ( $array );
 	if (!$found) {
-		$stmt2 = $conn->prepare ( "SELECT `name` FROM `tasks`.`users` WHERE `ID`=?" );
-		$stmt2->bind_param ( "i", $ID );
-		$stmt2->execute ();
-		$result2 = $stmt2->get_result ()->fetch_assoc ()["name"];
-		
-		array_push($array, $result2."|".$ID);
+		USER["name"];
+
+		array_push($array, $ID);
 	}
 	$out = ltrim(implode ( ",", $array ), ",");
 	echo $out;

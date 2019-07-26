@@ -43,7 +43,7 @@ if (inList(USER["ID"], $task["heads"])) {
 if (inList(USER["ID"], $task["contributors"])) {
     $task ["joined"] = true;
 }
-if (inList(USER["ID"], $task["following"])) {
+if (inList(USER["ID"], $task["followers"])) {
     $task ["following"] = true;
 }
 
