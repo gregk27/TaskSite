@@ -82,9 +82,43 @@ function getUsers() {
     $allUsrStmt->execute();
     $result = $allUsrStmt->get_result()->fetch_all(MYSQLI_ASSOC);
     $out = array();
-    foreach($result as $r){
+    foreach ($result as $r) {
         $out[$r["username"]] = $r["ID"];
     }
+    return $out;
+}
+
+//Cleans a string for places where no HTML is desired
+function cleanString($in){
+    //Strip all tags
+    $out = strip_tags($in, "");
+
+    //Strip risky chars
+    $out = htmlspecialchars($out);
+
+    return $out;
+}
+
+//Formats a string for places where HTML is accepted
+function formatString($in) {
+    //Replace newlines//Replace newlines
+    $out = preg_replace("/(>[\w\s]*)\n([\w\s]*<)/s", "$1<br/>$2", $in);
+
+    //Close open tags
+    $doc = new DOMDocument();
+    $doc->loadHTML($out);
+    preg_match("/<body>(.*)<\/body>/s", $doc->saveHTML(), $res);
+    $out = $res[1];
+
+    //Escape scripts
+//    $out = preg_replace("/<(.?)script>/", "&lt;$1script&gt;", $out);
+
+    //Strip most tags, allowing basic formatting
+    $out = strip_tags($out, "<strong><ul><li><span><h3><a><img><br><i><b><div>");
+
+    //Remove IDs
+    $out = preg_replace("/ id=([\"'])\S*\\1([ >])/", "\\2", $out);
+
     return $out;
 }
 

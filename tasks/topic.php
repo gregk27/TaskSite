@@ -112,10 +112,10 @@ if (ISSET ($_GET ["focus"])) {
         console.log(text);
         xhttp.open("POST", "create.php", false);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("task=<?php echo $_GET["task"]?>&mode=reply&parent="+topic+"&user=<?php echo USER["username"]?>&text="+text+"&level=<?php echo $_GET["lv"]?>");
+        xhttp.send("task=<?php echo $_GET["task"]?>&mode=reply&parent="+topic+"&text="+text+"&level=<?php echo $_GET["lv"]?>");
         console.log("ajax sent");
 
-        xhttp.open("GET", window.location.href, false);
+        xhttp.open("GET", setVal(window.location.href, "focus", topic), false);
         xhttp.send();
         text = xhttp.responseText;
         console.log(text);
@@ -127,8 +127,8 @@ if (ISSET ($_GET ["focus"])) {
         let page = document.getElementById(topic);
         console.log(msg);
         console.log(page);
-        // page.getElementById("show-comments").innerHTML = msg.getElementById("show-comments").innerHTML;
-        page.getElementById("replies").innerHTML = msg.getElementById("replies").innerHTML;
+        page.getElementsByTagName("div")[4].innerHTML = msg.getElementsByTagName("div")[4].innerHTML;
+        page.getElementsByTagName("div")[3].innerHTML = msg.getElementsByTagName("div")[3].innerHTML;
     }
 
     function showbox(element){

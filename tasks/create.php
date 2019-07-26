@@ -9,11 +9,11 @@ if (!ISSET ($_POST ["mode"])) {
     echo "Invalid mode";
 } else if ($_POST ["mode"] == "task") {
     $parent = $_POST ["parent"];
-    $name = $_POST ["name"];
-    $sub1 = $_POST ["team1"];
-    $sub2 = $_POST ["team2"];
-    $sub3 = $_POST ["team3"];
-    $desc = $_POST ["desc"];
+    $name = cleanString($_POST ["name"]);
+    $sub1 = cleanString($_POST ["team1"]);
+    $sub2 = cleanString($_POST ["team2"]);
+    $sub3 = cleanString($_POST ["team3"]);
+    $desc = formatString($_POST ["desc"]);
     $headlist = explode(",", $_POST ["heads"]);
     $weight = 0;
     if (ISSET($_POST["weight"])) {
@@ -56,10 +56,10 @@ if (!ISSET ($_POST ["mode"])) {
     }
 } else if ($_POST ["mode"] == "topic") {
     $level = $_POST ["level"];
-    $title = $_POST ["title"];
+    $title = cleanString($_POST ["title"]);
     $uName = USER["username"];
     $time = time();
-    $text = $_POST ["text"];
+    $text = formatString($_POST ["text"]);
     $taskID = $_POST ["task"];
 
     if (hasPerms($taskID, $level, $uID)) {
@@ -73,16 +73,16 @@ if (!ISSET ($_POST ["mode"])) {
     $taskID = $_POST["task"];
     $level = $_POST ["level"];
     $parent = $_POST ["parent"];
-    $uName = $_POST ["user"];
+    $uName = USER["username"];
     $time = time();
-    $text = $_POST ["text"];
+    $text = formatString($_POST ["text"]);
 
     // Up the level by one, so that lower-perms can reply
     if (hasPerms($taskID, $level + 1, $uID)) {
         echo "Has permission";
         $stmt = $conn->prepare("INSERT INTO tasks.replies(parentID,user,time,text) VALUES (?,?,?,?)");
         $stmt->bind_param("isis", $parent, $uName, $time, $text);
-//        $stmt->execute();
+        $stmt->execute();
         $stmt->close();
     }
 }

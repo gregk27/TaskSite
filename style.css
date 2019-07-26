@@ -573,6 +573,12 @@ header nav a.right {
     corner-radius: 10px;
 }
 
+.task-page-content .message .reply p{
+    margin:0px;
+    margin-left:30px;
+    padding-right:20px;
+}
+
 .task-page-content .message #replies #new{
     float:right;
     width:85%;
