@@ -194,7 +194,7 @@ if ($level == 4 && $task ["joined"]) {
         <?php
 
         foreach ($task ["heads"] as $head) {
-            echo "<li>" . getUser($head)["name"] . "</li>";
+            echo "<li>" . printName($head, false) . "</li>";
         }
         ?>
     </ul>
@@ -203,7 +203,7 @@ if ($level == 4 && $task ["joined"]) {
         <?php
 
         foreach ($task ["contributors"] as $cont) {
-            echo "<li>" . getUser($cont)["name"] . "</li>";
+            echo "<li>" . printName($cont, false) . "</li>";
         }
         ?>
     </ul>

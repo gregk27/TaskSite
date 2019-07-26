@@ -40,7 +40,7 @@ function hasPerms($taskID, $level, $uID) {
 
     // TOOD: Check if the userID is registered
     if ($level >= 2 && isUser($uID)) {
-        return isset ($_POST ["token"]);
+        return true;
     }
 
     $permsStmt->bind_param("i", $taskID);
@@ -126,5 +126,13 @@ function inList($check, $list){
     if(is_array($list))
         $list = implode(",", $list);
     return preg_match("/\b".$check."\b/", $list);
+}
+
+function printName($ID, $print=true){
+    $name = getUser($ID)["name"];
+    //TODO:Update href when user pages are created
+    $out = "<a class='plain' href='user.php?n=".$name."'>".$name."</a>";
+    if($print) echo $out;
+    return $out;
 }
 ?>

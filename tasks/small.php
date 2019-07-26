@@ -1,28 +1,28 @@
-
-<link href="/style.css" rel="stylesheet" type="text/css" />
+<link href="/style.css" rel="stylesheet" type="text/css"/>
 
 
 <script>
 
-	var xhttp = new XMLHttpRequest();
-	
-	function showPeople(button) {
-		var hidden = button.parentNode.querySelectorAll("#contributors")[0];
+    var xhttp = new XMLHttpRequest();
 
-		if (hidden.style.display == "none") {
-			hidden.style.display = "inherit";
-		} else {
-			hidden.style.display = "none";
-		}
+    function showPeople(button) {
+        var hidden = button.parentNode.querySelectorAll("#contributors")[0];
 
-	}
-	function sendRequest(id, mode){
-		xhttp.open("POST", "/tasks/join.php", false);
-		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp.send("task="+id+"&mode="+mode);
+        if (hidden.style.display == "none") {
+            hidden.style.display = "inherit";
+        } else {
+            hidden.style.display = "none";
+        }
 
-		console.log(xhttp.responseText);
-		
+    }
+
+    function sendRequest(id, mode) {
+        xhttp.open("POST", "/tasks/join.php", false);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("task=" + id + "&mode=" + mode);
+
+        console.log(xhttp.responseText);
+
         xhttp.open("GET", window.location.href, false);
         xhttp.send();
         let text = xhttp.responseText;
@@ -37,7 +37,7 @@
         // console.log(page);
         page.innerHTML = msg.innerHTML;
 
-	}
+    }
 </script>
 <?php
 
@@ -127,55 +127,91 @@ if (inList(USER["ID"], $task["followers"])) {
 
 ?>
 
-<div class="task-small" id="tsk<?php echo $task["ID"]?>">
-	<div class="top">
-		<h2
-			onclick="window.location.href='/tasks/page.php?task=<?php echo $task["ID"]?>'">
-			<?php echo $task["name"]?>
-		</h2>
-		<div class="progress" id="progress" style="<?php echo "background-image:linear-gradient(120deg, green ".($task["progress"] - 5)."%, gray " . ($task["progress"] + 5) . "%)"?>">
-			<span id="percent"> <?php echo $task["progress"]."%"?>&nbsp&nbsp
-		</span><br /> <span id="detail">Subteam: <?php echo implode("/", $task["subteams"])?>&nbsp&nbsp
+<div class="task-small" id="tsk<?php echo $task["ID"] ?>">
+    <div class="top">
+        <h2
+                onclick="window.location.href='/tasks/page.php?task=<?php echo $task["ID"] ?>'">
+            <?php echo $task["name"] ?>
+        </h2>
+        <div class="progress" id="progress"
+             style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>">
+			<span id="percent"> <?php echo $task["progress"] . "%" ?>&nbsp&nbsp
+		</span><br/> <span id="detail">Subteam<?php echo count($task["subteams"]) > 1 ? "s: " : ": ";
+		        $out = "";
+                foreach ($task["subteams"] as $s) {
+                    if(count($task["subteams"]) < 2){
+                        $out = $out.SUBTEAMS[$s]["name"];
+                    }else{
+                        $out = $out.SUBTEAMS[$s]["short"];
+                    }
+
+                    $out = $out."/";
+                }
+                echo rtrim($out, "/");
+                ?>&nbsp&nbsp
 		</span>
-		</div>
-	</div>
-	<div id="sub">
-		<strong>Subtasks</strong>
-		<table>
-			<?php
-			foreach ( $task ["subtasks"] as $sub ) {
-				echo "<tr><td class='hover'>" . $sub ["description"] . "</td><td>" . $sub ["name"] . "</td><td>" . $sub ["progress"] . "%</td></tr>";
-			}
-			?>
-		</table>
-		<div id="buttons">
-			<?php if($task["head"] || !isset($_COOKIE["token"])){echo "<!--";}?>
-			<div
-				onclick="sendRequest(<?php echo $task["ID"]?>, 'contribute')"
-				class="button <?php if($task["joined"]){echo "de";} echo "active";?>"
-				style="width: 44%; float: left;"><?php if($task["joined"]){echo "Quit";} else{echo "Join";}?></div>
-			<div onclick="sendRequest(<?php echo $task["ID"]?>, 'follow')"
-				class="button <?php if($task["following"]){echo "de";} echo "active";?>"
-				style="width: 44%; float: right;"><?php if($task["following"]){echo "Unfollow";} else{echo "Follow";}?></div>
-				<?php
-				if ($task ["head"]) {
-					echo "--><div class = 'button deactive'>Locked for Heads</div>";
-				}
-				if (! isset ($_COOKIE ["token"])) {
-					echo "--><div class = 'button deactive' v>Please login</div>";
-				}
-				?>
-		</div>
-	</div>
+        </div>
+    </div>
+    <div id="sub">
+        <strong>Subtasks</strong>
+        <table>
+            <?php
+            foreach ($task ["subtasks"] as $sub) {
+                echo "<tr><td class='hover'>" . $sub ["description"] . "</td><td>" . $sub ["name"] . "</td><td>" . $sub ["progress"] . "%</td></tr>";
+            }
+            ?>
+        </table>
+        <div id="buttons">
+            <?php if ($task["head"] || !isset($_COOKIE["token"])) {
+                echo "<!--";
+            } ?>
+            <div
+                    onclick="sendRequest(<?php echo $task["ID"] ?>, 'contribute')"
+                    class="button <?php if ($task["joined"]) {
+                        echo "de";
+                    }
+                    echo "active"; ?>"
+                    style="width: 44%; float: left;"><?php if ($task["joined"]) {
+                    echo "Quit";
+                } else {
+                    echo "Join";
+                } ?></div>
+            <div onclick="sendRequest(<?php echo $task["ID"] ?>, 'follow')"
+                 class="button <?php if ($task["following"]) {
+                     echo "de";
+                 }
+                 echo "active"; ?>"
+                 style="width: 44%; float: right;"><?php if ($task["following"]) {
+                    echo "Unfollow";
+                } else {
+                    echo "Follow";
+                } ?></div>
+            <?php
+            if ($task ["head"]) {
+                echo "--><div class = 'button deactive'>Locked for Heads</div>";
+            }
+            if (USER["ID"] == -1) {
+                echo "--><div class = 'button deactive'>Please login</div>";
+            }
+            ?>
+        </div>
+    </div>
 
-	<div id="desc"><?php echo $task["description"]?></div>
+    <div id="desc"><?php echo $task["description"] ?></div>
 
 
-	<div id="people">
-		<span id="heads"> <strong>Head:</strong> <?php foreach($task["heads"] as $value){echo "<a>".getUser($value)["name"]."</a>, ";}?></span>
-		<span id="show-contributors" onclick="showPeople(this)"> <?php echo count($task["contributors"])?> Contributors </span>
-		<span id="contributors"><?php foreach($task["contributors"] as $value){echo "<a>".getUser($value)["name"]."</a>, ";}?></span>
-	</div>
+    <div id="people">
+        <span id="heads"> <strong>Head:</strong> <?php foreach ($task["heads"] as $value) {
+                printName($value);
+                echo ",";
+            } ?></span>
+        <span id="show-contributors"
+              onclick="showPeople(this)"> <?php echo count($task["contributors"]) ?> Contributors </span>
+        <span id="contributors"><?php foreach ($task["contributors"] as $value) {
+                printName($value);
+                echo ",";
+            } ?></span>
+    </div>
 
 
 </div>
