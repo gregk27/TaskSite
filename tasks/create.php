@@ -1,6 +1,10 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . "/include.php");
 $uID = USER["ID"]; // $_COOKIE["token"];
+if($uID == -1){
+    exit();
+}
+
 
 echo implode(",", $_POST);
 
@@ -57,7 +61,6 @@ if (!ISSET ($_POST ["mode"])) {
 } else if ($_POST ["mode"] == "topic") {
     $level = $_POST ["level"];
     $title = cleanString($_POST ["title"]);
-    $uName = USER["name"];
     $time = time();
     $text = formatString($_POST ["text"]);
     $taskID = $_POST ["task"];
@@ -65,7 +68,7 @@ if (!ISSET ($_POST ["mode"])) {
     if (hasPerms($taskID, $level, $uID)) {
         echo "Has permission";
         $stmt = $conn->prepare("INSERT INTO tasks.topics(level,title,user,time,text,taskID) VALUES (?,?,?,?,?,?)");
-        $stmt->bind_param("issisi", $level, $title, $uName, $time, $text, $taskID);
+        $stmt->bind_param("issisi", $level, $title, $uID, $time, $text, $taskID);
         $stmt->execute();
         $stmt->close();
     }
@@ -73,7 +76,6 @@ if (!ISSET ($_POST ["mode"])) {
     $taskID = $_POST["task"];
     $level = $_POST ["level"];
     $parent = $_POST ["parent"];
-    $uName = USER["name"];
     $time = time();
     $text = formatString($_POST ["text"]);
 
@@ -81,7 +83,7 @@ if (!ISSET ($_POST ["mode"])) {
     if (hasPerms($taskID, $level + 1, $uID)) {
         echo "Has permission";
         $stmt = $conn->prepare("INSERT INTO tasks.replies(parentID,user,time,text) VALUES (?,?,?,?)");
-        $stmt->bind_param("isis", $parent, $uName, $time, $text);
+        $stmt->bind_param("isis", $parent, $uID, $time, $text);
         $stmt->execute();
         $stmt->close();
     }

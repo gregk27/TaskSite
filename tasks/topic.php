@@ -118,15 +118,15 @@ if (ISSET ($_GET ["focus"])) {
         xhttp.open("GET", setVal(window.location.href, "focus", topic), false);
         xhttp.send();
         text = xhttp.responseText;
-        console.log(text);
+        // console.log(text);
         let doc = new DOMParser().parseFromString(text, "text/html");
-        console.log(doc);
-        console.log(document);
-        console.log(topic);
+        // console.log(doc);
+        // console.log(document);
+        // console.log(topic);
         let msg = doc.getElementById(topic);
         let page = document.getElementById(topic);
-        console.log(msg);
-        console.log(page);
+        // console.log(msg);
+        // console.log(page);
         page.getElementsByTagName("div")[4].innerHTML = msg.getElementsByTagName("div")[4].innerHTML;
         page.getElementsByTagName("div")[3].innerHTML = msg.getElementsByTagName("div")[3].innerHTML;
     }
@@ -147,7 +147,7 @@ if (ISSET ($_GET ["focus"])) {
 <div class="message <?php echo $infocus ? "scrollto" : ""; ?>" id="<?php echo($topic["ID"])?>">
     <div id="about">
         <h3 id="title"><?php echo $topic["title"] ?></h3>
-        <h5 id="info"><?php echo $topic["user"] ?><span
+        <h5 id="info"><a><?php echo getUser($topic["user"])["name"] ?></a><span
                     style="padding-left: 25px"><?php echo $date ?></span>
             <a class="pointer" id="<?php echo "t" . $topic["ID"] ?>"><?php echo "#t" . $topic["ID"] ?></a>
         </h5>
