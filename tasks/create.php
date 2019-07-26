@@ -57,7 +57,7 @@ if (!ISSET ($_POST ["mode"])) {
 } else if ($_POST ["mode"] == "topic") {
     $level = $_POST ["level"];
     $title = cleanString($_POST ["title"]);
-    $uName = USER["username"];
+    $uName = USER["name"];
     $time = time();
     $text = formatString($_POST ["text"]);
     $taskID = $_POST ["task"];
@@ -73,7 +73,7 @@ if (!ISSET ($_POST ["mode"])) {
     $taskID = $_POST["task"];
     $level = $_POST ["level"];
     $parent = $_POST ["parent"];
-    $uName = USER["username"];
+    $uName = USER["name"];
     $time = time();
     $text = formatString($_POST ["text"]);
 

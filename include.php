@@ -8,8 +8,8 @@ $conn = new mysqli ($dbAddress, $dbUser, $dbPass);
 // TODO: Remove after debugging
 mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
 
-$usrStmt = $conn->prepare("SELECT username,ID FROM tasks.users WHERE ID = ?");
-$allUsrStmt = $conn->prepare("SELECT username,ID FROM tasks.users");
+$usrStmt = $conn->prepare("SELECT name,ID FROM tasks.users WHERE ID = ?");
+$allUsrStmt = $conn->prepare("SELECT name,ID FROM tasks.users");
 $permsStmt = $conn->prepare("SELECT heads,contributors FROM tasks.tasks WHERE ID = ?");
 
 define("SUBTEAMS", $conn->query("SELECT * FROM tasks.subteams")->fetch_all(MYSQLI_ASSOC));
@@ -83,7 +83,7 @@ function getUsers() {
     $result = $allUsrStmt->get_result()->fetch_all(MYSQLI_ASSOC);
     $out = array();
     foreach ($result as $r) {
-        $out[$r["username"]] = $r["ID"];
+        $out[$r["name"]] = $r["ID"];
     }
     return $out;
 }

@@ -7,7 +7,7 @@
             <!--Changing these values won't bypass security, it will just make you post somewhere else (or not at all)-->
             <input type="hidden" name="mode" value="task"/>
             <input type="hidden" name="parent" value="<?php echo $_GET['task']?>"/>
-            <input type="hidden" name="heads" value="<?php echo USER['username']?>"/>
+            <input type="hidden" name="heads" value="<?php echo USER['name']?>"/>
 
             <label>Name <input type="text" name="name" placeholder="The task name"/></label>
             <label style="margin-left:10%">Weight <input type="number" name="weight" value="0"/></label>

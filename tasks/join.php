@@ -32,10 +32,10 @@ if ($mode == "contribute") {
 	}
 	array_values ( $array );
 	if (!$found) {
-		$stmt2 = $conn->prepare ( "SELECT `username` FROM `tasks`.`users` WHERE `ID`=?" );
+		$stmt2 = $conn->prepare ( "SELECT `name` FROM `tasks`.`users` WHERE `ID`=?" );
 		$stmt2->bind_param ( "i", $ID );
 		$stmt2->execute ();
-		$result2 = $stmt2->get_result ()->fetch_assoc ()["username"];
+		$result2 = $stmt2->get_result ()->fetch_assoc ()["name"];
 		
 		array_push($array, $result2."|".$ID);
 	}

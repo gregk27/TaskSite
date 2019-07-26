@@ -11,7 +11,7 @@
     if(USER["ID"] == -1){
         echo "<a class='right' href='/user/user.php'>Sign in</a>";
     } else {
-        echo "<a class='right' href = '/user/user.php'>" . USER["username"] . "</a>";
+        echo "<a class='right' href = '/user/user.php'>" . USER["name"] . "</a>";
     }
 
     ?>

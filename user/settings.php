@@ -3,7 +3,7 @@ require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
 
 //TODO: Rewrite this page to use a more efficient, secure sytstem
 
-$stmt = $conn->prepare("SELECT `username` FROM `tasks`.`users` WHERE `ID`=?");
+$stmt = $conn->prepare("SELECT `name` FROM `tasks`.`users` WHERE `ID`=?");
 $stmt->bind_param("i", $_COOKIE ["token"]);
 $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc ();
