@@ -138,7 +138,7 @@ if (ISSET ($_GET ["focus"])) {
         xhttp.send("task=<?php echo $_GET["task"]?>&mode=reply&parent=" + topic + "&text=" + text + "&level=<?php echo $_GET["lv"]?>");
         console.log("ajax sent");
 
-        xhttp.open("GET", setVal(window.location.href, "focus", topic), false);
+        xhttp.open("GET", setVal(window.location.href, "focus", "t"+topic), false);
         xhttp.send();
         text = xhttp.responseText;
         // console.log(text);
@@ -148,10 +148,14 @@ if (ISSET ($_GET ["focus"])) {
         // console.log(topic);
         let msg = doc.getElementById("t" + topic);
         let page = document.getElementById("t" + topic);
-        // console.log(msg);
-        // console.log(page);
-        page.getElementsByTagName("div")[4].innerHTML = msg.getElementsByTagName("div")[4].innerHTML;
-        page.getElementsByTagName("div")[3].innerHTML = msg.getElementsByTagName("div")[3].innerHTML;
+        console.log(msg);
+        console.log(page);
+        page.innerHTML = msg.innerHTML;
+
+        console.log("copied");
+
+        page = document.getElementById("t" + topic);
+        console.log(page.getElementsByTagName("div")[4]);
     }
 
     function showbox(element) {

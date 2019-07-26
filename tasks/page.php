@@ -9,8 +9,8 @@
 <body>
 <?php
 //Ensure that level is set, if not the default is announcements
-if(!isset($_GET["lv"])){
-    header("Location: ".$_SERVER["REQUEST_URI"]."&lv=0");
+if (!isset($_GET["lv"])) {
+    header("Location: " . $_SERVER["REQUEST_URI"] . "&lv=0");
 }
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/header.php");
@@ -35,32 +35,16 @@ $stmt->execute();
 $subtasks = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-$ID = -1;
-if (isset ($_COOKIE ["token"])) {
-    $ID = $_COOKIE ["token"];
-    // If the user is a head, they are involved
-    foreach ($task ["heads"] as $value) {
-        if (count(explode("|", $value)) > 1) {
-            if (explode("|", $value) [1] == $ID) {
-                $task ["head"] = true;
-                $task ["joined"] = true;
-            }
-        }
-    }
-    foreach ($task ["contributors"] as $value) {
-        if (count(explode("|", $value)) > 1) {
-            if (explode("|", $value) [1] == $ID) {
-                $task ["joined"] = true;
-            }
-        }
-    }
-    foreach ($task ["followers"] as $value) {
-        if (count(explode("|", $value)) > 1) {
-            if ($value == $ID) {
-                $task ["following"] = true;
-            }
-        }
-    }
+// If the user is a head, they are involved
+if (inList(USER["ID"], $task["heads"])) {
+    $task ["head"] = true;
+    $task ["joined"] = true;
+}
+if (inList(USER["ID"], $task["contributors"])) {
+    $task ["joined"] = true;
+}
+if (inList(USER["ID"], $task["following"])) {
+    $task ["following"] = true;
 }
 
 $level = 0;
@@ -101,7 +85,7 @@ if ($level == 0 && $task ["head"]) {
 if ($level == 1 && $task ["joined"]) {
     $canPost = true;
 }
-if ($level == 2 && $ID > 0) {
+if ($level == 2 && USER["ID"] > 0) {
     $canPost = true;
 }
 if ($level == 4 && $task ["joined"]) {
@@ -151,44 +135,6 @@ if ($level == 4 && $task ["joined"]) {
                     }
 
                     foreach ($result as $task) {
-                        // foreach($task as $key=>$value){
-                        // echo $key."\t".$value."<br/>";
-                        // }
-
-                        $stmt->bind_param("i", $task ["ID"]);
-                        $stmt->execute();
-                        $subs = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
-                        $task ["subteams"] = explode(",", $task ["subteams"]);
-                        $task ["subtasks"] = $subs; // json_decode ( $task ["subtasks"], true );
-                        $task ["heads"] = explode(",", $task ["heads"]);
-                        $task ["contributors"] = explode(",", $task ["contributors"]);
-                        $task ["followers"] = explode(",", $task ["followers"]);
-                        $task ["joined"] = false;
-                        $task ["following"] = false;
-                        $task ["head"] = false;
-
-                        if (isset ($_COOKIE ["token"])) {
-                            $ID = $_COOKIE ["token"];
-                            // If the user is a head, they are involved
-                            foreach ($task ["heads"] as $value) {
-                                if($value == USER["ID"]){
-                                    $task["head"] = true;
-                                    $task["joined"] = true;
-                                }
-                            }
-                            foreach ($task ["contributors"] as $value) {
-                                if($value == USER["ID"]){
-                                    $task["joined"] = true;
-                                }
-                            }
-                            foreach ($task ["followers"] as $value) {
-                                if($value == USER["ID"]){
-                                    $task["following"] = true;
-                                }
-                            }
-                        }
-
                         include("small.php");
                     }
 
@@ -227,7 +173,7 @@ if ($level == 4 && $task ["joined"]) {
 					<td id="name"><a class="plain" href="?task=' . $sub ["ID"] . '">' . $sub ["name"] . '</a></td>
 					<td id="percent">' . $sub ["progress"] . '%</td>
 				</tr>';
-            if (preg_match("/\|" . $ID . "\b/", $sub ["heads"])) { //TODO:FIX for new system
+            if (inList(USER["ID"], $sub ["heads"])) {
                 echo '<tr>
 						<td id="config" colspan="2">
 							<button id="change">-10</button>

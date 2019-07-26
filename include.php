@@ -46,15 +46,14 @@ function hasPerms($taskID, $level, $uID) {
     $permsStmt->bind_param("i", $taskID);
     $permsStmt->execute();
     $users = $permsStmt->get_result()->fetch_assoc();
-    $isHead = preg_match("/\|" . $uID . "\b/", $users ['heads']);
-    $isCont = preg_match("/\|" . $uID . "\b/", $users ["contributors"]);
+    $isHead = inList($uID, $users ['heads']);
+    $isCont = inList($uID, $users ["contributors"]);
 
     if ($level == 0 && $isHead)
         return true;
     else if ($level == 1 && ($isHead || $isCont))
         return true;
 
-    echo "Invalid permissions";
     return false;
 }
 

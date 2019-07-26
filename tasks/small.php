@@ -81,6 +81,37 @@
  */
 
 //old gradient colour: #33cc33;
+
+// foreach($task as $key=>$value){
+// echo $key."\t".$value."<br/>";
+// }
+
+$stmt = $conn->prepare("SELECT * FROM tasks.tasks WHERE parent = ?");
+$stmt->bind_param("i", $task ["ID"]);
+$stmt->execute();
+$subs = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+$task ["subteams"] = explode(",", $task ["subteams"]);
+$task ["subtasks"] = $subs; // json_decode ( $task ["subtasks"], true );
+$task ["heads"] = explode(",", $task ["heads"]);
+$task ["contributors"] = explode(",", $task ["contributors"]);
+$task ["followers"] = explode(",", $task ["followers"]);
+$task ["joined"] = false;
+$task ["following"] = false;
+$task ["head"] = false;
+
+// If the user is a head, they are involved
+if (inList(USER["ID"], $task["heads"])) {
+    $task ["head"] = true;
+    $task ["joined"] = true;
+}
+if (inList(USER["ID"], $task["contributors"])) {
+    $task ["joined"] = true;
+}
+if (inList(USER["ID"], $task["following"])) {
+    $task ["following"] = true;
+}
+
 ?>
 
 <div class="task-small">
