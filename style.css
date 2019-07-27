@@ -305,13 +305,13 @@ header nav a.right {
 
 .task-page-top:not (:hover ) .buttons {
     animation-name: move-buttons-up;
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
 
 .task-page-top:hover .buttons {
     animation-name: move-buttons-down;
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-fill-mode: forwards;
 }
 

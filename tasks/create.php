@@ -1,6 +1,6 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . "/include.php");
-$uID = USER["ID"]; // $_COOKIE["token"];
+$uID = 15960;//USER["ID"]; // $_COOKIE["token"];
 if($uID == -1){
     exit();
 }
@@ -25,13 +25,13 @@ if (!ISSET ($_POST ["mode"])) {
     }
 
     $subteams = array();
-    if($sub1 != "None") {
+    if($sub1 != 0) {
         array_push($subteams, $sub1);
     }
-    if($sub2 != "None") {
+    if($sub2 != 0) {
         array_push($subteams, $sub2);
     }
-    if($sub3 != "None") {
+    if($sub3 != 0) {
         array_push($subteams, $sub3);
     }
 
@@ -53,10 +53,15 @@ if (!ISSET ($_POST ["mode"])) {
     if ($parent == -1) { // Special permission check for top-level tasks
     } else if (hasPerms($parent, 0, $uID)) {
         echo "Has permission";
-        $stmt = $conn->prepare("INSERT INTO tasks.tasks(parent,name,subteams,description,heads,weight) VALUES (?,?,?,?,?,?)");
-        $stmt->bind_param("issssi", $parent, $name, $subteams, $desc, $heads, $weight);
+        $stmt = $conn->prepare("INSERT INTO tasks.tasks(parent,name,subteams,description,heads) VALUES (?,?,?,?,?)");
+        $stmt->bind_param("issss", $parent, $name, $subteams, $desc, $heads);
 		$stmt->execute ();
+        $ID = $stmt->insert_id;
         $stmt->close();
+
+        $_POST["delta"] = $weight;
+        $_POST["task"] = $ID;
+        include("setWeight.php");
     }
 } else if ($_POST ["mode"] == "topic") {
     $level = $_POST ["level"];

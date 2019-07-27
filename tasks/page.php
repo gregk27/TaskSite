@@ -94,14 +94,22 @@ if ($level == 4 && $task ["joined"]) {
 ?>
 <div class="task-page-top" id="top">
     <div class="buttons" style="display:<?php echo $task["head"] ? "block" : "none" ?>">
-        <button id="change">-10</button>
-        <button id="change">-5</button>
+        <?php $max = $task["unassigned"] == $task["local"];
+        $min = $task["local"] == 0;
+        if ($min) echo "<!--"; ?>
+        <button onclick="setProgress(<?php echo $task["ID"] ?>, -5, 'top')" id="change">-5</button>
+        <button onclick="setProgress(<?php echo $task["ID"] ?>, -1, 'top')" id="change">-1</button>
+        <?php if ($min) echo "--> <button id='change'>Min hit</button>"; ?>
         &nbsp&nbsp
-        <button id="change">+5</button>
-        <button id="change">+10</button>
+        <?php if ($max) echo "<!--"; ?>
+        <button onclick="setProgress(<?php echo $task["ID"] ?>, 1, 'top')" id="change">+1</button>
+        <button onclick="setProgress(<?php echo $task["ID"] ?>, 5, 'top')" id="change">+5</button>
+        <?php if ($max) echo "--> <button id='change'>Max hit</button>"; ?>
     </div>
     <h2><?php echo $title ?></h2>
-    <div class="progress">50%</div>
+    <div style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>"
+         class="progress"><?php echo $task["progress"] ?>%
+    </div>
 </div>
 <div id="below-top">
     <div class="task-page-content">
@@ -174,13 +182,20 @@ if ($level == 4 && $task ["joined"]) {
 					<td id="percent">' . $sub ["progress"] . '%</td>
 				</tr>';
             if (inList(USER["ID"], $sub ["heads"])) {
+                $max = $sub["unassigned"] == $sub["local"];
+                $min = $sub["local"] == 0;
                 echo '<tr>
-						<td id="config" colspan="2">
-							<button id="change">-10</button>
-							<button id="change">-5</button> &nbsp&nbsp
-							<button id="change">+5</button>
-							<button id="change">+10</button>
-						</td>
+						<td id="config" colspan="2">';
+                if ($min) echo "<!--";
+                else echo '<button onclick = "setProgress(' . $sub["ID"] . ', -5, \'sidebar,top,tsk'.$sub["ID"].'\')" id="change">-5</button>
+							<button onclick = "setProgress(' . $sub["ID"] . ', -1, \'sidebar,top,tsk'.$sub["ID"].'\')" id="change">-1</button>';
+                if ($min) echo "--> <button id='change'>Min hit</button>";
+                echo '&nbsp&nbsp';
+                if ($max) echo "<!--";
+                else echo '<button onclick = "setProgress(' . $sub["ID"] . ', 1, \'sidebar,top,tsk'.$sub["ID"].'\')" id="change">+1</button>
+							<button onclick = "setProgress(' . $sub["ID"] . ', 5, \'sidebar,top,tsk'.$sub["ID"].'\')" id="change">+5</button>';
+                if ($max) echo "--> <button id='change'>Max hit</button>";
+                echo '</td>
 					</tr>';
             }
         }
@@ -284,6 +299,32 @@ if ($level == 4 && $task ["joined"]) {
     }
 
     window.onload = load;
+
+    function setProgress(task, delta, refreshID) {
+        xhttp.open("POST", "setProgress.php", false);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("task=" + task + "&delta=" + delta);
+
+        console.log(xhttp.responseText);
+
+        xhttp.open("GET", window.location.href, false);
+        xhttp.send();
+        let text = xhttp.responseText;
+        // console.log(text);
+        let doc = new DOMParser().parseFromString(text, "text/html");
+        // console.log(doc);
+        // console.log(document);
+        // console.log(topic);
+        let ids = refreshID.split(",");
+        for (let i = 0; i < ids.length; i++) {
+            let msg = doc.getElementById(ids[i]);
+            let page = document.getElementById(ids[i]);
+            // console.log(msg);
+            // console.log(page);
+            if(page == null) continue;
+            page.innerHTML = msg.innerHTML;
+        }
+    }
 </script>
 
 <?php

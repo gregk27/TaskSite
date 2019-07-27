@@ -33,21 +33,25 @@ if (TOP == $ID) {
         $delta -= $task["local"] - $task["unassigned"];
         $task["local"] = $task["unassigned"];
     } else if ($task["local"] < 0) {
-        $delta -= 0 - $task["local"];
+        $delta -= $task["local"];
         $task["local"] = 0;
     }
 
     $local->bind_param("di", $task["local"], $ID);
-//    $local->execute();
+    $local->execute();
     echo "New Local: " . $task["local"] . "<br/>";
 }
 $newVal = $task["progress"] + $delta;
 if ($newVal > 100) {
+    $delta -=100-$newVal;
     $newVal = 100;
+}if ($newVal < 0) {
+    $delta -= $newVal;
+    $newVal = 0;
 }
 echo "New value: " . $newVal . "<br/>";
 $update->bind_param("di", $newVal, $ID);
-//$update->execute();
+$update->execute();
 
 if ($task["parent"] != -1) {
     $weighted = $delta * ($task["weight"] / 100);
