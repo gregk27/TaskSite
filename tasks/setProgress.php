@@ -7,7 +7,6 @@ $stmt->bind_param("i", $ID);
 $stmt->execute();
 $task = $stmt->get_result()->fetch_assoc();
 if (!defined("TOP")) define("TOP", $ID);
-echo is_int($delta) . "<br/>";
 $uID = 15960;
 
 echo "<h2>" . $_POST["task"] . "</h2>";
