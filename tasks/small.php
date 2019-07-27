@@ -104,7 +104,7 @@ $stmt->bind_param("i", $task ["ID"]);
 $stmt->execute();
 $subs = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
-$task ["subteams"] = explode(",", $task ["subteams"]);
+$task ["subteams"] = array_filter(explode(",", $task ["subteams"]));
 $task ["subtasks"] = $subs; // json_decode ( $task ["subtasks"], true );
 $task ["heads"] = array_filter(explode(",", $task ["heads"]));
 $task ["contributors"] = array_filter(explode(",", $task ["contributors"]));
