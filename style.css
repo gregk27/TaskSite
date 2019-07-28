@@ -361,9 +361,16 @@ header nav a.right {
     z-index: -1;
 }
 
+.task-page-sidebar #buttons{
+    text-align:center;
+    margin-top:7px;
+    height:31px;
+}
+
 .task-page-sidebar h3 {
     padding-left: 10px;
     margin-bottom: 5px;
+    margin-top:15px;
 }
 
 .task-page-sidebar table {

@@ -141,11 +141,11 @@ if ($level == 4 && $task ["joined"]) {
                     if (count($result) == 0) {
                         echo "<div style='text-align:center; background-color:#e9e9e9; padding:25px 100px; margin:50px;'>No subtasks found.</div>";
                     }
-
+                    $temp = $task; //Save the task for after
                     foreach ($result as $task) {
                         include("small.php");
                     }
-
+                    $task = $temp;//Re-set the task variable
                     $stmt->close();
                 } else if ($level == 3) {
                     echo "<div style='text-align:center; background-color:#e9e9e9; padding:25px 100px; margin:50px;'>Live(ish) chat will be added. Eventually.</div>";
@@ -170,6 +170,41 @@ if ($level == 4 && $task ["joined"]) {
 </div>
 
 <div class="task-page-sidebar" id="sidebar">
+    <div id="buttons">
+        <?php if ($task["head"] || !isset($_COOKIE["token"])) {
+            echo "<!--";
+        } ?>
+        <div
+                onclick="sendRequest('contribute')"
+                class="button <?php if ($task["joined"]) {
+                    echo "de";
+                }
+                echo "active"; ?>"
+                style="width: 38%; float: left;"><?php if ($task["joined"]) {
+                echo "Quit";
+            } else {
+                echo "Join";
+            } ?></div>
+        <div onclick="sendRequest('follow')"
+             class="button <?php if ($task["following"]) {
+                 echo "de";
+             }
+             echo "active"; ?>"
+             style="width: 44%; float: right;"><?php if ($task["following"]) {
+                echo "Unfollow";
+            } else {
+                echo "Follow";
+            } ?></div>
+        <?php
+        if ($task ["head"]) {
+            echo "--><div class = 'button active'>Settings</div>";
+        }
+        if (USER["ID"] == -1) {
+            echo "--><div class = 'button deactive'>Please login</div>";
+        }
+        ?>
+    </div>
+
     <h3>Subtasks</h3>
     <table>
         <?php
@@ -239,9 +274,7 @@ if ($level == 4 && $task ["joined"]) {
     var subPos = subs.offsetTop;
     var subPosX = subs.offsetLeft;
 
-    if (typeof xhttp == 'undefined') {
-        let xhttp = new XMLHttpRequest();
-    }
+    xhttp = new XMLHttpRequest();
 
     //Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
     function sticky() {
@@ -328,6 +361,29 @@ if ($level == 4 && $task ["joined"]) {
             if (page == null) continue;
             page.innerHTML = msg.innerHTML;
         }
+    }
+
+    function sendRequest(mode) {
+        xhttp.open("POST", "/tasks/join.php", false);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("task=" + <?php echo $task["ID"]?> + "&mode=" + mode);
+
+        console.log(xhttp.responseText);
+
+        xhttp.open("GET", window.location.href, false);
+        xhttp.send();
+        let text = xhttp.responseText;
+        // console.log(text);
+        let doc = new DOMParser().parseFromString(text, "text/html");
+        // console.log(doc);
+        // console.log(document);
+        // console.log(topic);
+        let msg = doc.getElementById("sidebar");
+        let page = document.getElementById("sidebar");
+        // console.log(msg);
+        // console.log(page);
+        page.innerHTML = msg.innerHTML;
+
     }
 </script>
 
