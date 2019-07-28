@@ -134,7 +134,7 @@ if(isset($fullTitle) && $fullTitle){
 
 <div class="task-small" id="tsk<?php echo $task["ID"] ?>">
     <div class="top">
-        <h2
+        <h2 class="task-name"
                 onclick="window.location.href='/tasks/page.php?task=<?php echo $task["ID"] ?>'">
             <?php echo $title ?>
         </h2>

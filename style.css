@@ -120,32 +120,11 @@ header nav a.right {
 }
 
 .task-small h2 {
-    color: white;
-    background-color: #4a2a7c;
-    display: inline-block;
-    padding: 5px 15px 5px 25px;
-    margin: 0px;
-    font-size: 30px;
     z-index: 1;
-    position: absolute;
-    top: 0px;
-    user-select: none;
-    cursor: pointer;
 }
 
 .task-small .progress {
-    background-image: linear-gradient(120deg, green 45%, gray 55%);
-    width: 100%;
-    height: 50px;
-    display: block;
-    float: right;
-    position: absolute;
-    top: 0px;
-    min-width: 500px;
-    text-align: right;
-    color: white;
     font-size: 25px;
-    border-bottom: 1px solid #2d1a4c;
 }
 
 .task-small .progress #detail {
@@ -262,34 +241,11 @@ header nav a.right {
 }
 
 .task-page-top h2 {
-    color: white;
-    background-color: #4a2a7c;
-    display: inline-block;
-    padding: 5px 15px 5px 25px;
-    margin: 0px;
-    font-size: 30px;
     z-index: 4;
-    position: absolute;
-    top: 0px;
-    max-width: 75%;
-    overflow-x: overlay;
-    overflow-y: hidden;
-    white-space: nowrap;
 }
 
 .task-page-top .progress {
-    background-image: linear-gradient(120deg, green 45%, gray 55%);
-    width: 100%;
-    height: 50px;
-    display: block;
-    float: right;
-    position: absolute;
-    top: 0px;
-    min-width: 500px;
-    text-align: right;
-    color: white;
     font-size: 45px;
-    border-bottom: 1px solid #2d1a4c;
     z-index: 3;
 }
 
@@ -351,6 +307,7 @@ header nav a.right {
     padding: 15px;
     padding-right: 35px;
     padding-top: 5px;
+    height: 1000px;
     height: -webkit-fill-available;
     font-size: 18px;
 }
@@ -361,16 +318,16 @@ header nav a.right {
     z-index: -1;
 }
 
-.task-page-sidebar #buttons{
-    text-align:center;
-    margin-top:7px;
-    height:31px;
+.task-page-sidebar #buttons {
+    text-align: center;
+    margin-top: 7px;
+    height: 31px;
 }
 
 .task-page-sidebar h3 {
     padding-left: 10px;
     margin-bottom: 5px;
-    margin-top:15px;
+    margin-top: 15px;
 }
 
 .task-page-sidebar table {
@@ -717,15 +674,53 @@ label #value {
     padding-left: 6px;
     background: linear-gradient(150deg, transparent 7px, lightgray 0) top left,
     linear-gradient(30deg, transparent 7px, lightgray 0) bottom left;
-    background-size:100% 65%;
+    background-size: 100% 65%;
     background-repeat: no-repeat;
-    width:7%;
-    font-size:inherit;
-    text-align:right;
-    padding-right:18px;
+    width: 7%;
+    font-size: inherit;
+    text-align: right;
+    padding-right: 18px;
 }
 
-.unit{
+.unit {
     position: relative;
     margin-left: -16px;
+}
+
+.task-name {
+    background-color: #4a2a7c;
+    display: inline-block;
+    padding: 5px 15px 5px 25px;
+    margin: 0px;
+    font-size: 30px;
+    position: absolute;
+    top: 0px;
+    user-select: none;
+    cursor: pointer;
+    max-width: 75%;
+    overflow-x: overlay;
+    overflow-y: hidden;
+    white-space: nowrap;
+    color: white;
+}
+
+.progress {
+    background-image: linear-gradient(120deg, green 45%, gray 55%);
+    width: 100%;
+    height: 50px;
+    display: block;
+    float: right;
+    position: absolute;
+    top: 0px;
+    min-width: 500px;
+    text-align: right;
+    color: white;
+    border-bottom: 1px solid #2d1a4c;
+}
+
+.error {
+    text-align: center;
+    background-color: #e9e9e9;
+    padding: 25px 100px;
+    margin: 50px;
 }

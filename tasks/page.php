@@ -92,7 +92,7 @@ if ($level == 4 && $task ["joined"]) {
         <button onclick="setProgress(<?php echo $task["ID"] ?>, 5, 'top')" id="change">+5</button>
         <?php if ($max) echo "--> <button id='change'>Max hit</button>"; ?>
     </div>
-    <h2><?php echo $title ?></h2>
+    <h2 class="task-name"><?php echo $title ?></h2>
     <div style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>"
          class="progress"><?php echo round($task["progress"]) ?>%
     </div>
@@ -125,7 +125,7 @@ if ($level == 4 && $task ["joined"]) {
                     $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
                     if (count($result) == 0) {
-                        echo "<div style='text-align:center; background-color:#e9e9e9; padding:25px 100px; margin:50px;'>No subtasks found.</div>";
+                        echo "<div class='error'>No subtasks found.</div>";
                     }
                     $temp = $task; //Save the task for after
                     foreach ($result as $task) {
@@ -134,14 +134,14 @@ if ($level == 4 && $task ["joined"]) {
                     $task = $temp;//Re-set the task variable
                     $stmt->close();
                 } else if ($level == 3) {
-                    echo "<div style='text-align:center; background-color:#e9e9e9; padding:25px 100px; margin:50px;'>Live(ish) chat will be added. Eventually.</div>";
+                    echo "<div class='error'>Live(ish) chat will be added. Eventually.</div>";
                 } else {
                     foreach ($topics as $topic) {
                         include("topic.php");
                     }
 
                     if (count($topics) == 0) {
-                        echo "<div style='text-align:center; background-color:#e9e9e9; padding:25px 100px; margin:50px;'>No one has posted yet.</div>";
+                        echo "<div class='error'>No one has posted yet.</div>";
                     }
                 }
                 ?>
