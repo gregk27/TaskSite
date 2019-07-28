@@ -56,21 +56,7 @@ if (ISSET ($_GET ["task"])) {
     $taskID = $_GET ["task"];
 }
 
-// Create title
-$title = $task ["name"];
-$stmt = $conn->prepare("SELECT name,parent FROM tasks.tasks WHERE ID = ?");
-$val = $task ["parent"];
-$res = "temp";
-$stmt->bind_param("i", $val);
-$stmt->bind_result($res, $val);
-// Iterate over parents until top-level is found
-while ($val != -1) {
-    $tempID = $val;
-    $stmt->execute();
-    $stmt->fetch();
-    $title = "<a class='plain' href='?task=" . $tempID . "'>" . $res . "</a>&nbsp> " . $title;
-}
-$stmt->close();
+$title = fullPath($task["ID"]);
 
 $stmt = $conn->prepare("SELECT * FROM `tasks`.`topics` WHERE taskID = ? AND level = ?");
 $stmt->bind_param("ii", $taskID, $level);

@@ -11,6 +11,7 @@ mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
 $usrStmt = $conn->prepare("SELECT name,ID FROM tasks.users WHERE ID = ?");
 $allUsrStmt = $conn->prepare("SELECT name,ID FROM tasks.users");
 $permsStmt = $conn->prepare("SELECT heads,contributors FROM tasks.tasks WHERE ID = ?");
+$getTask = $conn->prepare("SELECT * FROM tasks.tasks WHERE ID = ?");
 
 define("SUBTEAMS", $conn->query("SELECT * FROM tasks.subteams")->fetch_all(MYSQLI_ASSOC));
 
@@ -134,5 +135,28 @@ function printName($ID, $print=true){
     $out = "<a class='plain' href='user.php?n=".$name."'>".$name."</a>";
     if($print) echo $out;
     return $out;
+}
+
+function fullPath($ID){
+    global $conn, $getTask;
+    $getTask->bind_param("i", $ID);
+    $getTask->execute();
+    $task = $getTask->get_result()->fetch_assoc();
+    // Create title
+    $title = $task ["name"];
+    $stmt = $conn->prepare("SELECT name,parent FROM tasks.tasks WHERE ID = ?");
+    $val = $task ["parent"];
+    $res = "temp";
+    $stmt->bind_param("i", $val);
+    $stmt->bind_result($res, $val);
+    // Iterate over parents until top-level is found
+    while ($val != -1) {
+        $tempID = $val;
+        $stmt->execute();
+        $stmt->fetch();
+        $title = "<a class='plain' href='?task=" . $tempID . "'>" . $res . "</a>&nbsp> " . $title;
+    }
+    $stmt->close();
+    return $title;
 }
 ?>

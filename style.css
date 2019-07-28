@@ -103,7 +103,7 @@ header nav a.right {
 /*SMALL CARD*/
 .task-small {
     background-color: #ccc;
-    width: 60%;
+    width: 90%;
     margin-left: 5%;
     float: left;
     padding-top: 60px;
@@ -610,10 +610,6 @@ header nav a.right {
     text-decoration: underline;
     cursor: pointer;
     color: black;
-}
-
-.task-page-content #content .task-small {
-    width: 90%;
 }
 
 .popup {

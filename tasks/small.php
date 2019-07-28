@@ -125,13 +125,18 @@ if (inList(USER["ID"], $task["followers"])) {
     $task ["following"] = true;
 }
 
+$title = $task["name"];
+if(isset($fullTitle) && $fullTitle){
+    $title = fullPath($task["ID"]);
+}
+
 ?>
 
 <div class="task-small" id="tsk<?php echo $task["ID"] ?>">
     <div class="top">
         <h2
                 onclick="window.location.href='/tasks/page.php?task=<?php echo $task["ID"] ?>'">
-            <?php echo $task["name"] ?>
+            <?php echo $title ?>
         </h2>
         <div class="progress" id="progress"
              style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>">
