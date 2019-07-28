@@ -135,7 +135,7 @@ if (inList(USER["ID"], $task["followers"])) {
         </h2>
         <div class="progress" id="progress"
              style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>">
-			<span id="percent"> <?php echo $task["progress"] . "%" ?>&nbsp&nbsp
+			<span id="percent"> <?php echo round($task["progress"]) . "%" ?>&nbsp&nbsp
 		</span><br/> <span id="detail">Subteam<?php echo count($task["subteams"]) > 1 ? "s: " : ": ";
 		        $out = "";
                 foreach ($task["subteams"] as $s) {

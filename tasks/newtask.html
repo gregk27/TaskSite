@@ -1,3 +1,11 @@
+<?php
+$stmt = $conn->prepare("SELECT unassigned FROM tasks.tasks WHERE ID = ?");
+$stmt->bind_param("i", $_GET["task"]);
+$stmt->execute();
+$task = $stmt->get_result()->fetch_assoc();
+
+?>
+
 <div class="popup" style="display:none">
     <div id="around" onclick="hideDiag()">
     </div>
@@ -8,9 +16,14 @@
             <input type="hidden" name="mode" value="task"/>
             <input type="hidden" name="parent" value="<?php echo $_GET['task']?>"/>
             <input type="hidden" name="heads" value="<?php echo USER['name']?>"/>
-
             <label>Name <input type="text" name="name" placeholder="The task name"/></label>
-            <label style="margin-left:10%">Weight <input type="number" name="weight" value="0"/></label>
+            <label style="margin-left:0px; float:right; margin-right:-17%">Weight <input oninput="showValue(this)"
+                                                                                         class="slider" type="range"
+                                                                                         name="weight" value="<?php echo $task['unassigned']/5 ?>"
+                                                                                         min="0"
+                                                                                         max="<?php echo $task['unassigned'] ?>"/><input
+                    oninput="showValue(this)" id="value" type="text" value="<?php echo $task['unassigned']/5 ?>" maxlength="3"/><span
+                    class="unit">%</span></label>
             <br/>
             <br/>
 
@@ -64,6 +77,14 @@
             let val = document.getElementById("description").value.replace(/\n/g, "<br/>").replace(/<script/g, "&lt;script").replace(/<\/script/g, "&lt;/script");
             console.log(val);
             document.getElementById("preview").innerHTML = val;
+        }
+
+        function showValue(element) {
+            if (element.nextElementSibling == null) {
+                element.previousElementSibling.value = element.value;
+            } else {
+                element.nextElementSibling.value = element.value;
+            }
         }
     </script>
 

@@ -108,7 +108,7 @@ if ($level == 4 && $task ["joined"]) {
     </div>
     <h2><?php echo $title ?></h2>
     <div style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>"
-         class="progress"><?php echo $task["progress"] ?>%
+         class="progress"><?php echo round($task["progress"]) ?>%
     </div>
 </div>
 <div id="below-top">
@@ -179,7 +179,7 @@ if ($level == 4 && $task ["joined"]) {
         foreach ($subtasks as $sub) {
             echo '<tr id="task">
 					<td id="name"><a class="plain" href="?task=' . $sub ["ID"] . '">' . $sub ["name"] . '</a></td>
-					<td id="percent">' . $sub ["progress"] . '%</td>
+					<td id="percent">' . round($sub ["progress"]) . '%</td>
 				</tr>';
             if (inList(USER["ID"], $sub ["heads"])) {
                 $max = $sub["unassigned"] == $sub["local"];
@@ -187,13 +187,13 @@ if ($level == 4 && $task ["joined"]) {
                 echo '<tr>
 						<td id="config" colspan="2">';
                 if ($min) echo "<!--";
-                else echo '<button onclick = "setProgress(' . $sub["ID"] . ', -5, \'sidebar,top,tsk'.$sub["ID"].'\')" id="change">-5</button>
-							<button onclick = "setProgress(' . $sub["ID"] . ', -1, \'sidebar,top,tsk'.$sub["ID"].'\')" id="change">-1</button>';
+                else echo '<button onclick = "setProgress(' . $sub["ID"] . ', -5, \'sidebar,top,tsk' . $sub["ID"] . '\')" id="change">-5</button>
+							<button onclick = "setProgress(' . $sub["ID"] . ', -1, \'sidebar,top,tsk' . $sub["ID"] . '\')" id="change">-1</button>';
                 if ($min) echo "--> <button id='change'>Min hit</button>";
                 echo '&nbsp&nbsp';
                 if ($max) echo "<!--";
-                else echo '<button onclick = "setProgress(' . $sub["ID"] . ', 1, \'sidebar,top,tsk'.$sub["ID"].'\')" id="change">+1</button>
-							<button onclick = "setProgress(' . $sub["ID"] . ', 5, \'sidebar,top,tsk'.$sub["ID"].'\')" id="change">+5</button>';
+                else echo '<button onclick = "setProgress(' . $sub["ID"] . ', 1, \'sidebar,top,tsk' . $sub["ID"] . '\')" id="change">+1</button>
+							<button onclick = "setProgress(' . $sub["ID"] . ', 5, \'sidebar,top,tsk' . $sub["ID"] . '\')" id="change">+5</button>';
                 if ($max) echo "--> <button id='change'>Max hit</button>";
                 echo '</td>
 					</tr>';
@@ -238,6 +238,10 @@ if ($level == 4 && $task ["joined"]) {
     var pos = head.offsetTop;
     var subPos = subs.offsetTop;
     var subPosX = subs.offsetLeft;
+
+    if (typeof xhttp == 'undefined') {
+        let xhttp = new XMLHttpRequest();
+    }
 
     //Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
     function sticky() {
@@ -321,7 +325,7 @@ if ($level == 4 && $task ["joined"]) {
             let page = document.getElementById(ids[i]);
             // console.log(msg);
             // console.log(page);
-            if(page == null) continue;
+            if (page == null) continue;
             page.innerHTML = msg.innerHTML;
         }
     }

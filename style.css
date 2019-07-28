@@ -536,7 +536,7 @@ header nav a.right {
 .task-page-content .message #replies {
     padding-left: 15px;
     padding-right: 30px;
-    padding-bottom:30px;
+    padding-bottom: 30px;
 }
 
 .task-page-content .message .reply {
@@ -573,29 +573,29 @@ header nav a.right {
     corner-radius: 10px;
 }
 
-.task-page-content .message .reply p{
-    margin:0px;
+.task-page-content .message .reply p {
+    margin: 0px;
     margin-top: 5px;
-    margin-left:30px;
-    padding-right:20px;
+    margin-left: 30px;
+    padding-right: 20px;
 }
 
-.task-page-content .message #replies #new{
-    float:right;
-    width:85%;
+.task-page-content .message #replies #new {
+    float: right;
+    width: 85%;
 }
 
-.task-page-content .message #replies #new textarea{
-    float:left;
-    width:85%;
-    resize:none;
-    margin-top:7px;
+.task-page-content .message #replies #new textarea {
+    float: left;
+    width: 85%;
+    resize: none;
+    margin-top: 7px;
 }
 
-.task-page-content .message #replies #new .button{
-    float:right;
-    display:block;
-    transform:translate(-2px,55px);
+.task-page-content .message #replies #new .button {
+    float: right;
+    display: block;
+    transform: translate(-2px, 55px);
 }
 
 .task-page-content #info .pointer {
@@ -688,4 +688,41 @@ header nav a.right {
     border: none;
     padding: 3px;
     font-size: 15px;
+}
+
+input.slider {
+    height: 5px;
+    margin: 0px;
+    padding: 0px;
+    -webkit-appearance: none;
+    background-color: #4a2a7c;
+    border: 2px solid #4a2a7c;
+    width: 50%;
+}
+
+input.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 25px;
+    cursor: pointer;
+    background-color: white;
+}
+
+label #value {
+    margin-left: 0px;
+    padding: 4px;
+    padding-left: 6px;
+    background: linear-gradient(150deg, transparent 7px, lightgray 0) top left,
+    linear-gradient(30deg, transparent 7px, lightgray 0) bottom left;
+    background-size:100% 65%;
+    background-repeat: no-repeat;
+    width:7%;
+    font-size:inherit;
+    text-align:right;
+    padding-right:18px;
+}
+
+.unit{
+    position: relative;
+    margin-left: -16px;
 }
