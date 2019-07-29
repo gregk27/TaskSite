@@ -19,6 +19,7 @@ define("SUBTEAMS", $conn->query("SELECT * FROM tasks.subteams")->fetch_all(MYSQL
 if (ISSET($_COOKIE["token"])) {
     if (isUser($_COOKIE["token"])) {
         define("USER", getUser($_COOKIE["token"]));
+        define("VALID", 1);
     } else {
         //If the user doesn't exist, then delete the token to prevent issues
         setcookie("token", "", time() - 3600);
@@ -26,6 +27,7 @@ if (ISSET($_COOKIE["token"])) {
     }
 } else {
     define("USER", array("name" => "NULL", "ID" => -1));
+    define("VALID", 0);
 }
 
 // TaskID: The ID of the parent task
@@ -89,7 +91,7 @@ function getUsers() {
 }
 
 //Cleans a string for places where no HTML is desired
-function cleanString($in){
+function cleanString($in) {
     //Strip all tags
     $out = strip_tags($in, "");
 
@@ -122,22 +124,22 @@ function formatString($in) {
     return $out;
 }
 
-function inList($check, $list){
+function inList($check, $list) {
     //We need a string for the regex to work
-    if(is_array($list))
+    if (is_array($list))
         $list = implode(",", $list);
-    return preg_match("/\b".$check."\b/", $list);
+    return preg_match("/\b" . $check . "\b/", $list);
 }
 
-function printName($ID, $print=true){
+function printName($ID, $print = true) {
     $name = getUser($ID)["name"];
     //TODO:Update href when user pages are created
-    $out = "<a class='plain' href='user.php?n=".$name."'>".$name."</a>";
-    if($print) echo $out;
+    $out = "<a class='plain' href='user.php?n=" . $name . "'>" . $name . "</a>";
+    if ($print) echo $out;
     return $out;
 }
 
-function fullPath($ID){
+function fullPath($ID) {
     global $conn, $getTask;
     $getTask->bind_param("i", $ID);
     $getTask->execute();
@@ -159,4 +161,26 @@ function fullPath($ID){
     $stmt->close();
     return $title;
 }
+
+function newButton($onclick, $active, $content, $enabled = true, $style = null, $ID = null, $echo = true) {
+    if($content == "" && !$enabled){
+        $style .= "display:none";
+    }
+    $out = "<button "; //Open tag
+    $out .= 'onclick = "' . str_replace("\"", "\\\"", $onclick) . '" ';
+    $out .= $ID == null ? "" : "id=\"" . $ID . "\" ";
+    $out .= 'class="button ' . ($active ? "" : "de") . 'active" ';
+    $out .= $style == null ? "" : "style=\"" . $style . "\" ";
+    $out .= $enabled ? "" : "disabled";
+    $out .= ">" . $content;
+    $out .= "</button>";
+
+//    if(!$enabled) $out = "";
+
+    if ($echo)
+        echo $out;
+
+    return $out;
+}
+
 ?>

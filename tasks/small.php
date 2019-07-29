@@ -167,38 +167,13 @@ if(isset($fullTitle) && $fullTitle){
             ?>
         </table>
         <div id="buttons">
-            <?php if ($task["head"] || !isset($_COOKIE["token"])) {
-                echo "<!--";
+            <?php if(!VALID){
+            } else if ($task["head"]) {
+                newButton("console.log('TODO')", true, "Locked for heads", false, "width:100%");
+            } else {
+                newButton("sendRequest('contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 38%; float: left; margin-left:2%");
+                newButton("sendRequest('follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:54%; float: right;");
             } ?>
-            <div
-                    onclick="sendRequest(<?php echo $task["ID"] ?>, 'contribute')"
-                    class="button <?php if ($task["joined"]) {
-                        echo "de";
-                    }
-                    echo "active"; ?>"
-                    style="width: 44%; float: left;"><?php if ($task["joined"]) {
-                    echo "Quit";
-                } else {
-                    echo "Join";
-                } ?></div>
-            <div onclick="sendRequest(<?php echo $task["ID"] ?>, 'follow')"
-                 class="button <?php if ($task["following"]) {
-                     echo "de";
-                 }
-                 echo "active"; ?>"
-                 style="width: 44%; float: right;"><?php if ($task["following"]) {
-                    echo "Unfollow";
-                } else {
-                    echo "Follow";
-                } ?></div>
-            <?php
-            if ($task ["head"]) {
-                echo "--><div class = 'button deactive'>Locked for Heads</div>";
-            }
-            if (USER["ID"] == -1) {
-                echo "--><div class = 'button deactive'>Please login</div>";
-            }
-            ?>
         </div>
     </div>
 

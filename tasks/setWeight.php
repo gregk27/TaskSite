@@ -47,7 +47,7 @@ $stmt->bind_param("iddi", $newVal, $parent["local"], $parent["progress"], $task[
 $stmt->execute();
 
 if (!defined("TOP")) define("TOP", $ID);
-$uID = 15960;
+$uID = USER["ID"];
 
 
 //Change progress values

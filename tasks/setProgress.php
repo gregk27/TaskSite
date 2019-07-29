@@ -7,7 +7,7 @@ $stmt->bind_param("i", $ID);
 $stmt->execute();
 $task = $stmt->get_result()->fetch_assoc();
 if (!defined("TOP")) define("TOP", $ID);
-$uID = 15960;
+$uID = USER["ID"];
 
 echo "<h2>" . $_POST["task"] . "</h2>";
 

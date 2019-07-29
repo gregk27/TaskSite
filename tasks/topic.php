@@ -176,12 +176,16 @@ if (ISSET ($_GET ["focus"])) {
         </h5>
     </div>
     <div id="vote">
-        <button onclick="vote('topic', <?php echo $topic['ID'] ?>, 'up')"
+        <?php newButton("vote('topic',". $topic['ID'] .", 'up')", !$voteUp, "Yea", VALID) ?>
+
+       <!-- <button onclick="vote('topic', <?php echo $topic['ID'] ?>, 'up')"
                 class="button <?php if ($voteUp) echo "de" ?>active">Yea
-        </button>
+        </button> -->
         <span id="score"><?php echo count(array_filter(explode(",", $topic["up"]))) . "|" . count(array_filter(explode(",", $topic["down"]))) ?></span>
-        <button onclick="vote('topic', <?php echo $topic['ID'] ?>, 'down')"
-                class="button <?php if ($voteDown) echo "de" ?>active">Nay
+        <?php newButton("vote('topic',". $topic['ID'] .", 'down')", !$voteDown, "Nay", VALID) ?>
+
+        <!--<button onclick="vote('topic', <?php echo $topic['ID'] ?>, 'down')"
+                class="button <?php if ($voteDown) echo "de" ?>active">Nay-->
         </button>
     </div>
     <div id="content"><?php echo $topic["text"] ?></div>
@@ -195,9 +199,7 @@ if (ISSET ($_GET ["focus"])) {
         }
         ?>
         <div style="height:0px;">
-            <a onclick="showbox(this)"
-               class="button <?php echo hasPerms($task["ID"], $level + 1, USER["ID"]) ? 'active' : 'deactive' ?>"
-               style="float:right; margin-right:15px">Reply</a>
+            <?php newButton("showbox(this)", true, hasPerms($task["ID"], $level+1, USER["ID"])?"Reply":"Cannot reply", hasPerms($task["ID"], $level+1, USER["ID"]), "float:right; margin-right:15px") ?>
             <div id="new" style="display:none"><textarea rows="5"></textarea> <a class="button active"
                                                                                  onclick="comment(this, <?php echo $topic["ID"] ?>)">Submit</a>
             </div>

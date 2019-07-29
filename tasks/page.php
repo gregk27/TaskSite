@@ -82,15 +82,19 @@ if ($level == 4 && $task ["joined"]) {
     <div class="buttons" style="display:<?php echo $task["head"] ? "block" : "none" ?>">
         <?php $max = $task["unassigned"] == $task["local"];
         $min = $task["local"] == 0;
-        if ($min) echo "<!--"; ?>
-        <button onclick="setProgress(<?php echo $task["ID"] ?>, -5, 'top')" id="change">-5</button>
-        <button onclick="setProgress(<?php echo $task["ID"] ?>, -1, 'top')" id="change">-1</button>
-        <?php if ($min) echo "--> <button id='change'>Min hit</button>"; ?>
-        &nbsp&nbsp
-        <?php if ($max) echo "<!--"; ?>
-        <button onclick="setProgress(<?php echo $task["ID"] ?>, 1, 'top')" id="change">+1</button>
-        <button onclick="setProgress(<?php echo $task["ID"] ?>, 5, 'top')" id="change">+5</button>
-        <?php if ($max) echo "--> <button id='change'>Max hit</button>"; ?>
+        if ($min) newButton("", false, "Min hit", false, "font-size:15px; padding:4px 10px;");
+        else {
+            newButton("setProgress(" . $task["ID"] . ", -5, 'sidebar,top,tsk')", true, "-5", true, null, "change");
+            echo " ";
+            newButton("setProgress(" . $task["ID"] . ", -1, 'sidebar,top,tsk')", true, "-1", true, null, "change");
+        }
+        echo '&nbsp&nbsp';
+        if ($max) newButton("", false, "Max hit", false, "font-size:15px; padding:4px 10px;");
+        else {
+            newButton("setProgress(" . $task["ID"] . ", 1, 'sidebar,top,tsk')", true, "+1", true, null, "change");
+            echo " ";
+            newButton("setProgress(" . $task["ID"] . ", 5, 'sidebar,top,tsk')", true, "+5", true, null, "change");
+        } ?>
     </div>
     <h2 class="task-name"><?php echo $title ?></h2>
     <div style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>"
@@ -156,40 +160,16 @@ if ($level == 4 && $task ["joined"]) {
 </div>
 
 <div class="task-page-sidebar" id="sidebar">
+    <?php if (!VALID) echo "<!--"; ?>
     <div id="buttons">
-        <?php if ($task["head"] || !isset($_COOKIE["token"])) {
-            echo "<!--";
+        <?php if ($task["head"]) {
+            newButton("console.log('TODO')", true, "Options", true, "width:70%");
+        } else {
+            newButton("sendRequest('contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 38%; float: left;");
+            newButton("sendRequest('follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:54%; float: right;");
         } ?>
-        <div
-                onclick="sendRequest('contribute')"
-                class="button <?php if ($task["joined"]) {
-                    echo "de";
-                }
-                echo "active"; ?>"
-                style="width: 38%; float: left;"><?php if ($task["joined"]) {
-                echo "Quit";
-            } else {
-                echo "Join";
-            } ?></div>
-        <div onclick="sendRequest('follow')"
-             class="button <?php if ($task["following"]) {
-                 echo "de";
-             }
-             echo "active"; ?>"
-             style="width: 44%; float: right;"><?php if ($task["following"]) {
-                echo "Unfollow";
-            } else {
-                echo "Follow";
-            } ?></div>
-        <?php
-        if ($task ["head"]) {
-            echo "--><div class = 'button active'>Settings</div>";
-        }
-        if (USER["ID"] == -1) {
-            echo "--><div class = 'button deactive'>Please login</div>";
-        }
-        ?>
     </div>
+    <?php if (!VALID) echo "-->"; ?>
 
     <h3>Subtasks</h3>
     <table>
@@ -207,15 +187,17 @@ if ($level == 4 && $task ["joined"]) {
                 $min = $sub["local"] == 0;
                 echo '<tr>
 						<td id="config" colspan="2">';
-                if ($min) echo "<!--";
-                else echo '<button onclick = "setProgress(' . $sub["ID"] . ', -5, \'sidebar,top,tsk' . $sub["ID"] . '\')" id="change">-5</button>
-							<button onclick = "setProgress(' . $sub["ID"] . ', -1, \'sidebar,top,tsk' . $sub["ID"] . '\')" id="change">-1</button>';
-                if ($min) echo "--> <button id='change'>Min hit</button>";
+                if ($min) newButton("", false, "Min hit", false, "font-size:15px; padding:4px 10px;");
+                else {
+                    newButton("setProgress(" . $sub["ID"] . ", -5, 'sidebar,top,tsk')", true, "-5", true, null, "change");
+                    newButton("setProgress(" . $sub["ID"] . ", -1, 'sidebar,top,tsk')", true, "-1", true, null, "change");
+                }
                 echo '&nbsp&nbsp';
-                if ($max) echo "<!--";
-                else echo '<button onclick = "setProgress(' . $sub["ID"] . ', 1, \'sidebar,top,tsk' . $sub["ID"] . '\')" id="change">+1</button>
-							<button onclick = "setProgress(' . $sub["ID"] . ', 5, \'sidebar,top,tsk' . $sub["ID"] . '\')" id="change">+5</button>';
-                if ($max) echo "--> <button id='change'>Max hit</button>";
+                if ($max) newButton("", false, "Max hit", false, "font-size:15px; padding:4px 10px;");
+                else {
+                    newButton("setProgress(" . $sub["ID"] . ", 1, 'sidebar,top,tsk')", true, "+1", true, null, "change");
+                    newButton("setProgress(" . $sub["ID"] . ", 5, 'sidebar,top,tsk')", true, "+5", true, null, "change");
+                }
                 echo '</td>
 					</tr>';
             }
@@ -352,7 +334,7 @@ if ($level == 4 && $task ["joined"]) {
     function sendRequest(mode) {
         xhttp.open("POST", "/tasks/join.php", false);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("task=" + <?php echo $task["ID"]?> + "&mode=" + mode);
+        xhttp.send("task=" + <?php echo $task["ID"]?> +"&mode=" + mode);
 
         console.log(xhttp.responseText);
 
