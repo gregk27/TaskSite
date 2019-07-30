@@ -49,63 +49,30 @@ header nav a.right {
     float: right
 }
 
-header nav a+a.dropdown{
-     display:block;
-     position: relative;
-     top:0px;
-     float:right;
-     white-space:nowrap;
-     overflow: hidden;
- }
-
-header nav a+a.dropdown:hover{
-    max-width:100px;
-    padding:9px 12px;
+header nav a + a.dropdown {
+    display: block;
+    position: relative;
+    top: 0px;
+    float: right;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0px;
+    padding: 9px 0px;
+    transition: width 75ms cubic-bezier(0.39, 0.58, 0.6, 1.2),padding 50ms cubic-bezier(0.39, 0.58, 0.6, 1);
 }
 
-header nav a:not(:hover)+a.dropdown:not(:hover){
-    max-width:0px;
-    padding:9px 0px;
+header nav a:hover + a.dropdown, header nav a + a.dropdown:hover {
+    width: 70px;
+    padding: 9px 12px;
 }
 
-
-header nav a:hover+a.dropdown{
-    animation-name: expand;
-    animation-duration: 0.05s;
-    animation-timing-function: linear;
+header nav a:not(:hover) + a.dropdown:not(:hover) {
+    width: 0px;
+    padding: 9px 0px;
 }
 
-header nav a:not(:hover)+a.dropdown:not(:hover){
-    animation-name: collapse;
-    animation-duration: 0.05s;
-    animation-timing-function: linear;
-}
-
-@keyframes expand{
-    from {
-        max-width:0px;
-        padding:9px 0px;
-    }
-    to {
-        max-width: 100px;
-        padding: 9px 12px;
-    }
-}
-
-@keyframes collapse{
-    from {
-        max-width: 100px;
-        padding: 9px 12px;
-    }
-    to {
-        max-width:0px;
-        padding:9px 0px;
-    }
-}
-
-
-header nav a:hover .dropdown{
-    display:block;
+header nav a:hover .dropdown {
+    display: block;
 }
 
 /*LOGIN*/
@@ -262,9 +229,9 @@ header nav a:hover .dropdown{
     padding: 5px;
     user-select: none;
     cursor: pointer;
-    border:none;
+    border: none;
     padding: 5px 10px;
-    font-size:inherit;
+    font-size: inherit;
 }
 
 .button.active {
@@ -283,10 +250,10 @@ header nav a:hover .dropdown{
     background-color: #170d26;
 }
 
-.button:disabled{
+.button:disabled {
     cursor: default !important;
     color: #000000 !important;
-    font-weight:bold;
+    font-weight: bold;
     background-color: #00000033 !important;
     /*border: 2px dashed #4a2a7c;*/
     /*visibility: hidden;*/
@@ -421,7 +388,7 @@ header nav a:hover .dropdown{
     padding: 5px 7px;
     font-size: 13px;
     margin: 0px 4px;
-    width:26px;
+    width: 26px;
 }
 
 .task-page-sidebar ul {
@@ -628,7 +595,7 @@ header nav a:hover .dropdown{
 .task-page-content .message #replies #new .button {
     float: right;
     display: block;
-    margin-right:-5px;
+    margin-right: -5px;
     transform: translate(0px, 60px);
 }
 
