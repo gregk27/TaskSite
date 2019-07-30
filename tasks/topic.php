@@ -166,6 +166,17 @@ if (ISSET ($_GET ["focus"])) {
             element.parentElement.style.height = "60px";
         }
     }
+
+    let lastKey = "";
+    let time = 0;
+    function keydown(event){
+        if(lastKey == "Control" && event.key == "Enter" && new Date().getTime()-time < 350) {
+            console.log("Post");
+            document.getElementById("submit-reply").click();
+        }
+        lastKey = event.key;
+        time = new Date().getTime();
+    }
 </script>
 <div class="message <?php echo $infocus ? "scrollto" : ""; ?>" id="<?php echo("t" . $topic["ID"]) ?>">
     <div id="about">
@@ -200,8 +211,8 @@ if (ISSET ($_GET ["focus"])) {
         ?>
         <div style="height:0px;">
             <?php newButton("showbox(this)", true, hasPerms($task["ID"], $level+1, USER["ID"])?"Reply":"Cannot reply", hasPerms($task["ID"], $level+1, USER["ID"]), "float:right; margin-right:15px") ?>
-            <div id="new" style="display:none"><textarea rows="5"></textarea> <a class="button active"
-                                                                                 onclick="comment(this, <?php echo $topic["ID"] ?>)">Submit</a>
+            <div id="new" style="display:none"><textarea rows="5" onkeydown="keydown(event)"></textarea> <a class="button active"
+                                                                                 onclick="comment(this, <?php echo $topic["ID"] ?>)" id="submit-reply">Submit</a>
             </div>
         </div>
     </div>

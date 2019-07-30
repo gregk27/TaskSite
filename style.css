@@ -49,6 +49,65 @@ header nav a.right {
     float: right
 }
 
+header nav a+a.dropdown{
+     display:block;
+     position: relative;
+     top:0px;
+     float:right;
+     white-space:nowrap;
+     overflow: hidden;
+ }
+
+header nav a+a.dropdown:hover{
+    max-width:100px;
+    padding:9px 12px;
+}
+
+header nav a:not(:hover)+a.dropdown:not(:hover){
+    max-width:0px;
+    padding:9px 0px;
+}
+
+
+header nav a:hover+a.dropdown{
+    animation-name: expand;
+    animation-duration: 0.05s;
+    animation-timing-function: linear;
+}
+
+header nav a:not(:hover)+a.dropdown:not(:hover){
+    animation-name: collapse;
+    animation-duration: 0.05s;
+    animation-timing-function: linear;
+}
+
+@keyframes expand{
+    from {
+        max-width:0px;
+        padding:9px 0px;
+    }
+    to {
+        max-width: 100px;
+        padding: 9px 12px;
+    }
+}
+
+@keyframes collapse{
+    from {
+        max-width: 100px;
+        padding: 9px 12px;
+    }
+    to {
+        max-width:0px;
+        padding:9px 0px;
+    }
+}
+
+
+header nav a:hover .dropdown{
+    display:block;
+}
+
 /*LOGIN*/
 .login {
     display: block;
@@ -555,7 +614,7 @@ header nav a.right {
 }
 
 .task-page-content .message #replies #new {
-    float: right;
+    /*float: right;*/
     width: 85%;
 }
 
@@ -569,7 +628,8 @@ header nav a.right {
 .task-page-content .message #replies #new .button {
     float: right;
     display: block;
-    transform: translate(-2px, 55px);
+    margin-right:-5px;
+    transform: translate(0px, 60px);
 }
 
 .task-page-content #info .pointer {

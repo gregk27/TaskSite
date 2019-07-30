@@ -1,6 +1,6 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . "/include.php");
-$uID = 15960;//USER["ID"]; // $_COOKIE["token"];
+$uID = USER["ID"]; // $_COOKIE["token"];
 if($uID == -1){
     exit();
 }
@@ -41,9 +41,8 @@ if (!ISSET ($_POST ["mode"])) {
 
     $heads = array();
 
-    $users = getUsers();
     foreach ($headlist as $h) {
-        array_push($heads, $h."|".$users[$h]);
+        array_push($heads, $h);
     }
 
     $heads = implode(",", $heads);
