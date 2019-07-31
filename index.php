@@ -1,32 +1,41 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<title>Usbwebserver</title>
-<meta name="keywords" content="" />
-<meta name="description" content="" />
-<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Usbwebserver</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <link href="style.css" rel="stylesheet" type="text/css" media="screen"/>
 </head>
 <body>
 <?php
-require_once ($_SERVER['DOCUMENT_ROOT']."/header.php");
+require_once($_SERVER['DOCUMENT_ROOT'] . "/header.php");
 
-$stmt = $conn->prepare ("SELECT * FROM `tasks`.`tasks` WHERE parent = -1");
-$stmt->execute ();
-$result = $stmt->get_result ()->fetch_all (MYSQLI_ASSOC);
-$stmt->close ();
+$stmt = $conn->prepare("SELECT * FROM `tasks`.`tasks` WHERE parent = -1");
+$stmt->execute();
+$result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
 
-$stmt = $conn->prepare ("SELECT * FROM tasks.tasks WHERE parent = ?");
+$stmt = $conn->prepare("SELECT * FROM tasks.tasks WHERE parent = ?");
+?>
 
-echo "<div class=''>";
-foreach ( $result as $task ) {
+<div class='below-top'>
+    <div class="sidebar">
+        <h3>Filter</h3>
+    </div>
+    <div class='content'>
+        <?php
+        foreach ($result as $task) {
 
-	include ("tasks/small.php");
-}
-echo "</div>";
+            include("tasks/small.php");
+        } ?>
+    </div>
+</div>
 
-$stmt->close ();
-$conn->close ();
+
+<?php
+$stmt->close();
+$conn->close();
 
 ?>
 </body>

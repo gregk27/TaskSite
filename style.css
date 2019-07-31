@@ -38,6 +38,7 @@ header nav a {
     float: left;
     font-size: 20px;
     color: #ccc;
+    transition: background-color 0.75s linear;
 }
 
 header nav a:hover {
@@ -231,6 +232,7 @@ header nav a:hover .dropdown {
     border: none;
     padding: 5px 10px;
     font-size: inherit;
+    transition: background-color 0.75s linear;
 }
 
 .button.active {
@@ -307,14 +309,8 @@ header nav a:hover .dropdown {
     height: 31px;
 }
 
-#task-page .below-top>.sidebar h3 {
-    padding-left: 10px;
-    margin-bottom: 5px;
-    margin-top: 15px;
-}
-
 #task-page .below-top>.sidebar table {
-    width: 165px;
+    min-width: 165px;
 }
 
 #task-page .below-top>.sidebar table #task td {
@@ -373,6 +369,7 @@ header nav a:hover .dropdown {
     font-size: 17px;
     user-select: none;
     color: black;
+    transition: background-color 0.75s linear;
 }
 
 #task-page .below-top>.content nav a#interact {
@@ -529,6 +526,7 @@ header nav a:hover .dropdown {
     width: 85%;
     resize: none;
     margin-top: 7px;
+    margin-left:5%;
 }
 
 #task-page .below-top>.content .message #replies #new .button {
@@ -720,11 +718,11 @@ label #value {
 }
 
 .sidebar {
-    float: right;
     background-color: #ccc;
     margin-right: 1.5%;
-    padding: 15px;
+    padding-left: 15px;
     padding-right: 35px;
+    padding-bottom: 15px;;
     padding-top: 5px;
     height: 1000px;
     height: -webkit-fill-available;
@@ -732,15 +730,34 @@ label #value {
     position: sticky;
     top: 51px;
 
-    order: 1;
+    order: 2;
     flex-grow: 0;
     flex-shrink: 1;
 }
 
+.sidebar.left{
+    order: 0;
+}
+
+
+.sidebar h3 {
+    padding-left: 10px;
+    margin-bottom: 5px;
+    margin-top: 15px;
+    width:165px;
+}
+
 .content {
+    order: 1;
     flex-grow: 4;
     flex-shrink: 4;
     margin-left:5%;
+    margin-right:0px;
+}
+
+.sidebar.left~.content{
+    margin-left:0px;
+    margin-right:5%;
 }
 
 #buttons {

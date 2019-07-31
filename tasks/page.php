@@ -102,61 +102,6 @@ if ($level == 4 && $task ["joined"]) {
     </div>
 </div>
 <div class="below-top">
-    <div class="content">
-        <div class="description">
-            <h2>About</h2>
-            <?php echo $task["description"] ?>
-        </div>
-        <div>
-            <nav><a href="?task=<?php echo $task["ID"] ?>&lv=0"
-                    class="<?php echo $level == 0 ? 'underline' : '' ?>">Announcements</a>
-                <a href="?task=<?php echo $task["ID"] ?>&lv=1"
-                   class="<?php echo $level == 1 ? 'underline' : '' ?>">Progress</a> <a
-                        href="?task=<?php echo $task["ID"] ?>&lv=2"
-                        class="<?php echo $level == 2 ? 'underline' : '' ?>">Discussion</a>
-                <a href="?task=<?php echo $task["ID"] ?>&lv=3"
-                   class="<?php echo $level == 3 ? 'underline' : '' ?>">Chat</a> <a
-                        href="?task=<?php echo $task["ID"] ?>&lv=4"
-                        class="<?php echo $level == 4 ? 'underline' : '' ?>">Subtasks</a>
-                <?php echo $canPost ? '<a id="interact" class="button active" style="float:right" onclick="showDiag()">New</a>' : ''; ?>
-            </nav>
-            <div id="content">
-                <?php
-                if ($level == 4) {
-                    $stmt = $conn->prepare("SELECT * FROM tasks.tasks WHERE parent = ?");
-                    $stmt->bind_param("i", $taskID);
-                    $stmt->execute();
-                    $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
-                    if (count($result) == 0) {
-                        echo "<div class='error'>No subtasks found.</div>";
-                    }
-                    $temp = $task; //Save the task for after
-                    foreach ($result as $task) {
-                        include("small.php");
-                    }
-                    $task = $temp;//Re-set the task variable
-                    $stmt->close();
-                } else if ($level == 3) {
-                    echo "<div class='error'>Live(ish) chat will be added. Eventually.</div>";
-                } else {
-                    foreach ($topics as $topic) {
-                        include("topic.php");
-                    }
-
-                    if (count($topics) == 0) {
-                        echo "<div class='error'>No one has posted yet.</div>";
-                    }
-                }
-                ?>
-            </div>
-        </div>
-        <?php
-        for ($i = 0; $i < 100; $i++) {
-            echo "<br/>";
-        }
-        ?>
-    </div>
 
     <div class="task-page sidebar" id="sidebar">
         <?php if (!VALID) echo "<!--"; ?>
@@ -225,6 +170,62 @@ if ($level == 4 && $task ["joined"]) {
             ?>
         </ul>
     </div>
+    <div class="content">
+        <div class="description">
+            <h2>About</h2>
+            <?php echo $task["description"] ?>
+        </div>
+        <div>
+            <nav><a href="?task=<?php echo $task["ID"] ?>&lv=0"
+                    class="<?php echo $level == 0 ? 'underline' : '' ?>">Announcements</a>
+                <a href="?task=<?php echo $task["ID"] ?>&lv=1"
+                   class="<?php echo $level == 1 ? 'underline' : '' ?>">Progress</a> <a
+                        href="?task=<?php echo $task["ID"] ?>&lv=2"
+                        class="<?php echo $level == 2 ? 'underline' : '' ?>">Discussion</a>
+                <a href="?task=<?php echo $task["ID"] ?>&lv=3"
+                   class="<?php echo $level == 3 ? 'underline' : '' ?>">Chat</a> <a
+                        href="?task=<?php echo $task["ID"] ?>&lv=4"
+                        class="<?php echo $level == 4 ? 'underline' : '' ?>">Subtasks</a>
+                <?php echo $canPost ? '<a id="interact" class="button active" style="float:right" onclick="showDiag()">New</a>' : ''; ?>
+            </nav>
+            <div id="content">
+                <?php
+                if ($level == 4) {
+                    $stmt = $conn->prepare("SELECT * FROM tasks.tasks WHERE parent = ?");
+                    $stmt->bind_param("i", $taskID);
+                    $stmt->execute();
+                    $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+                    if (count($result) == 0) {
+                        echo "<div class='error'>No subtasks found.</div>";
+                    }
+                    $temp = $task; //Save the task for after
+                    foreach ($result as $task) {
+                        include("small.php");
+                    }
+                    $task = $temp;//Re-set the task variable
+                    $stmt->close();
+                } else if ($level == 3) {
+                    echo "<div class='error'>Live(ish) chat will be added. Eventually.</div>";
+                } else {
+                    foreach ($topics as $topic) {
+                        include("topic.php");
+                    }
+
+                    if (count($topics) == 0) {
+                        echo "<div class='error'>No one has posted yet.</div>";
+                    }
+                }
+                ?>
+            </div>
+        </div>
+        <?php
+        for ($i = 0; $i < 100; $i++) {
+            echo "<br/>";
+        }
+        ?>
+    </div>
+
 </div>
 </body>
 </html>
