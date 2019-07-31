@@ -78,7 +78,7 @@ if ($level == 4 && $task ["joined"]) {
     $canPost = true;
 }
 ?>
-<div class="top" id="top">
+<div class="sticky-top" id="top">
     <div class="buttons" style="display:<?php echo $task["head"] ? "block" : "none" ?>">
         <?php $max = $task["unassigned"] == $task["local"];
         $min = $task["local"] == 0;
@@ -102,7 +102,7 @@ if ($level == 4 && $task ["joined"]) {
     </div>
 </div>
 <div class="below-top">
-    <div class="task-page-content" id="below-top">
+    <div class="content">
         <div class="description">
             <h2>About</h2>
             <?php echo $task["description"] ?>

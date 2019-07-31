@@ -57,7 +57,7 @@ header nav a + a.dropdown {
     overflow: hidden;
     width: 0px;
     padding: 9px 0px;
-    transition: width 75ms cubic-bezier(0.39, 0.58, 0.6, 1.2),padding 50ms cubic-bezier(0.39, 0.58, 0.6, 1);
+    transition: width 75ms cubic-bezier(0.39, 0.58, 0.6, 1.2), padding 50ms cubic-bezier(0.39, 0.58, 0.6, 1);
 }
 
 header nav a:hover + a.dropdown, header nav a + a.dropdown:hover {
@@ -264,16 +264,16 @@ header nav a:hover .dropdown {
     margin-left: 25px;
 }
 
-#task-page .top h2 {
+#task-page .sticky-top h2 {
     z-index: 4;
 }
 
-#task-page .top .progress {
+#task-page .sticky-top .progress {
     font-size: 45px;
     z-index: 3;
 }
 
-#task-page .top .buttons {
+#task-page .sticky-top .buttons {
     position: absolute;
     right: 15px;
     z-index: 2;
@@ -282,18 +282,18 @@ header nav a:hover .dropdown {
     border: 2px solid black;
     user-select: none;
     transition: top 50ms cubic-bezier(0.39, 0.58, 0.6, 1);
-    top:0px;
+    top: 0px;
 }
 
-#task-page .top:not (:hover ) .buttons {
-    top:0px;
+#task-page .sticky-top:not (:hover ) .buttons {
+    top: 0px;
 }
 
-#task-page .top:hover .buttons {
-    top:44px;
+#task-page .sticky-top:hover .buttons {
+    top: 44px;
 }
 
-#task-page .top .buttons button {
+#task-page .sticky-top .buttons button {
     border: none;
     color: white;
     padding: 5px;
@@ -301,79 +301,67 @@ header nav a:hover .dropdown {
     cursor: pointer;
 }
 
-/*.sticky#sidebar {*/
-/*    position: fixed !important;*/
-/*    top: 51px !important;*/
-/*    z-index: -1;*/
-}
-
-#task-page .sidebar #buttons {
+#task-page .below-top>.sidebar #buttons {
     text-align: center;
     margin-top: 7px;
     height: 31px;
 }
 
-#task-page .sidebar h3 {
+#task-page .below-top>.sidebar h3 {
     padding-left: 10px;
     margin-bottom: 5px;
     margin-top: 15px;
 }
 
-#task-page .sidebar table {
+#task-page .below-top>.sidebar table {
     width: 165px;
 }
 
-#task-page .sidebar table #task td {
+#task-page .below-top>.sidebar table #task td {
     padding-top: 5px;
 }
 
-#task-page .sidebar table #percent {
+#task-page .below-top>.sidebar table #percent {
     text-align: right;
 }
 
-#task-page .sidebar table #config {
+#task-page .below-top>.sidebar table #config {
     text-align: center;
 }
 
-#task-page .sidebar table #change {
+#task-page .below-top>.sidebar table #change {
     padding: 5px 7px;
     font-size: 13px;
     margin: 0px 4px;
     width: 26px;
 }
 
-#task-page .sidebar ul {
+#task-page .below-top>.sidebar ul {
     margin: 0px;
     margin-bottom: 15px;
     list-style-type: none;
     padding-left: 15px;
 }
 
-.task-page-content {
-    width: 70%;
-    float: left;
-    margin-left: 5%;
-}
-
-.task-page-content > div {
+#task-page .below-top>.content > div {
     padding: 5px 10px;
 }
 
-.task-page-content .description {
+#task-page .below-top>.content .description {
     width: -webkit-fill-available;
     background-color: #ccc;
     margin-bottom: 25px;
     padding-bottom: 15px;
 }
 
-.task-page-content nav {
+#task-page .below-top>.content nav {
     background-color: #ccc;
     overflow: auto;
     padding-left: 25px;
     margin-top: 25px;
 }
 
-.task-page-content nav a {
+#task-page .below-top>.content nav a {
     cursor: pointer;
     display: inline-block;
     padding: 9px;
@@ -387,7 +375,7 @@ header nav a:hover .dropdown {
     color: black;
 }
 
-.task-page-content nav a#interact {
+#task-page .below-top>.content nav a#interact {
     float: right;
     padding-left: 10px;
     padding-right: 15px;
@@ -395,15 +383,15 @@ header nav a:hover .dropdown {
 }
 
 
-.task-page-content nav a:hover {
+#task-page .below-top>.content nav a:hover {
     background-color: #a0a0a0;
 }
 
-.task-page-content nav a.underline {
+#task-page .below-top>.content nav a.underline {
     padding-bottom: 7px;
 }
 
-.task-page-content nav a.underline:after {
+#task-page .below-top>.content nav a.underline:after {
     bottom: 0px;
     content: "";
     height: 2px;
@@ -415,34 +403,34 @@ header nav a:hover .dropdown {
     display: block;
 }
 
-.task-page-content .message {
+#task-page .below-top>.content .message {
     background-color: #ccc;
     margin-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 10px;
 }
 
-.task-page-content .message #title {
+#task-page .below-top>.content .message #title {
     padding-top: 7px;
     padding-left: 15px;
     margin-bottom: 0px;
 }
 
-.task-page-content .message #info {
+#task-page .below-top>.content .message #info {
     margin: 0px;
     padding-left: 17px;
 }
 
-.task-page-content .message #content {
+#task-page .below-top>.content .message #content {
     padding: 15px;
     padding-top: 75px;
 }
 
-.task-page-content .message #about {
+#task-page .below-top>.content .message #about {
     float: left;
 }
 
-.task-page-content .message #vote {
+#task-page .below-top>.content .message #vote {
     float: right;
     margin-top: 25px;
     margin-right: 40px;
@@ -450,7 +438,7 @@ header nav a:hover .dropdown {
     background-color: #a0a0a0;
 }
 
-.task-page-content .message #vote button {
+#task-page .below-top>.content .message #vote button {
     border: none;
     color: white;
     font-size: 15px;
@@ -459,18 +447,18 @@ header nav a:hover .dropdown {
     cursor: pointer;
 }
 
-.task-page-content .message #vote #score {
+#task-page .below-top>.content .message #vote #score {
     font-size: 21px;
     padding: 4px;
 }
 
-.task-page-content .message #show-comments {
+#task-page .below-top>.content .message #show-comments {
     text-align: right;
     position: relative;
     top: -8px;
 }
 
-.task-page-content .message #show-comments a {
+#task-page .below-top>.content .message #show-comments a {
     user-select: none;
     cursor: pointer;
     width: fit-content;
@@ -480,41 +468,41 @@ header nav a:hover .dropdown {
     color: white;
 }
 
-.task-page-content .message #show-comments a:hover {
+#task-page .below-top>.content .message #show-comments a:hover {
     background-color: #2d1a4c;
 }
 
-.task-page-content .message #replies {
+#task-page .below-top>.content .message #replies {
     padding-left: 15px;
     padding-right: 30px;
     padding-bottom: 30px;
 }
 
-.task-page-content .message .reply {
+#task-page .below-top>.content .message .reply {
     padding-top: 15px;
 }
 
-.task-page-content .message .reply #info {
+#task-page .below-top>.content .message .reply #info {
     height: 40px;
 }
 
-.task-page-content .message .reply #vote {
+#task-page .below-top>.content .message .reply #vote {
     float: right;
     height: auto;
     display: block;
     margin: 0px;
 }
 
-.task-page-content .message .reply #vote #score {
+#task-page .below-top>.content .message .reply #vote #score {
     font-size: 16px;
     font-weight: normal;
 }
 
-.task-page-content .message .reply #vote button {
+#task-page .below-top>.content .message .reply #vote button {
     font-size: 12px;
 }
 
-.task-page-content .message .reply #bar {
+#task-page .below-top>.content .message .reply #bar {
     display: inline-block;
     position: relative;
     width: 95%;
@@ -524,33 +512,33 @@ header nav a:hover .dropdown {
     corner-radius: 10px;
 }
 
-.task-page-content .message .reply p {
+#task-page .below-top>.content .message .reply p {
     margin: 0px;
     margin-top: 5px;
     margin-left: 30px;
     padding-right: 20px;
 }
 
-.task-page-content .message #replies #new {
+#task-page .below-top>.content .message #replies #new {
     /*float: right;*/
     width: 85%;
 }
 
-.task-page-content .message #replies #new textarea {
+#task-page .below-top>.content .message #replies #new textarea {
     float: left;
     width: 85%;
     resize: none;
     margin-top: 7px;
 }
 
-.task-page-content .message #replies #new .button {
+#task-page .below-top>.content .message #replies #new .button {
     float: right;
     display: block;
     margin-right: -5px;
     transform: translate(0px, 60px);
 }
 
-.task-page-content #info .pointer {
+#task-page .below-top>.content #info .pointer {
     padding-left: 15px;
     text-decoration: underline;
     cursor: pointer;
@@ -713,26 +701,25 @@ label #value {
 }
 
 
-
-.top {
+.sticky-top {
     width: 100%;
     position: sticky;
-    top:0px;
+    top: 0px;
     height: 50px;
     margin-bottom: 25px;
     z-index: 10;
 }
 
-.below-top{
+.below-top {
     margin-top: 50px;
-    width:100%;
-    display:flex;
-    flex-direction:row;
-    flex-wrap:nowrap;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     justify-content: space-around;
 }
 
-.sidebar{
+.sidebar {
     float: right;
     background-color: #ccc;
     margin-right: 1.5%;
@@ -742,26 +729,27 @@ label #value {
     height: 1000px;
     height: -webkit-fill-available;
     font-size: 18px;
-    position:sticky;
-    top:51px;
+    position: sticky;
+    top: 51px;
 
-    order:1;
-    flex-grow:0;
-    flex-shrink:1;
+    order: 1;
+    flex-grow: 0;
+    flex-shrink: 1;
 }
 
-.content{
+.content {
     flex-grow: 4;
-    flex-shrink:4;
+    flex-shrink: 4;
+    margin-left:5%;
 }
 
-#buttons{
-    display:flex;
+#buttons {
+    display: flex;
     justify-content: space-evenly;
-    flex-direction:row;
-    flex-wrap:nowrap;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
 
-#buttons .button{
-    flex-grow:0;
+#buttons .button {
+    flex-grow: 0;
 }

@@ -18,10 +18,12 @@ $stmt->close ();
 
 $stmt = $conn->prepare ("SELECT * FROM tasks.tasks WHERE parent = ?");
 
+echo "<div class=''>";
 foreach ( $result as $task ) {
 
 	include ("tasks/small.php");
 }
+echo "</div>";
 
 $stmt->close ();
 $conn->close ();
