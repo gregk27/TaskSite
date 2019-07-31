@@ -168,10 +168,10 @@ if (ISSET ($_GET ["focus"])) {
 
     let lastKey = "";
     let time = 0;
-    function keydown(event){
+    function keydown(event, element){
         if(lastKey == "Control" && event.key == "Enter" && new Date().getTime()-time < 350) {
             console.log("Post");
-            document.getElementById("submit-reply").click();
+            element.parentElement.getElementsByClassName("button")[0].click();
         }
         lastKey = event.key;
         time = new Date().getTime();
@@ -210,7 +210,7 @@ if (ISSET ($_GET ["focus"])) {
         ?>
         <div style="height:0px;">
             <?php newButton("showbox(this)", true, hasPerms($task["ID"], $level+1, USER["ID"])?"Reply":"Cannot reply", hasPerms($task["ID"], $level+1, USER["ID"]), "float:right; margin-right:15px") ?>
-            <div id="new" style="display:none"><textarea rows="5" onkeydown="keydown(event)"></textarea> <a class="button active"
+            <div id="new" style="display:none"><textarea rows="5" onkeydown="keydown(event, this)"></textarea> <a class="button active"
                                                                                  onclick="comment(this, <?php echo $topic["ID"] ?>)" id="submit-reply">Submit</a>
             </div>
         </div>
