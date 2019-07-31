@@ -1,4 +1,3 @@
-<link href="/style.css" rel="stylesheet" type="text/css" media="screen"/>
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . "/include.php");
 
