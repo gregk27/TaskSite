@@ -844,3 +844,16 @@ label #value {
 .checkset .child{
     margin-left:15px;
 }
+
+:not(.checkset)>.checkbox{
+    marging-bottom:7px;
+}
+
+.enableSet{
+    padding-left:5px;
+    border-bottom: 2px solid black;
+    padding-bottom:7px;
+    overflow:hidden;
+    height:0px;
+    transition: height 1s;
+}
