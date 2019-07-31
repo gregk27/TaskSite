@@ -6,7 +6,7 @@
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
 </head>
-<body>
+<body id="task-page">
 <?php
 //Ensure that level is set, if not the default is announcements
 if (!isset($_GET["lv"])) {
@@ -78,7 +78,7 @@ if ($level == 4 && $task ["joined"]) {
     $canPost = true;
 }
 ?>
-<div class="task-page-top" id="top">
+<div class="top" id="top">
     <div class="buttons" style="display:<?php echo $task["head"] ? "block" : "none" ?>">
         <?php $max = $task["unassigned"] == $task["local"];
         $min = $task["local"] == 0;
@@ -101,8 +101,8 @@ if ($level == 4 && $task ["joined"]) {
          class="progress"><?php echo round($task["progress"]) ?>%
     </div>
 </div>
-<div id="below-top">
-    <div class="task-page-content">
+<div class="below-top">
+    <div class="task-page-content" id="below-top">
         <div class="description">
             <h2>About</h2>
             <?php echo $task["description"] ?>
@@ -157,75 +157,74 @@ if ($level == 4 && $task ["joined"]) {
         }
         ?>
     </div>
-</div>
 
-<div class="task-page-sidebar" id="sidebar">
-    <?php if (!VALID) echo "<!--"; ?>
-    <div id="buttons">
-        <?php if ($task["head"]) {
-            newButton("console.log('TODO')", true, "Options", true, "width:70%");
-        } else {
-            newButton("sendRequest('contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 38%; float: left;");
-            newButton("sendRequest('follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:54%; float: right;");
-        } ?>
-    </div>
-    <?php if (!VALID) echo "-->"; ?>
+    <div class="task-page sidebar" id="sidebar">
+        <?php if (!VALID) echo "<!--"; ?>
+        <div id="buttons" style="margin-left:-15px; margin-right:-35px;">
+            <?php if ($task["head"]) {
+                newButton("console.log('TODO')", true, "Options", true, "width:70%");
+            } else {
+                newButton("sendRequest('contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 38%; float: left;");
+                newButton("sendRequest('follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:54%; float: right;");
+            } ?>
+        </div>
+        <?php if (!VALID) echo "-->"; ?>
 
-    <h3>Subtasks</h3>
-    <table>
-        <?php
-        if (count($subtasks) == 0) {
-            echo "<tr><td>No subtasks</td></tr>";
-        }
-        foreach ($subtasks as $sub) {
-            echo '<tr id="task">
+        <h3>Subtasks</h3>
+        <table>
+            <?php
+            if (count($subtasks) == 0) {
+                echo "<tr><td>No subtasks</td></tr>";
+            }
+            foreach ($subtasks as $sub) {
+                echo '<tr id="task">
 					<td id="name"><a class="plain" href="?task=' . $sub ["ID"] . '">' . $sub ["name"] . '</a></td>
 					<td id="percent">' . round($sub ["progress"]) . '%</td>
 				</tr>';
-            if (inList(USER["ID"], $sub ["heads"])) {
-                $max = $sub["unassigned"] == $sub["local"];
-                $min = $sub["local"] == 0;
-                echo '<tr>
+                if (inList(USER["ID"], $sub ["heads"])) {
+                    $max = $sub["unassigned"] == $sub["local"];
+                    $min = $sub["local"] == 0;
+                    echo '<tr>
 						<td id="config" colspan="2">';
-                if ($min) newButton("", false, "Min hit", false, "font-size:15px; padding:4px 10px;");
-                else {
-                    newButton("setProgress(" . $sub["ID"] . ", -5, 'sidebar,top,tsk')", true, "-5", true, null, "change");
-                    newButton("setProgress(" . $sub["ID"] . ", -1, 'sidebar,top,tsk')", true, "-1", true, null, "change");
-                }
-                echo '&nbsp&nbsp';
-                if ($max) newButton("", false, "Max hit", false, "font-size:15px; padding:4px 10px;");
-                else {
-                    newButton("setProgress(" . $sub["ID"] . ", 1, 'sidebar,top,tsk')", true, "+1", true, null, "change");
-                    newButton("setProgress(" . $sub["ID"] . ", 5, 'sidebar,top,tsk')", true, "+5", true, null, "change");
-                }
-                echo '</td>
+                    if ($min) newButton("", false, "Min hit", false, "font-size:15px; padding:4px 10px;");
+                    else {
+                        newButton("setProgress(" . $sub["ID"] . ", -5, 'sidebar,top,tsk')", true, "-5", true, null, "change");
+                        newButton("setProgress(" . $sub["ID"] . ", -1, 'sidebar,top,tsk')", true, "-1", true, null, "change");
+                    }
+                    echo '&nbsp&nbsp';
+                    if ($max) newButton("", false, "Max hit", false, "font-size:15px; padding:4px 10px;");
+                    else {
+                        newButton("setProgress(" . $sub["ID"] . ", 1, 'sidebar,top,tsk')", true, "+1", true, null, "change");
+                        newButton("setProgress(" . $sub["ID"] . ", 5, 'sidebar,top,tsk')", true, "+5", true, null, "change");
+                    }
+                    echo '</td>
 					</tr>';
+                }
             }
-        }
-        ?>
-    </table>
-    <div
-            style="width: 100%; background-color: black; height: 2px; margin-top: 5px; margin-bottom: 5px"></div>
-    <h3>People</h3>
-    <strong>Heads</strong>
-    <ul>
-        <?php
+            ?>
+        </table>
+        <div
+                style="width: 100%; background-color: black; height: 2px; margin-top: 5px; margin-bottom: 5px"></div>
+        <h3>People</h3>
+        <strong>Heads</strong>
+        <ul>
+            <?php
 
-        foreach ($task ["heads"] as $head) {
-            echo "<li>" . printName($head, false) . "</li>";
-        }
-        ?>
-    </ul>
-    <strong>Contributors</strong>
-    <ul>
-        <?php
+            foreach ($task ["heads"] as $head) {
+                echo "<li>" . printName($head, false) . "</li>";
+            }
+            ?>
+        </ul>
+        <strong>Contributors</strong>
+        <ul>
+            <?php
 
-        foreach ($task ["contributors"] as $cont) {
-            echo "<li>" . printName($cont, false) . "</li>";
-        }
-        ?>
-    </ul>
-</div>
+            foreach ($task ["contributors"] as $cont) {
+                echo "<li>" . printName($cont, false) . "</li>";
+            }
+            ?>
+        </ul>
+    </div>
 </div>
 </body>
 </html>
@@ -271,8 +270,8 @@ if ($level == 4 && $task ["joined"]) {
         sticky();
     }
 
-    document.onscroll = sticky;
-    window.addEventListener("resize", resize);
+    // document.onscroll = sticky;
+    // window.addEventListener("resize", resize);
 
     function setVal(url, param, value) {
         console.log(url);

@@ -16,7 +16,6 @@ header {
     overflow: hidden;
     font-size: 25px;
     color: #ccc;
-    margin-bottom: 50px;
 }
 
 header h1 {
@@ -265,30 +264,16 @@ header nav a:hover .dropdown {
     margin-left: 25px;
 }
 
-.sticky#top {
-    position: fixed !important;
-    top: 0px !important;
-}
-
-.task-page-top {
-    width: 100%;
-    position: relative;
-    top: -50px;
-    height: 50px;
-    margin-bottom: 25px;
-    z-index: 10;
-}
-
-.task-page-top h2 {
+#task-page .top h2 {
     z-index: 4;
 }
 
-.task-page-top .progress {
+#task-page .top .progress {
     font-size: 45px;
     z-index: 3;
 }
 
-.task-page-top .buttons {
+#task-page .top .buttons {
     position: absolute;
     right: 15px;
     z-index: 2;
@@ -300,15 +285,15 @@ header nav a:hover .dropdown {
     top:0px;
 }
 
-.task-page-top:not (:hover ) .buttons {
+#task-page .top:not (:hover ) .buttons {
     top:0px;
 }
 
-.task-page-top:hover .buttons {
+#task-page .top:hover .buttons {
     top:44px;
 }
 
-.task-page-top .buttons button {
+#task-page .top .buttons button {
     border: none;
     color: white;
     padding: 5px;
@@ -316,60 +301,48 @@ header nav a:hover .dropdown {
     cursor: pointer;
 }
 
-.task-page-sidebar {
-    float: right;
-    background-color: #ccc;
-    margin-right: 1.5%;
-    padding: 15px;
-    padding-right: 35px;
-    padding-top: 5px;
-    height: 1000px;
-    height: -webkit-fill-available;
-    font-size: 18px;
+/*.sticky#sidebar {*/
+/*    position: fixed !important;*/
+/*    top: 51px !important;*/
+/*    z-index: -1;*/
 }
 
-.sticky#sidebar {
-    position: fixed !important;
-    top: 51px !important;
-    z-index: -1;
-}
-
-.task-page-sidebar #buttons {
+#task-page .sidebar #buttons {
     text-align: center;
     margin-top: 7px;
     height: 31px;
 }
 
-.task-page-sidebar h3 {
+#task-page .sidebar h3 {
     padding-left: 10px;
     margin-bottom: 5px;
     margin-top: 15px;
 }
 
-.task-page-sidebar table {
+#task-page .sidebar table {
     width: 165px;
 }
 
-.task-page-sidebar table #task td {
+#task-page .sidebar table #task td {
     padding-top: 5px;
 }
 
-.task-page-sidebar table #percent {
+#task-page .sidebar table #percent {
     text-align: right;
 }
 
-.task-page-sidebar table #config {
+#task-page .sidebar table #config {
     text-align: center;
 }
 
-.task-page-sidebar table #change {
+#task-page .sidebar table #change {
     padding: 5px 7px;
     font-size: 13px;
     margin: 0px 4px;
     width: 26px;
 }
 
-.task-page-sidebar ul {
+#task-page .sidebar ul {
     margin: 0px;
     margin-bottom: 15px;
     list-style-type: none;
@@ -737,4 +710,58 @@ label #value {
     background-color: #e9e9e9;
     padding: 25px 100px;
     margin: 50px;
+}
+
+
+
+.top {
+    width: 100%;
+    position: sticky;
+    top:0px;
+    height: 50px;
+    margin-bottom: 25px;
+    z-index: 10;
+}
+
+.below-top{
+    margin-top: 50px;
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    flex-wrap:nowrap;
+    justify-content: space-around;
+}
+
+.sidebar{
+    float: right;
+    background-color: #ccc;
+    margin-right: 1.5%;
+    padding: 15px;
+    padding-right: 35px;
+    padding-top: 5px;
+    height: 1000px;
+    height: -webkit-fill-available;
+    font-size: 18px;
+    position:sticky;
+    top:51px;
+
+    order:1;
+    flex-grow:0;
+    flex-shrink:1;
+}
+
+.content{
+    flex-grow: 4;
+    flex-shrink:4;
+}
+
+#buttons{
+    display:flex;
+    justify-content: space-evenly;
+    flex-direction:row;
+    flex-wrap:nowrap;
+}
+
+#buttons .button{
+    flex-grow:0;
 }
