@@ -58,7 +58,7 @@ header nav a + a.dropdown {
     overflow: hidden;
     width: 0px;
     padding: 9px 0px;
-    transition: width 75ms cubic-bezier(0.39, 0.58, 0.6, 1.2), padding 50ms cubic-bezier(0.39, 0.58, 0.6, 1);
+    transition: width 300ms cubic-bezier(0.39, 0.58, 0.6, 1.2), padding 200ms cubic-bezier(0.39, 0.58, 0.6, 1);
 }
 
 header nav a:hover + a.dropdown, header nav a + a.dropdown:hover {
@@ -283,7 +283,7 @@ header nav a:hover .dropdown {
     padding: 5px;
     border: 2px solid black;
     user-select: none;
-    transition: top 50ms cubic-bezier(0.39, 0.58, 0.6, 1);
+    transition: top 200ms cubic-bezier(0.39, 0.58, 0.6, 1);
     top: 0px;
 }
 
@@ -303,61 +303,61 @@ header nav a:hover .dropdown {
     cursor: pointer;
 }
 
-#task-page .below-top>.sidebar #buttons {
+#task-page .below-top > .sidebar #buttons {
     text-align: center;
     margin-top: 7px;
     height: 31px;
 }
 
-#task-page .below-top>.sidebar table {
+#task-page .below-top > .sidebar table {
     min-width: 165px;
 }
 
-#task-page .below-top>.sidebar table #task td {
+#task-page .below-top > .sidebar table #task td {
     padding-top: 5px;
 }
 
-#task-page .below-top>.sidebar table #percent {
+#task-page .below-top > .sidebar table #percent {
     text-align: right;
 }
 
-#task-page .below-top>.sidebar table #config {
+#task-page .below-top > .sidebar table #config {
     text-align: center;
 }
 
-#task-page .below-top>.sidebar table #change {
+#task-page .below-top > .sidebar table #change {
     padding: 5px 7px;
     font-size: 13px;
     margin: 0px 4px;
     width: 26px;
 }
 
-#task-page .below-top>.sidebar ul {
+#task-page .below-top > .sidebar ul {
     margin: 0px;
     margin-bottom: 15px;
     list-style-type: none;
     padding-left: 15px;
 }
 
-#task-page .below-top>.content > div {
+#task-page .below-top > .content > div {
     padding: 5px 10px;
 }
 
-#task-page .below-top>.content .description {
+#task-page .below-top > .content .description {
     width: -webkit-fill-available;
     background-color: #ccc;
     margin-bottom: 25px;
     padding-bottom: 15px;
 }
 
-#task-page .below-top>.content nav {
+#task-page .below-top > .content nav {
     background-color: #ccc;
     overflow: auto;
     padding-left: 25px;
     margin-top: 25px;
 }
 
-#task-page .below-top>.content nav a {
+#task-page .below-top > .content nav a {
     cursor: pointer;
     display: inline-block;
     padding: 9px;
@@ -372,7 +372,7 @@ header nav a:hover .dropdown {
     transition: background-color 0.75s linear;
 }
 
-#task-page .below-top>.content nav a#interact {
+#task-page .below-top > .content nav a#interact {
     float: right;
     padding-left: 10px;
     padding-right: 15px;
@@ -380,15 +380,15 @@ header nav a:hover .dropdown {
 }
 
 
-#task-page .below-top>.content nav a:hover {
+#task-page .below-top > .content nav a:hover {
     background-color: #a0a0a0;
 }
 
-#task-page .below-top>.content nav a.underline {
+#task-page .below-top > .content nav a.underline {
     padding-bottom: 7px;
 }
 
-#task-page .below-top>.content nav a.underline:after {
+#task-page .below-top > .content nav a.underline:after {
     bottom: 0px;
     content: "";
     height: 2px;
@@ -400,34 +400,34 @@ header nav a:hover .dropdown {
     display: block;
 }
 
-#task-page .below-top>.content .message {
+#task-page .below-top > .content .message {
     background-color: #ccc;
     margin-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 10px;
 }
 
-#task-page .below-top>.content .message #title {
+#task-page .below-top > .content .message #title {
     padding-top: 7px;
     padding-left: 15px;
     margin-bottom: 0px;
 }
 
-#task-page .below-top>.content .message #info {
+#task-page .below-top > .content .message #info {
     margin: 0px;
     padding-left: 17px;
 }
 
-#task-page .below-top>.content .message #content {
+#task-page .below-top > .content .message #content {
     padding: 15px;
     padding-top: 75px;
 }
 
-#task-page .below-top>.content .message #about {
+#task-page .below-top > .content .message #about {
     float: left;
 }
 
-#task-page .below-top>.content .message #vote {
+#task-page .below-top > .content .message #vote {
     float: right;
     margin-top: 25px;
     margin-right: 40px;
@@ -435,7 +435,7 @@ header nav a:hover .dropdown {
     background-color: #a0a0a0;
 }
 
-#task-page .below-top>.content .message #vote button {
+#task-page .below-top > .content .message #vote button {
     border: none;
     color: white;
     font-size: 15px;
@@ -444,18 +444,18 @@ header nav a:hover .dropdown {
     cursor: pointer;
 }
 
-#task-page .below-top>.content .message #vote #score {
+#task-page .below-top > .content .message #vote #score {
     font-size: 21px;
     padding: 4px;
 }
 
-#task-page .below-top>.content .message #show-comments {
+#task-page .below-top > .content .message #show-comments {
     text-align: right;
     position: relative;
     top: -8px;
 }
 
-#task-page .below-top>.content .message #show-comments a {
+#task-page .below-top > .content .message #show-comments a {
     user-select: none;
     cursor: pointer;
     width: fit-content;
@@ -465,41 +465,42 @@ header nav a:hover .dropdown {
     color: white;
 }
 
-#task-page .below-top>.content .message #show-comments a:hover {
+#task-page .below-top > .content .message #show-comments a:hover {
     background-color: #2d1a4c;
 }
 
-#task-page .below-top>.content .message #replies {
+#task-page .below-top > .content .message #replies {
     padding-left: 15px;
     padding-right: 30px;
     padding-bottom: 30px;
+    transition: max-height 100s linear;
 }
 
-#task-page .below-top>.content .message .reply {
+#task-page .below-top > .content .message .reply {
     padding-top: 15px;
 }
 
-#task-page .below-top>.content .message .reply #info {
+#task-page .below-top > .content .message .reply #info {
     height: 40px;
 }
 
-#task-page .below-top>.content .message .reply #vote {
+#task-page .below-top > .content .message .reply #vote {
     float: right;
     height: auto;
     display: block;
     margin: 0px;
 }
 
-#task-page .below-top>.content .message .reply #vote #score {
+#task-page .below-top > .content .message .reply #vote #score {
     font-size: 16px;
     font-weight: normal;
 }
 
-#task-page .below-top>.content .message .reply #vote button {
+#task-page .below-top > .content .message .reply #vote button {
     font-size: 12px;
 }
 
-#task-page .below-top>.content .message .reply #bar {
+#task-page .below-top > .content .message .reply #bar {
     display: inline-block;
     position: relative;
     width: 95%;
@@ -509,34 +510,34 @@ header nav a:hover .dropdown {
     corner-radius: 10px;
 }
 
-#task-page .below-top>.content .message .reply p {
+#task-page .below-top > .content .message .reply p {
     margin: 0px;
     margin-top: 5px;
     margin-left: 30px;
     padding-right: 20px;
 }
 
-#task-page .below-top>.content .message #replies #new {
+#task-page .below-top > .content .message #replies #new {
     /*float: right;*/
     width: 85%;
 }
 
-#task-page .below-top>.content .message #replies #new textarea {
+#task-page .below-top > .content .message #replies #new textarea {
     float: left;
     width: 85%;
     resize: none;
     margin-top: 7px;
-    margin-left:5%;
+    margin-left: 5%;
 }
 
-#task-page .below-top>.content .message #replies #new .button {
+#task-page .below-top > .content .message #replies #new .button {
     float: right;
     display: block;
     margin-right: -5px;
     transform: translate(0px, 60px);
 }
 
-#task-page .below-top>.content #info .pointer {
+#task-page .below-top > .content #info .pointer {
     padding-left: 15px;
     text-decoration: underline;
     cursor: pointer;
@@ -735,7 +736,7 @@ label #value {
     flex-shrink: 1;
 }
 
-.sidebar.left{
+.sidebar.left {
     order: 0;
 }
 
@@ -744,20 +745,20 @@ label #value {
     padding-left: 10px;
     margin-bottom: 5px;
     margin-top: 15px;
-    width:165px;
+    width: 165px;
 }
 
 .content {
     order: 1;
     flex-grow: 4;
     flex-shrink: 4;
-    margin-left:5%;
-    margin-right:0px;
+    margin-left: 5%;
+    margin-right: 0px;
 }
 
-.sidebar.left~.content{
-    margin-left:0px;
-    margin-right:5%;
+.sidebar.left ~ .content {
+    margin-left: 0px;
+    margin-right: 5%;
 }
 
 #buttons {
@@ -769,4 +770,77 @@ label #value {
 
 #buttons .button {
     flex-grow: 0;
+}
+
+
+.checkbox input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox label {
+    position: relative;
+    padding-left: 22px;
+    user-select: none;
+    cursor: default;
+    transition: all 0.35s ease-in 10ms;
+}
+
+.checkbox label::before {
+    content: "";
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    border: 1px solid;
+    border-radius: 4px;
+    background-color: inherit;
+    transition: inherit;
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.checkbox label::after {
+    content: "";
+    position: absolute;
+    color:transparent;
+    display: inline-block;
+    transition: inherit;
+    /*font-size: 17px;*/
+
+    height: 4px;
+    width: 10px;
+    border-left: 2px solid;
+    border-bottom: 2px solid;
+    transform:rotate(75deg);
+    left: 3px;
+    top: 5px;
+}
+
+.checkbox input:checked + label::after {
+    color: white;
+    transform: rotate(-58deg);
+}
+
+.checkbox input:checked + label::before {
+    background-color: #4a2a7c;
+}
+
+.checkbox input:indeterminate + label::after {
+    color: white;
+    transform: rotate(0deg);
+    height:0px;
+    top:7px;
+}
+
+.checkbox input:indeterminate + label::before {
+    background-color: #a0a0a0;
+}
+
+.checkset{
+    margin-top:5px;
+}
+
+.checkset .child{
+    margin-left:15px;
 }
