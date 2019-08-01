@@ -12,18 +12,8 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . "/header.php");
 
-$stmt = $conn->prepare("SELECT * FROM `tasks`.`tasks` WHERE parent = -1");
-$stmt->execute();
-$result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-$stmt->close();
-
-$stmt = $conn->prepare("SELECT * FROM tasks.tasks WHERE parent = ?");
-
-
+$topLevel = -1;
 include("tasks/filterPage.php");
-
-$stmt->close();
-$conn->close();
 
 ?>
 

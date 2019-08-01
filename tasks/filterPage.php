@@ -1,3 +1,61 @@
+<?php
+
+$sql = "SELECT * from tasks.tasks WHERE parent=?";
+$args = array();
+array_push($args, "i");
+array_push($args, $topLevel);
+
+if(isGet("subtasks", "on")){
+    //TODO: Do something to include subtasks
+}
+
+if(isGet("filter-subteam", "on")){
+    $sql .= " AND (subteams REGEXP CONCAT('[[:<:]]',?,'[[:>:]]'))";
+    $match = "";
+    foreach($_GET as $name=>$val){
+        if(preg_match("/^team-(\d+)/", $name, $res) && $val == "on"){
+            $match .= $res[1]."|";
+            //Match parent if it's indeterminate (currently disabled);
+//            foreach(SUBTEAMS as $s){
+//                if(preg_match("/\b".$res[1]."\b/", $s["children"])){
+//                    $match.=$s["ID"]."|";
+//                }
+//            }
+        }
+    }
+    $match = implode('|',array_unique(explode('|', $match)));
+    if(strlen($match) > 0){
+        $match = rtrim($match, "|");
+    }
+
+    //Update params
+    $args[0].="s";
+    array_push($args, $match);
+}
+
+if(isGet("filter-prog", "on")){
+    if(isGet("use-min-prog", "on")){
+        $sql .= " AND progress > ?";
+        $args[0] .= "i";
+        array_push($args, $_GET["min-prog"]);
+    }
+    if(isGet("use-max-prog", "on")){
+        $sql .= " AND progress < ?";
+        $args[0] .= "i";
+        array_push($args, $_GET["max-prog"]);
+    }
+}
+
+$stmt = $conn->prepare($sql);
+call_user_func_array(array($stmt, 'bind_param'), refValues($args));
+//$stmt->bind_param("i", $topLevel);
+$stmt->execute();
+$tasks = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+?>
+
+
 <script>
     function onChange(element, checkSames = true, checkParent = true) {
 
@@ -112,7 +170,7 @@
             echo "</div>";
             ?>
 
-            <div class="checkbox"><input name="show-prog" id="filter-prog" type="checkbox"
+            <div class="checkbox"><input name="filter-prog" id="filter-prog" type="checkbox"
                                          onclick="toggle(this)"/><label for="filter-prog">By progress</label></div>
             <div class="enableSet" id="prog" style="width:175px">
                 <div class="checkbox"><input name="use-min-prog" id="use-min-prog" type="checkbox"/><label
@@ -141,8 +199,10 @@
     </div>
     <div class='content'>
         <?php
-        foreach ($result as $task) {
-
+        if(count($tasks) == 0){
+            echo '<div class="error">No tasks found</div>';
+        }
+        foreach ($tasks as $task) {
             include("tasks/small.php");
         } ?>
     </div>
