@@ -1,4 +1,3 @@
-
 <script>
 
     var xhttp = new XMLHttpRequest();
@@ -6,10 +5,10 @@
     function showPeople(button) {
         var hidden = button.parentNode.querySelectorAll("#contributors")[0];
 
-        if (hidden.style.display == "none") {
-            hidden.style.display = "inherit";
+        if (hidden.style.visibility == "hidden") {
+            hidden.style.visibility = "visible";
         } else {
-            hidden.style.display = "none";
+            hidden.style.visibility = "hidden";
         }
 
     }
@@ -124,7 +123,7 @@ if (inList(USER["ID"], $task["followers"])) {
 }
 
 $title = $task["name"];
-if(isset($fullTitle) && $fullTitle){
+if (isset($fullTitle) && $fullTitle) {
     $title = fullPath($task["ID"]);
 }
 
@@ -133,22 +132,22 @@ if(isset($fullTitle) && $fullTitle){
 <div class="task-small" id="tsk<?php echo $task["ID"] ?>">
     <div class="top">
         <h2 class="task-name"
-                onclick="window.location.href='/tasks/page.php?task=<?php echo $task["ID"] ?>'">
+            onclick="window.location.href='/tasks/page.php?task=<?php echo $task["ID"] ?>'">
             <?php echo $title ?>
         </h2>
         <div class="progress" id="progress"
              style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>">
 			<span id="percent"> <?php echo round($task["progress"]) . "%" ?>&nbsp&nbsp
 		</span><br/> <span id="detail">Subteam<?php echo count($task["subteams"]) > 1 ? "s: " : ": ";
-		        $out = "";
+                $out = "";
                 foreach ($task["subteams"] as $s) {
-                    if(count($task["subteams"]) < 2){
-                        $out = $out.SUBTEAMS[$s]["name"];
-                    }else{
-                        $out = $out.SUBTEAMS[$s]["short"];
+                    if (count($task["subteams"]) < 2) {
+                        $out = $out . SUBTEAMS[$s]["name"];
+                    } else {
+                        $out = $out . SUBTEAMS[$s]["short"];
                     }
 
-                    $out = $out."/";
+                    $out = $out . "/";
                 }
                 echo rtrim($out, "/");
                 ?>&nbsp&nbsp
@@ -165,7 +164,7 @@ if(isset($fullTitle) && $fullTitle){
             ?>
         </table>
         <div id="buttons">
-            <?php if(!VALID){
+            <?php if (!VALID) {
             } else if ($task["head"]) {
                 newButton("console.log('TODO')", true, "Locked for heads", false, "width:100%");
             } else {
@@ -185,11 +184,24 @@ if(isset($fullTitle) && $fullTitle){
             } ?></span>
         <span id="show-contributors"
               onclick="showPeople(this)"> <?php echo count($task["contributors"]) ?> Contributors </span>
+        <br/>
         <span id="contributors"><?php foreach ($task["contributors"] as $value) {
                 printName($value);
                 echo ",";
             } ?></span>
     </div>
+
+    <script>
+        self = document.getElementsByTagName("script");
+        self = self[self.length-1];
+
+        people = self.previousElementSibling;
+        desc = people.previousElementSibling;
+
+        console.log(people.clientHeight);
+        desc.style.marginBottom=people.clientHeight+"px";
+
+    </script>
 
 
 </div>

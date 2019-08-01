@@ -109,7 +109,7 @@ header nav a:hover .dropdown {
     margin-top: 15px;
 }
 
-.login button, input[type=submit] {
+.login button {
     font-size: 20px;
     background-color: #4a2a7c;
     border: none;
@@ -137,6 +137,7 @@ header nav a:hover .dropdown {
     padding-bottom: 10px;
     margin-top: 25px;
     margin-bottom: 25px;
+    position:relative;
 }
 
 .task-small .top {
@@ -199,9 +200,11 @@ header nav a:hover .dropdown {
 }
 
 .task-small #people {
-    width: 90%;
-    padding-top: 15px;
-    margin: auto;
+    width: -webkit-fill-available;
+    padding-top: 5px;
+    bottom:0px;
+    position:absolute;
+    margin-right:195px;
 }
 
 .task-small #people #heads {
@@ -216,7 +219,7 @@ header nav a:hover .dropdown {
 
 .task-small #people #contributors {
     padding-top: 5px;
-    display: none;
+    visibility: hidden;
 }
 
 .task-small #buttons {
@@ -640,6 +643,13 @@ input.slider::-webkit-slider-thumb {
     height: 25px;
     cursor: pointer;
     background-color: white;
+    border-radius:0px;
+    transition: all 0.5s cubic-bezier(0.73, 0.04, 1, 1);
+    border:2px solid white;
+}
+
+input.slider::-webkit-slider-thumb:hover {
+    background-color:#dddddd;
 }
 
 label #value {
@@ -654,11 +664,29 @@ label #value {
     font-size: inherit;
     text-align: right;
     padding-right: 18px;
+    border:none;
+}
+
+#value::-webkit-outer-spin-button, #value::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    marign:0;
+}
+
+label #value.purple{
+    background: linear-gradient(150deg, transparent 7px, #4a2a7c 0) top left,
+    linear-gradient(30deg, transparent 7px, #4a2a7c 0) bottom left;
+    color:white;
+    background-size: 100% 65%;
+    background-repeat: no-repeat;
 }
 
 .unit {
     position: relative;
     margin-left: -16px;
+}
+
+.unit.purple{
+    color:white;
 }
 
 .task-name {
@@ -785,6 +813,10 @@ label #value {
     transition: all 0.35s ease-in 10ms;
 }
 
+.checkbox label:hover{
+    background-color:#bbbbbb;
+}
+
 .checkbox label::before {
     content: "";
     display: inline-block;
@@ -846,14 +878,18 @@ label #value {
 }
 
 :not(.checkset)>.checkbox{
-    marging-bottom:7px;
+    margin-top:7px;
 }
 
 .enableSet{
     padding-left:5px;
     border-bottom: 2px solid black;
-    padding-bottom:7px;
+    padding-bottom:0px;
     overflow:hidden;
     height:0px;
-    transition: height 1s;
+    transition: height 1s, padding 0.5s ease-in 0.5s;
+}
+
+#filter input.slider{
+    width:66%
 }

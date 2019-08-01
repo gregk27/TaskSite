@@ -73,10 +73,10 @@
         }
 
         function showValue(element) {
-            if (element.nextElementSibling == null) {
-                element.previousElementSibling.value = element.value;
-            } else {
+            if (element.previousElementSibling == null) {
                 element.nextElementSibling.value = element.value;
+            } else {
+                element.previousElementSibling.value = element.value;
             }
         }
     </script>
