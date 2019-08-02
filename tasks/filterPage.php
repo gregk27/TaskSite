@@ -189,7 +189,6 @@ $stmt->close();
 
 </script>
 
-<div class='below-top'>
     <div class="sidebar">
         <form method="GET" id="filter">
             <?php
@@ -229,8 +228,7 @@ $stmt->close();
                 <label style="width:100%">
                     <input oninput="showValue(this)" class="slider" type="range" name="min-prog" value="20" min="0"
                            max="99" step="5"/>
-                    <input oninput="showValue(this)" class="purple" id="value" type="text" value="20" maxlength="2"
-                           style="width:20px"/>
+                    <input oninput="showValue(this)" class="purple" id="value" type="text" value="20" maxlength="2"/>
                     <span class="purple unit" style="margin-left:-22px">%</span>
                 </label>
 
@@ -240,8 +238,7 @@ $stmt->close();
                 <label>
                     <input oninput="showValue(this)" class="slider" type="range" name="max-prog" value="20" min="0"
                            max="99" step="5"/>
-                    <input oninput="showValue(this)" class="purple" id="value" type="number" value="20" maxlength="2"
-                           style="width:20px"/>
+                    <input oninput="showValue(this)" class="purple" id="value" type="number" value="20" maxlength="2"/>
                     <span class="purple unit" style="margin-left:-22px">%</span>
                 </label>
             </div>
@@ -272,7 +269,6 @@ $stmt->close();
             include("small.php");
         } ?>
     </div>
-</div>
 
 <script>
     let parameters = location.href.slice(window.location.href.indexOf('?') + 1).split('&');

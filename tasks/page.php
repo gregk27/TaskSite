@@ -79,6 +79,8 @@ if ($level == 2 && USER["ID"] > 0) {
     <div class="buttons" style="display:<?php echo $task["head"] ? "block" : "none" ?>">
         <?php $max = $task["unassigned"] == $task["local"];
         $min = $task["local"] == 0;
+        newButton("showDiag('new-task')",true,"Create Subtask", true);
+        echo '&nbsp&nbsp&nbsp';
         if ($min) newButton("", false, "Min hit", false, "font-size:15px; padding:4px 10px;");
         else {
             newButton("setProgress(" . $task["ID"] . ", -5, 'sidebar,name,tsk')", true, "-5", true, null, "change");
@@ -181,7 +183,7 @@ if ($level == 2 && USER["ID"] > 0) {
                         class="<?php echo $level == 2 ? 'underline' : '' ?>">Discussion</a>
                 <a href="?task=<?php echo $task["ID"] ?>&lv=3"
                    class="<?php echo $level == 3 ? 'underline' : '' ?>">Chat</a>
-                <?php echo $canPost ? '<a id="interact" class="button active" style="float:right" onclick="showDiag()">New</a>' : ''; ?>
+                <?php echo $canPost ? '<a id="interact" class="button active" style="float:right" onclick="showDiag(\'new-topic\')">New</a>' : ''; ?>
             </nav>
             <div id="content">
                 <?php
@@ -288,11 +290,9 @@ if ($level == 2 && USER["ID"] > 0) {
 
     }
 </script>
-
 <?php
-if ($canPost && $level == 4) {
-    include "newtask.html";
-} else if ($canPost) {
+if($task["head"]) include "newtask.html";
+if ($canPost) {
     include "newtopic.html";
 }
 ?>

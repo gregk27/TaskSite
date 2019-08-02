@@ -62,6 +62,8 @@ $stmt->close();
     <div class="buttons" style="display:<?php echo $task["head"] ? "block" : "none" ?>">
         <?php $max = $task["unassigned"] == $task["local"];
         $min = $task["local"] == 0;
+        newButton("showDiag('new-task')",true,"Create Subtask", true);
+        echo '&nbsp&nbsp&nbsp';
         if ($min) newButton("", false, "Min hit", false, "font-size:15px; padding:4px 10px;");
         else {
             newButton("setProgress(" . $task["ID"] . ", -5, 'sidebar,name,tsk')", true, "-5", true, null, "change");
@@ -74,7 +76,8 @@ $stmt->close();
             newButton("setProgress(" . $task["ID"] . ", 1, 'sidebar,name,tsk')", true, "+1", true, null, "change");
             echo " ";
             newButton("setProgress(" . $task["ID"] . ", 5, 'sidebar,name,tsk')", true, "+5", true, null, "change");
-        } ?>
+        }
+        ?>
     </div>
     <h2 class="task-name">&nbsp&lt<?php echo $title ?></h2>
     <div style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>"
@@ -82,14 +85,18 @@ $stmt->close();
     </div>
 </div>
 
+<div class='below-top'>
+
+    <?php
+    $topLevel = $_GET["task"];
+    $stopAt = $topLevel;
+    include("filterPage.php");
+
+    ?>
+
+</div>
 </body>
 
-<?php
-$topLevel = $_GET["task"];
-$stopAt = $topLevel;
-include("filterPage.php");
-
-?>
 
 <script>
     function setProgress(task, delta, refreshID) {
@@ -118,3 +125,7 @@ include("filterPage.php");
         }
     }
 </script>
+
+<?php
+   if($task["head"]) include("newtask.html");
+?>

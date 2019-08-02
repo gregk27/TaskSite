@@ -1,5 +1,5 @@
 
-<div class="popup" style="display:none">
+<div class="popup" id="new-task" style="display:none">
     <div id="around" onclick="hideDiag()">
     </div>
     <div id="dialog">
@@ -51,18 +51,18 @@
 
             </div>
             <button class="button active" type="submit" onclick="location.reload()">Submit</button>
-            <button class="button active" type="button" onclick="hideDiag()">Cancel</button>
+            <button class="button active" type="button" onclick="hideDiag('new-task')">Cancel</button>
         </form>
 
     </div>
 
     <script>
-        function showDiag() {
-            document.getElementsByClassName("popup")[0].style.display = "block";
+        function showDiag(id) {
+            document.getElementById(id).style.display = "block";
         }
 
-        function hideDiag() {
-            document.getElementsByClassName("popup")[0].style.display = "none";
+        function hideDiag(id) {
+            document.getElementById(id).style.display = "none";
         }
 
         function preview() {
