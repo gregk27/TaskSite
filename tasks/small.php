@@ -165,11 +165,11 @@ if (isset($fullTitle) && $fullTitle) {
         </div>
     </div>
     <div id="sub">
-        <strong>Subtasks</strong>
+        <strong><a class='plain' href='/tasks/subtasks.php?task=<?php echo $task["ID"] ?>'>Subtasks</a></strong>
         <table>
             <?php
             foreach ($task ["subtasks"] as $sub) {
-                echo "<tr><td class='hover'>" . $sub ["description"] . "</td><td>" . $sub ["name"] . "</td><td>" . $sub ["progress"] . "%</td></tr>";
+                echo "<tr><td class='hover'>" . $sub ["description"] . "</td><td><a class='plain' href='/tasks/page.php?task=".$sub["ID"]."'>" . $sub ["name"] . "</a></td><td>" . $sub ["progress"] . "%</td></tr>";
             }
             ?>
         </table>

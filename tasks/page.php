@@ -81,16 +81,16 @@ if ($level == 2 && USER["ID"] > 0) {
         $min = $task["local"] == 0;
         if ($min) newButton("", false, "Min hit", false, "font-size:15px; padding:4px 10px;");
         else {
-            newButton("setProgress(" . $task["ID"] . ", -5, 'sidebar,top,tsk')", true, "-5", true, null, "change");
+            newButton("setProgress(" . $task["ID"] . ", -5, 'sidebar,name,tsk')", true, "-5", true, null, "change");
             echo " ";
-            newButton("setProgress(" . $task["ID"] . ", -1, 'sidebar,top,tsk')", true, "-1", true, null, "change");
+            newButton("setProgress(" . $task["ID"] . ", -1, 'sidebar,name,tsk')", true, "-1", true, null, "change");
         }
         echo '&nbsp&nbsp';
         if ($max) newButton("", false, "Max hit", false, "font-size:15px; padding:4px 10px;");
         else {
-            newButton("setProgress(" . $task["ID"] . ", 1, 'sidebar,top,tsk')", true, "+1", true, null, "change");
+            newButton("setProgress(" . $task["ID"] . ", 1, 'sidebar,name,tsk')", true, "+1", true, null, "change");
             echo " ";
-            newButton("setProgress(" . $task["ID"] . ", 5, 'sidebar,top,tsk')", true, "+5", true, null, "change");
+            newButton("setProgress(" . $task["ID"] . ", 5, 'sidebar,name,tsk')", true, "+5", true, null, "change");
         } ?>
     </div>
     <h2 class="task-name"><?php echo $title ?></h2>
@@ -130,14 +130,14 @@ if ($level == 2 && USER["ID"] > 0) {
 						<td id="config" colspan="2">';
                     if ($min) newButton("", false, "Min hit", false, "font-size:15px; padding:4px 10px;");
                     else {
-                        newButton("setProgress(" . $sub["ID"] . ", -5, 'sidebar,top,tsk')", true, "-5", true, null, "change");
-                        newButton("setProgress(" . $sub["ID"] . ", -1, 'sidebar,top,tsk')", true, "-1", true, null, "change");
+                        newButton("setProgress(" . $sub["ID"] . ", -5, 'sidebar,name,tsk')", true, "-5", true, null, "change");
+                        newButton("setProgress(" . $sub["ID"] . ", -1, 'sidebar,name,tsk')", true, "-1", true, null, "change");
                     }
                     echo '&nbsp&nbsp';
                     if ($max) newButton("", false, "Max hit", false, "font-size:15px; padding:4px 10px;");
                     else {
-                        newButton("setProgress(" . $sub["ID"] . ", 1, 'sidebar,top,tsk')", true, "+1", true, null, "change");
-                        newButton("setProgress(" . $sub["ID"] . ", 5, 'sidebar,top,tsk')", true, "+5", true, null, "change");
+                        newButton("setProgress(" . $sub["ID"] . ", 1, 'sidebar,name,tsk')", true, "+1", true, null, "change");
+                        newButton("setProgress(" . $sub["ID"] . ", 5, 'sidebar,name,tsk')", true, "+5", true, null, "change");
                     }
                     echo '</td>
 					</tr>';
@@ -199,11 +199,6 @@ if ($level == 2 && USER["ID"] > 0) {
                 ?>
             </div>
         </div>
-        <?php
-        for ($i = 0; $i < 100; $i++) {
-            echo "<br/>";
-        }
-        ?>
     </div>
 
 </div>

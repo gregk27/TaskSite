@@ -64,19 +64,19 @@ $stmt->close();
         $min = $task["local"] == 0;
         if ($min) newButton("", false, "Min hit", false, "font-size:15px; padding:4px 10px;");
         else {
-            newButton("setProgress(" . $task["ID"] . ", -5, 'sidebar,top,tsk')", true, "-5", true, null, "change");
+            newButton("setProgress(" . $task["ID"] . ", -5, 'sidebar,name,tsk')", true, "-5", true, null, "change");
             echo " ";
-            newButton("setProgress(" . $task["ID"] . ", -1, 'sidebar,top,tsk')", true, "-1", true, null, "change");
+            newButton("setProgress(" . $task["ID"] . ", -1, 'sidebar,name,tsk')", true, "-1", true, null, "change");
         }
         echo '&nbsp&nbsp';
         if ($max) newButton("", false, "Max hit", false, "font-size:15px; padding:4px 10px;");
         else {
-            newButton("setProgress(" . $task["ID"] . ", 1, 'sidebar,top,tsk')", true, "+1", true, null, "change");
+            newButton("setProgress(" . $task["ID"] . ", 1, 'sidebar,name,tsk')", true, "+1", true, null, "change");
             echo " ";
-            newButton("setProgress(" . $task["ID"] . ", 5, 'sidebar,top,tsk')", true, "+5", true, null, "change");
+            newButton("setProgress(" . $task["ID"] . ", 5, 'sidebar,name,tsk')", true, "+5", true, null, "change");
         } ?>
     </div>
-    <h2 class="task-name"><?php echo $title ?></h2>
+    <h2 class="task-name">&nbsp&lt<?php echo $title ?></h2>
     <div style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>"
          class="progress"><?php echo round($task["progress"]) ?>%
     </div>
@@ -90,3 +90,31 @@ $stopAt = $topLevel;
 include("filterPage.php");
 
 ?>
+
+<script>
+    function setProgress(task, delta, refreshID) {
+        xhttp.open("POST", "setProgress.php", false);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("task=" + task + "&delta=" + delta);
+
+        console.log(xhttp.responseText);
+
+        xhttp.open("GET", window.location.href, false);
+        xhttp.send();
+        let text = xhttp.responseText;
+        // console.log(text);
+        let doc = new DOMParser().parseFromString(text, "text/html");
+        // console.log(doc);
+        // console.log(document);
+        // console.log(topic);
+        let ids = refreshID.split(",");
+        for (let i = 0; i < ids.length; i++) {
+            let msg = doc.getElementById(ids[i]);
+            let page = document.getElementById(ids[i]);
+            // console.log(msg);
+            // console.log(page);
+            if (page == null) continue;
+            page.innerHTML = msg.innerHTML;
+        }
+    }
+</script>
