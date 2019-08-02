@@ -139,24 +139,24 @@ function printName($ID, $print = true) {
     return $out;
 }
 
-function fullPath($ID) {
+function fullPath($ID, $stopAt = -1) {
     global $conn, $getTask;
     $getTask->bind_param("i", $ID);
     $getTask->execute();
     $task = $getTask->get_result()->fetch_assoc();
     // Create title
-    $title = $task ["name"];
+    $title = "<a class='button active' href='/tasks/page.php?task=" . $ID . "'>".$task["name"]."</a>";
     $stmt = $conn->prepare("SELECT name,parent FROM tasks.tasks WHERE ID = ?");
     $val = $task ["parent"];
     $res = "temp";
     $stmt->bind_param("i", $val);
     $stmt->bind_result($res, $val);
     // Iterate over parents until top-level is found
-    while ($val != -1) {
+    while ($val != $stopAt) {
         $tempID = $val;
         $stmt->execute();
         $stmt->fetch();
-        $title = "<a class='plain' href='?task=" . $tempID . "'>" . $res . "</a>&nbsp> " . $title;
+        $title = "<a class='button active' href='/tasks/page.php?task=" . $tempID . "'>" . $res . "</a>>" . $title;
     }
     $stmt->close();
     return $title;
@@ -199,3 +199,7 @@ function isGet($name, $val){
 }
 
 ?>
+
+<script>
+    var xhttp = new XMLHttpRequest();
+</script>

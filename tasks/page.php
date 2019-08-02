@@ -74,11 +74,8 @@ if ($level == 1 && $task ["joined"]) {
 if ($level == 2 && USER["ID"] > 0) {
     $canPost = true;
 }
-if ($level == 4 && $task ["joined"]) {
-    $canPost = true;
-}
 ?>
-<div class="sticky-top" id="top">
+<div class="sticky-top" id="name">
     <div class="buttons" style="display:<?php echo $task["head"] ? "block" : "none" ?>">
         <?php $max = $task["unassigned"] == $task["local"];
         $min = $task["local"] == 0;
@@ -115,7 +112,7 @@ if ($level == 4 && $task ["joined"]) {
         </div>
         <?php if (!VALID) echo "-->"; ?>
 
-        <h3>Subtasks</h3>
+        <h3><a class="plain" href="subtasks.php?task=<?php echo $taskID?>">Subtasks</a></h3>
         <table>
             <?php
             if (count($subtasks) == 0) {
@@ -183,29 +180,12 @@ if ($level == 4 && $task ["joined"]) {
                         href="?task=<?php echo $task["ID"] ?>&lv=2"
                         class="<?php echo $level == 2 ? 'underline' : '' ?>">Discussion</a>
                 <a href="?task=<?php echo $task["ID"] ?>&lv=3"
-                   class="<?php echo $level == 3 ? 'underline' : '' ?>">Chat</a> <a
-                        href="?task=<?php echo $task["ID"] ?>&lv=4"
-                        class="<?php echo $level == 4 ? 'underline' : '' ?>">Subtasks</a>
+                   class="<?php echo $level == 3 ? 'underline' : '' ?>">Chat</a>
                 <?php echo $canPost ? '<a id="interact" class="button active" style="float:right" onclick="showDiag()">New</a>' : ''; ?>
             </nav>
             <div id="content">
                 <?php
-                if ($level == 4) {
-                    $stmt = $conn->prepare("SELECT * FROM tasks.tasks WHERE parent = ?");
-                    $stmt->bind_param("i", $taskID);
-                    $stmt->execute();
-                    $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-
-                    if (count($result) == 0) {
-                        echo "<div class='error'>No subtasks found.</div>";
-                    }
-                    $temp = $task; //Save the task for after
-                    foreach ($result as $task) {
-                        include("small.php");
-                    }
-                    $task = $temp;//Re-set the task variable
-                    $stmt->close();
-                } else if ($level == 3) {
+                if ($level == 3) {
                     echo "<div class='error'>Live(ish) chat will be added. Eventually.</div>";
                 } else {
                     foreach ($topics as $topic) {
@@ -231,48 +211,7 @@ if ($level == 4 && $task ["joined"]) {
 </html>
 
 <script>
-    //Get the header
-    var head = document.getElementById("top");
-    var subs = document.getElementById("sidebar");
-    var main = document.getElementsByClassName("task-page-content")[0];
-    var body = document.getElementById("below-top");
 
-    //Get the offset position of the navbar
-    var pos = head.offsetTop;
-    var subPos = subs.offsetTop;
-    var subPosX = subs.offsetLeft;
-
-    xhttp = new XMLHttpRequest();
-
-    //Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
-    function sticky() {
-// 	main.offsetTop = 244;
-        console.log(window.pageYOffset + "\t" + main.offsetTop);
-        if (window.pageYOffset > pos) {
-            body.style["padding-top"] = "75px";
-            head.classList.add("sticky");
-        } else {
-            head.classList.remove("sticky");
-            body.style["padding-top"] = "0px";
-        }
-        if (window.pageYOffset > subPos - 45) {
-            subs.style.left = subPosX + "px";
-            subs.classList.add("sticky");
-        } else {
-            subs.classList.remove("sticky");
-        }
-    }
-
-    function resize() {
-        console.log(subPosX);
-        subs.classList.remove("sticky");
-        subPosX = subs.offsetLeft;
-        console.log(subPosX);
-        sticky();
-    }
-
-    // document.onscroll = sticky;
-    // window.addEventListener("resize", resize);
 
     function setVal(url, param, value) {
         console.log(url);

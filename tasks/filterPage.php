@@ -1,13 +1,36 @@
 <?php
 
-$sql = "SELECT * from tasks.tasks WHERE parent=?";
+$sql = "SELECT * from tasks.tasks WHERE (parent=?";
 $args = array();
 array_push($args, "i");
 array_push($args, $topLevel);
 
-if(isGet("subtasks", "on")){
-    //TODO: Do something to include subtasks
+
+
+$stmt = $conn->prepare("SELECT ID FROM tasks.tasks WHERE parent = ?");
+
+function getChildren($ID){
+    global $stmt;
+    $stmt->bind_param("i", $ID);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $out = array();
+    foreach($res as $r){
+        array_push($out, $r["ID"]);
+        $out = array_merge($out, getChildren($r["ID"]));
+    }
+    return $out;
 }
+
+if(isGet("subtasks", "on")){
+    foreach(getChildren($topLevel) as $child){
+        $sql .= " OR parent=?";
+        $args[0] .= "i";
+        array_push($args, $child);
+    }
+}
+
+$sql .= ")";
 
 if(isGet("filter-subteam", "on")){
     $sql .= " AND (subteams REGEXP CONCAT('[[:<:]]',?,'[[:>:]]'))";
@@ -149,6 +172,14 @@ $stmt->close();
 <div class='below-top'>
     <div class="sidebar">
         <form method="GET" id="filter">
+            <?php
+            //Special case for subtasks page
+            if(isset($_GET["task"])){
+                echo "<input type='hidden' name='task' value='".$_GET["task"]."'/>";
+            }
+
+            ?>
+
             <h3>Filter</h3> <input type="submit" class="button active" value="Apply"
                                    style="float:right; margin-top:-35px;"/>
 
@@ -179,7 +210,7 @@ $stmt->close();
                     <input oninput="showValue(this)" class="slider" type="range" name="min-prog" value="20" min="0"
                            max="99" step="5"/>
                     <input oninput="showValue(this)" class="purple" id="value" type="text" value="20" maxlength="2"
-                           style="width:11%"/>
+                           style="width:20px"/>
                     <span class="purple unit" style="margin-left:-22px">%</span>
                 </label>
 
@@ -190,7 +221,7 @@ $stmt->close();
                     <input oninput="showValue(this)" class="slider" type="range" name="max-prog" value="20" min="0"
                            max="99" step="5"/>
                     <input oninput="showValue(this)" class="purple" id="value" type="number" value="20" maxlength="2"
-                           style="width:11%"/>
+                           style="width:20px"/>
                     <span class="purple unit" style="margin-left:-22px">%</span>
                 </label>
             </div>
@@ -203,7 +234,8 @@ $stmt->close();
             echo '<div class="error">No tasks found</div>';
         }
         foreach ($tasks as $task) {
-            include("tasks/small.php");
+            $fullTitle = true;
+            include("small.php");
         } ?>
     </div>
 </div>

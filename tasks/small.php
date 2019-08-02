@@ -25,16 +25,27 @@
         let text = xhttp.responseText;
         // console.log(text);
         let doc = new DOMParser().parseFromString(text, "text/html");
-        // console.log(doc);
-        // console.log(document);
+        console.log(doc);
+        console.log(document);
         // console.log(topic);
+        console.log("tsk"+id);
         let msg = doc.getElementById("tsk" + id);
         let page = document.getElementById("tsk" + id);
-        // console.log(msg);
-        // console.log(page);
+        console.log(msg);
+        console.log(page);
         page.innerHTML = msg.innerHTML;
+        setSize(page);
 
     }
+
+    function setSize(element){
+        people = element.children[3];
+        desc = element.children[2];
+
+        console.log(people.clientHeight);
+        desc.style.marginBottom=people.clientHeight+"px";
+    }
+
 </script>
 <?php
 
@@ -124,17 +135,16 @@ if (inList(USER["ID"], $task["followers"])) {
 
 $title = $task["name"];
 if (isset($fullTitle) && $fullTitle) {
-    $title = fullPath($task["ID"]);
+    $title = fullPath($task["ID"], isset($stopAt) ? $stopAt : -1);
 }
 
 ?>
 
 <div class="task-small" id="tsk<?php echo $task["ID"] ?>">
     <div class="top">
-        <h2 class="task-name"
-            onclick="window.location.href='/tasks/page.php?task=<?php echo $task["ID"] ?>'">
+        <div class="task-name" >
             <?php echo $title ?>
-        </h2>
+        </div>
         <div class="progress" id="progress"
              style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>">
 			<span id="percent"> <?php echo round($task["progress"]) . "%" ?>&nbsp&nbsp
@@ -168,8 +178,8 @@ if (isset($fullTitle) && $fullTitle) {
             } else if ($task["head"]) {
                 newButton("console.log('TODO')", true, "Locked for heads", false, "width:100%");
             } else {
-                newButton("sendRequest('contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 38%; float: left; margin-left:2%");
-                newButton("sendRequest('follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:54%; float: right;");
+                newButton("sendRequest(".$task["ID"].", 'contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 38%; float: left; margin-left:2%");
+                newButton("sendRequest(".$task["ID"].", 'follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:54%; float: right;");
             } ?>
         </div>
     </div>
@@ -195,11 +205,7 @@ if (isset($fullTitle) && $fullTitle) {
         self = document.getElementsByTagName("script");
         self = self[self.length-1];
 
-        people = self.previousElementSibling;
-        desc = people.previousElementSibling;
-
-        console.log(people.clientHeight);
-        desc.style.marginBottom=people.clientHeight+"px";
+        setSize(self.parentElement);
 
     </script>
 

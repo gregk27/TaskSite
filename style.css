@@ -146,7 +146,7 @@ header nav a:hover .dropdown {
     top: -60px;
 }
 
-.task-small h2 {
+.task-small .task-name {
     z-index: 1;
 }
 
@@ -236,6 +236,7 @@ header nav a:hover .dropdown {
     padding: 5px 10px;
     font-size: inherit;
     transition: background-color 0.75s linear;
+    text-decoration: none;
 }
 
 .button.active {
@@ -269,16 +270,16 @@ header nav a:hover .dropdown {
     margin-left: 25px;
 }
 
-#task-page .sticky-top h2 {
+#name.sticky-top .task-name {
     z-index: 4;
 }
 
-#task-page .sticky-top .progress {
+#name.sticky-top .progress {
     font-size: 45px;
     z-index: 3;
 }
 
-#task-page .sticky-top .buttons {
+#name.sticky-top .buttons {
     position: absolute;
     right: 15px;
     z-index: 2;
@@ -290,15 +291,15 @@ header nav a:hover .dropdown {
     top: 0px;
 }
 
-#task-page .sticky-top:not (:hover ) .buttons {
+#name.sticky-top:not (:hover ) .buttons {
     top: 0px;
 }
 
-#task-page .sticky-top:hover .buttons {
+#name.sticky-top:hover .buttons {
     top: 44px;
 }
 
-#task-page .sticky-top .buttons button {
+#name.sticky-top .buttons button {
     border: none;
     color: white;
     padding: 5px;
@@ -692,18 +693,34 @@ label #value.purple{
 .task-name {
     background-color: #4a2a7c;
     display: inline-block;
-    padding: 5px 15px 5px 25px;
+    padding: 5px 0px;
     margin: 0px;
     font-size: 30px;
     position: absolute;
     top: 0px;
     user-select: none;
-    cursor: pointer;
+    cursor: default;
     max-width: 75%;
     overflow-x: overlay;
     overflow-y: hidden;
     white-space: nowrap;
     color: white;
+    direction:rtl;
+    font-weight:bold;
+}
+
+.task-name>a{
+    padding: 5px 10px;
+}
+
+.task-name::-webkit-scrollbar{
+    height:3px;
+}
+.task-name::-webkit-scrollbar-track-piece{
+    background-color: #4a2a7c;
+}
+.task-name::-webkit-scrollbar-thumb{
+    background-color: #cccccc;
 }
 
 .progress {
