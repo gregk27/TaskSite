@@ -198,6 +198,20 @@ function isGet($name, $val){
     return isset($_GET[$name]) && $_GET[$name]==$val;
 }
 
+function createProgressGradient($task){
+    $gradient = "linear-gradient(120deg, ";
+    $gradient .= "green " . ($task["progress"] - 2) . "%, ";
+    if ($task["unassigned"] != $task["local"]) {
+        $gradient .= "#909090 " . ($task["progress"] + 2) . "%, ";
+        $gradient .= "#909090 " . ($task["progress"] + $task["unassigned"] - $task["local"] - 2) . "%, ";
+        $gradient .= "#797979 " . ($task["progress"] + $task["unassigned"] - $task["local"] + 2) . "%, ";
+    } else {
+        $gradient .= "#797979 " . ($task["progress"] + 2) . "%, ";
+    }
+
+    return rtrim($gradient, ", ") . ")";
+}
+
 ?>
 
 <script>

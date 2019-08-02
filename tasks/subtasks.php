@@ -80,7 +80,7 @@ $stmt->close();
         ?>
     </div>
     <h2 class="task-name">&nbsp&lt<?php echo $title ?></h2>
-    <div style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>"
+    <div style="<?php echo "background-image:".createProgressGradient($task) ?>"
          class="progress"><?php echo round($task["progress"]) ?>%
     </div>
 </div>

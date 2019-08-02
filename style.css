@@ -334,10 +334,9 @@ header nav a:hover .dropdown {
 }
 
 #task-page .below-top > .sidebar table #change {
-    padding: 5px 7px;
+    padding: 5px 9px;
     font-size: 13px;
     margin: 0px 4px;
-    width: 26px;
 }
 
 #task-page .below-top > .sidebar ul {

@@ -146,7 +146,7 @@ if (isset($fullTitle) && $fullTitle) {
             <?php echo $title ?>
         </div>
         <div class="progress" id="progress"
-             style="<?php echo "background-image:linear-gradient(120deg, green " . ($task["progress"] - 5) . "%, gray " . ($task["progress"] + 5) . "%)" ?>">
+             style="<?php echo "background-image:".createProgressGradient($task) ?> ">
 			<span id="percent"> <?php echo round($task["progress"]) . "%" ?>&nbsp&nbsp
 		</span><br/> <span id="detail">Subteam<?php echo count($task["subteams"]) > 1 ? "s: " : ": ";
                 $out = "";
