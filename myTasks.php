@@ -11,9 +11,7 @@ $stmt -> bind_param("iii", $user["ID"], $user["ID"], $user["ID"]);
 $stmt->execute();
 $tasks = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
-$fullTitle = true;
-foreach ($tasks as $task){
-    include ("tasks/small.php");
-}
+$topLevel = -1;
+include("tasks/filterPage.php");
 
 ?>

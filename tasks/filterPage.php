@@ -69,6 +69,26 @@ if(isGet("filter-prog", "on")){
     }
 }
 
+if(isGet("filter-role", "on")){
+    $sql.=" AND (";
+        if(isGet("role-head", "on")){
+            $sql.="(heads REGEXP CONCAT('[[:<:]]',?,'[[:>:]]')) OR";
+            $args[0].="i";
+            array_push($args, USER["ID"]);
+        }
+    if(isGet("role-joined", "on")){
+        $sql.="(contributors REGEXP CONCAT('[[:<:]]',?,'[[:>:]]')) OR";
+        $args[0].="i";
+        array_push($args, USER["ID"]);
+    }
+    if(isGet("role-follow", "on")){
+        $sql.="(followers REGEXP CONCAT('[[:<:]]',?,'[[:>:]]')) OR";
+        $args[0].="i";
+        array_push($args, USER["ID"]);
+    }
+    $sql.=" 0)";
+}
+
 $stmt = $conn->prepare($sql);
 call_user_func_array(array($stmt, 'bind_param'), refValues($args));
 //$stmt->bind_param("i", $topLevel);
@@ -225,6 +245,20 @@ $stmt->close();
                     <span class="purple unit" style="margin-left:-22px">%</span>
                 </label>
             </div>
+
+            <?php if(!VALID) echo "<!--" ?>
+            <div class="checkbox"><input name="filter-role" id="filter-role" type="checkbox"
+                                         onclick="toggle(this)"/><label for="filter-role">My role</label></div>
+            <div class="enableSet" id="prog" style="width:175px">
+                <div class="checkbox"><input name="role-head" id="role-head" type="checkbox"/><label
+                            for="role-head">Head</label></div>
+
+                <div class="checkbox"><input name="role-joined" id="role-joined" type="checkbox"/><label
+                            for="role-joined">Contributor</label></div>
+                <div class="checkbox"><input name="role-follow" id="role-follow" type="checkbox"/><label
+                            for="role-follow">Following</label></div>
+            </div>
+            <?php if(!VALID) echo "-->"?>
 
         </form>
     </div>
