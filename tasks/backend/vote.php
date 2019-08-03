@@ -10,7 +10,7 @@ require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
 // Ensure that type is as safe value
 echo $type;
 if ($type == "topic") {
-	$table = "tasks.topic";
+	$table = "tasks.topics";
 } else if ($type == "reply") {
 	$table = "tasks.replies";
 } else {

@@ -1,7 +1,5 @@
 <script>
 
-    var xhttp = new XMLHttpRequest();
-
     function showPeople(button) {
         var hidden = button.parentNode.querySelectorAll("#contributors")[0];
 
@@ -14,7 +12,7 @@
     }
 
     function sendRequest(id, mode) {
-        xhttp.open("POST", "/tasks/join.php", false);
+        xhttp.open("POST", "/tasks/backend/join.php", false);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("task=" + id + "&mode=" + mode);
 

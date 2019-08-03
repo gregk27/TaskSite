@@ -192,7 +192,7 @@ if ($level == 2 && USER["ID"] > 0) {
                     echo "<div class='error'>Live(ish) chat will be added. Eventually.</div>";
                 } else {
                     foreach ($topics as $topic) {
-                        include("topic.php");
+                        include("topic/topic.php");
                     }
 
                     if (count($topics) == 0) {
@@ -243,7 +243,7 @@ if ($level == 2 && USER["ID"] > 0) {
     window.onload = load;
 
     function setProgress(task, delta, refreshID) {
-        xhttp.open("POST", "setProgress.php", false);
+        xhttp.open("POST", "/tasks/backend/setProgress.php", false);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("task=" + task + "&delta=" + delta);
 
@@ -269,7 +269,7 @@ if ($level == 2 && USER["ID"] > 0) {
     }
 
     function sendRequest(mode) {
-        xhttp.open("POST", "/tasks/join.php", false);
+        xhttp.open("POST", "/tasks/backend/join.php", false);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("task=" + <?php echo $task["ID"]?> +"&mode=" + mode);
 
@@ -292,8 +292,8 @@ if ($level == 2 && USER["ID"] > 0) {
     }
 </script>
 <?php
-if($task["head"]) include "newtask.html";
+if($task["head"]) include "popup/newtask.html";
 if ($canPost) {
-    include "newtopic.html";
+    include "popup/newtopic.html";
 }
 ?>

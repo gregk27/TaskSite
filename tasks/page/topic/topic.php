@@ -79,7 +79,7 @@ if (ISSET ($_GET ["focus"])) {
     }
 
     function vote(type, id, mode) {
-        xhttp.open("POST", "/tasks/vote.php", false);
+        xhttp.open("POST", "/tasks/backend/vote.php", false);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("ID=" + id + "&type=" + type + "&mode=" + mode);
 
@@ -132,7 +132,7 @@ if (ISSET ($_GET ["focus"])) {
     function comment(element, topic) {
         let text = element.parentElement.getElementsByTagName("textarea")[0].value;
         console.log(text);
-        xhttp.open("POST", "create.php", false);
+        xhttp.open("POST", "/tasks/backend/create.php", false);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("task=<?php echo $_GET["task"]?>&mode=reply&parent=" + topic + "&text=" + text + "&level=<?php echo $_GET["lv"]?>");
         console.log("ajax sent");

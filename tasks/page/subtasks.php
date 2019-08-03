@@ -50,7 +50,7 @@ if (ISSET ($_GET ["task"])) {
 
 $title = fullPath($task["ID"]);
 
-$stmt = $conn->prepare("SELECT * FROM `tasks`.`topic` WHERE taskID = ? AND level = ?");
+$stmt = $conn->prepare("SELECT * FROM `tasks`.`topics` WHERE taskID = ? AND level = ?");
 $stmt->bind_param("ii", $taskID, $level);
 $stmt->execute();
 $topics = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -90,7 +90,7 @@ $stmt->close();
     <?php
     $topLevel = $_GET["task"];
     $stopAt = $topLevel;
-    include("filterPage.php");
+    include("../filterPage/filterPage.php");
 
     ?>
 
@@ -100,7 +100,7 @@ $stmt->close();
 
 <script>
     function setProgress(task, delta, refreshID) {
-        xhttp.open("POST", "setProgress.php", false);
+        xhttp.open("POST", "/tasks/backend/setProgress.php", false);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send("task=" + task + "&delta=" + delta);
 
@@ -127,5 +127,5 @@ $stmt->close();
 </script>
 
 <?php
-   if($task["head"]) include("newtask.html");
+   if($task["head"]) include("popup/newtask.html");
 ?>
