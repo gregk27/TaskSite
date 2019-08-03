@@ -10,7 +10,7 @@
     </script>
 	<h1>Tasks</h1>
 	<nav>
-		<a href="/index.php">Home</a> <a href="">Placeholder</a> <a href="">Placeholder</a>
+		<a href="/">Home</a> <a href="">Placeholder</a> <a href="">Placeholder</a>
     <?php
     require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
     if ($conn->connect_error) {
@@ -18,9 +18,9 @@
     }
 
     if(USER["ID"] == -1){
-        echo "<a class='right' href='/user/user.php'>Sign in</a>";
+        echo "<a class='right' href='/users/users.php'>Sign in</a>";
     } else {
-        echo "<a class='right' id='user' href = '/user/user.php'>" . USER["name"] . "</a><a class='dropdown' onclick='signout()'>Sign out</a>";
+        echo "<a class='right' id='users' href = '/users/users.php'>" . USER["name"] . "</a><a class='dropdown' onclick='signout()'>Sign out</a>";
     }
 
     ?>

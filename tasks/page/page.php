@@ -10,7 +10,7 @@
 <?php
 //Ensure that level is set, if not the default is announcements
 if (!isset($_GET["lv"])) {
-    header("Location: " . $_SERVER["REQUEST_URI"] . "/anno");
+        header("Location: " . rtrim($_SERVER["REQUEST_URI"], "/") . "/ann");
 }
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/header.php");
@@ -35,7 +35,7 @@ $stmt->execute();
 $subtasks = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-// If the user is a head, they are involved
+// If the users is a head, they are involved
 if (inList(USER["ID"], $task["heads"])) {
     $task ["head"] = true;
     $task ["joined"] = true;
@@ -123,7 +123,7 @@ if ($level == 2 && USER["ID"] > 0) {
             }
             foreach ($subtasks as $sub) {
                 echo '<tr id="task">
-					<td id="name"><a class="plain" href="/task/'.$sub["ID"].'">' . $sub ["name"] . '</a></td>
+					<td id="name"><a class="plain" href="/tasks/'.$sub["ID"].'">' . $sub ["name"] . '</a></td>
 					<td id="percent">' . round($sub ["progress"]) . '%</td>
 				</tr>';
                 if (inList(USER["ID"], $sub ["heads"])) {
@@ -176,9 +176,9 @@ if ($level == 2 && USER["ID"] > 0) {
             <?php echo $task["description"] ?>
         </div>
         <div>
-            <nav><a href="anno" class="<?php echo $level == 0 ? 'underline' : '' ?>">Announcements</a>
+            <nav><a href="ann" class="<?php echo $level == 0 ? 'underline' : '' ?>">Announcements</a>
                 <a href="prog" class="<?php echo $level == 1 ? 'underline' : '' ?>">Progress</a>
-                <a href="discuss" class="<?php echo $level == 2 ? 'underline' : '' ?>">Discussion</a>
+                <a href="disc" class="<?php echo $level == 2 ? 'underline' : '' ?>">Discussion</a>
                 <a href="chat" class="<?php echo $level == 3 ? 'underline' : '' ?>">Chat</a>
                 <?php echo $canPost ? '<a id="interact" class="button active" style="float:right" onclick="showDiag(\'new-topic\')">New</a>' : ''; ?>
             </nav>

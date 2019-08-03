@@ -9,7 +9,7 @@ $stmt->close();
 
 // $topic = array (
 // "title" => "Test",
-// "user" => " Greg",
+// "users" => " Greg",
 // "time" => time (),
 // "up" => 7,
 // "down" => 4,

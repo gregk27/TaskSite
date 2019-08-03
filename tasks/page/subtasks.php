@@ -27,7 +27,7 @@ $stmt->execute();
 $subtasks = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-// If the user is a head, they are involved
+// If the users is a head, they are involved
 if (inList(USER["ID"], $task["heads"])) {
     $task ["head"] = true;
     $task ["joined"] = true;

@@ -21,7 +21,7 @@ if (ISSET($_COOKIE["token"])) {
         define("USER", getUser($_COOKIE["token"]));
         define("VALID", 1);
     } else {
-        //If the user doesn't exist, then delete the token to prevent issues
+        //If the users doesn't exist, then delete the token to prevent issues
         setcookie("token", "", time() - 3600);
         header("Refresh:0");
     }
@@ -31,7 +31,7 @@ if (ISSET($_COOKIE["token"])) {
 }
 
 // TaskID: The ID of the parent task
-// level: 0 for head, 1 for contributor, 2 for registered user
+// level: 0 for head, 1 for contributor, 2 for registered users
 function hasPerms($taskID, $level, $uID) {
     global $permsStmt;
 
@@ -133,8 +133,8 @@ function inList($check, $list) {
 
 function printName($ID, $print = true) {
     $name = getUser($ID)["name"];
-    //TODO:Update href when user pages are created
-    $out = "<a class='plain' href='user.php?n=" . $name . "'>" . $name . "</a>";
+    //TODO:Update href when users pages are created
+    $out = "<a class='plain' href='users.php?n=" . $name . "'>" . $name . "</a>";
     if ($print) echo $out;
     return $out;
 }
@@ -145,7 +145,7 @@ function fullPath($ID, $stopAt = -1) {
     $getTask->execute();
     $task = $getTask->get_result()->fetch_assoc();
     // Create title
-    $title = "<a class='button active' href='/task/" . $ID . "'>".$task["name"]."</a>";
+    $title = "<a class='button active' href='/tasks/" . $ID . "'>".$task["name"]."</a>";
     $stmt = $conn->prepare("SELECT name,parent FROM tasks.tasks WHERE ID = ?");
     $val = $task ["parent"];
     $res = "temp";
@@ -156,7 +156,7 @@ function fullPath($ID, $stopAt = -1) {
         $tempID = $val;
         $stmt->execute();
         $stmt->fetch();
-        $title = "<a class='button active' href='/task/" . $tempID . "'>" . $res . "</a>>" . $title;
+        $title = "<a class='button active' href='/tasks/" . $tempID . "'>" . $res . "</a>>" . $title;
     }
     $stmt->close();
     return $title;

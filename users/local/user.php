@@ -19,7 +19,7 @@ if (isset($_POST["mode"])) {
         die("Connection failed" . $conn->connect_error);
     }
     if ($_POST["mode"] == 'register') {
-        // If the user is trying to register
+        // If the users is trying to register
         // Check for name conflicts
 		$stmt = $conn->prepare("SELECT `name` FROM `tasks`.`users` WHERE `name`=?");
 		$stmt->bind_param("s", $_POST["name"]);
@@ -40,19 +40,19 @@ if (isset($_POST["mode"])) {
                     break;
                 }
             }
-            // Add the user to the database
+            // Add the users to the database
             $stmt = $conn->prepare("INSERT INTO `tasks`.`users` (`name`, `password`, `ID`) VALUES (?, ?, ?)");
 			$stmt->bind_param("ssi", $_POST['name'], $_POST['password'], $num);
 			$stmt->execute();
             // Set the cookie
 			echo setcookie("token", $num, time() + 12000000, "/");
-			header("Location: /index.php");
+			header("Location: /");
 			exit();
         } else {
             $err = "name taken. Contact Greg if someone else has your name.";
         }
     } else if ($_POST["mode"] == "login") {
-        // If the user is signing in
+        // If the users is signing in
         // Get users with same name/pass
         $stmt = $conn->prepare("SELECT `ID` FROM `tasks`.`users` WHERE `name`= ? AND `password`= ?");
 		$stmt->bind_param("ss", $_POST['name'], $_POST['password']);
@@ -61,7 +61,7 @@ if (isset($_POST["mode"])) {
         if (mysqli_num_rows($users) == 1) {
             // Set a cookie based on result
             setcookie("token", $users->fetch_assoc()["ID"], time() + 12000000, "/");
-            header("Location: /index.php");
+            header("Location: /");
             exit();
         } else{
 			$err = "Invalid name/password";

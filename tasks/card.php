@@ -26,7 +26,7 @@
         console.log(doc);
         console.log(document);
         // console.log(topic);
-        console.log("tsk"+id);
+        console.log("tsk" + id);
         let msg = doc.getElementById("tsk" + id);
         let page = document.getElementById("tsk" + id);
         console.log(msg);
@@ -36,12 +36,12 @@
 
     }
 
-    function setSize(element){
+    function setSize(element) {
         people = element.children[3];
         desc = element.children[2];
 
         console.log(people.clientHeight);
-        desc.style.marginBottom=people.clientHeight+"px";
+        desc.style.marginBottom = people.clientHeight + "px";
     }
 
 </script>
@@ -119,7 +119,7 @@ $task ["joined"] = false;
 $task ["following"] = false;
 $task ["head"] = false;
 
-// If the user is a head, they are involved
+// If the users is a head, they are involved
 if (inList(USER["ID"], $task["heads"])) {
     $task ["head"] = true;
     $task ["joined"] = true;
@@ -140,11 +140,11 @@ if (isset($fullTitle) && $fullTitle) {
 
 <div class="task-small" id="tsk<?php echo $task["ID"] ?>">
     <div class="top">
-        <div class="task-name" >
+        <div class="task-name">
             <?php echo $title ?>
         </div>
         <div class="progress" id="progress"
-             style="<?php echo "background-image:".createProgressGradient($task) ?> ">
+             style="<?php echo "background-image:" . createProgressGradient($task) ?> ">
 			<span id="percent"> <?php echo round($task["progress"]) . "%" ?>&nbsp&nbsp
 		</span><br/> <span id="detail">Subteam<?php echo count($task["subteams"]) > 1 ? "s: " : ": ";
                 $out = "";
@@ -163,11 +163,11 @@ if (isset($fullTitle) && $fullTitle) {
         </div>
     </div>
     <div id="sub">
-        <strong><a class='plain' href='/task/<?php echo $task["ID"] ?>/subtasks'>Subtasks</a></strong>
+        <strong><a class='plain' href='/tasks/<?php echo $task["ID"] ?>/subtasks'>Subtasks</a></strong>
         <table>
             <?php
             foreach ($task ["subtasks"] as $sub) {
-                echo "<tr><td class='hover'>" . $sub ["description"] . "</td><td><a class='plain' href='/task/".$sub["ID"]."'>" . $sub ["name"] . "</a></td><td>" . $sub ["progress"] . "%</td></tr>";
+                echo "<tr><td class='hover'>" . $sub ["description"] . "</td><td><a class='plain' href='/tasks/" . $sub["ID"] . "'>" . $sub ["name"] . "</a></td><td>" . $sub ["progress"] . "%</td></tr>";
             }
             ?>
         </table>
@@ -176,8 +176,8 @@ if (isset($fullTitle) && $fullTitle) {
             } else if ($task["head"]) {
                 newButton("console.log('TODO')", true, "Locked for heads", false, "width:100%");
             } else {
-                newButton("sendRequest(".$task["ID"].", 'contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 38%; float: left; margin-left:2%");
-                newButton("sendRequest(".$task["ID"].", 'follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:54%; float: right;");
+                newButton("sendRequest(" . $task["ID"] . ", 'contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 38%; float: left; margin-left:2%");
+                newButton("sendRequest(" . $task["ID"] . ", 'follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:54%; float: right;");
             } ?>
         </div>
     </div>
@@ -201,7 +201,7 @@ if (isset($fullTitle) && $fullTitle) {
 
     <script>
         self = document.getElementsByTagName("script");
-        self = self[self.length-1];
+        self = self[self.length - 1];
 
         setSize(self.parentElement);
 

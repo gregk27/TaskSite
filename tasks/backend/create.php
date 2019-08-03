@@ -71,7 +71,7 @@ if (!ISSET ($_POST ["mode"])) {
 
     if (hasPerms($taskID, $level, $uID)) {
         echo "Has permission";
-        $stmt = $conn->prepare("INSERT INTO tasks.topics(level,title,user,time,text,taskID) VALUES (?,?,?,?,?,?)");
+        $stmt = $conn->prepare("INSERT INTO tasks.topics(level,title,users,time,text,taskID) VALUES (?,?,?,?,?,?)");
         $stmt->bind_param("issisi", $level, $title, $uID, $time, $text, $taskID);
         $stmt->execute();
         $stmt->close();
@@ -86,7 +86,7 @@ if (!ISSET ($_POST ["mode"])) {
     // Up the level by one, so that lower-perms can reply
     if (hasPerms($taskID, $level + 1, $uID)) {
         echo "Has permission";
-        $stmt = $conn->prepare("INSERT INTO tasks.replies(parentID,user,time,text) VALUES (?,?,?,?)");
+        $stmt = $conn->prepare("INSERT INTO tasks.replies(parentID,users,time,text) VALUES (?,?,?,?)");
         $stmt->bind_param("isis", $parent, $uID, $time, $text);
         $stmt->execute();
         $stmt->close();
