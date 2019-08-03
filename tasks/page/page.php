@@ -10,7 +10,7 @@
 <?php
 //Ensure that level is set, if not the default is announcements
 if (!isset($_GET["lv"])) {
-    header("Location: " . $_SERVER["REQUEST_URI"] . "&lv=0");
+    header("Location: " . $_SERVER["REQUEST_URI"] . "/anno");
 }
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/header.php");
@@ -79,7 +79,7 @@ if ($level == 2 && USER["ID"] > 0) {
     <div class="buttons" style="display:<?php echo $task["head"] ? "block" : "none" ?>">
         <?php $max = $task["unassigned"] == $task["local"];
         $min = $task["local"] == 0;
-        newButton("showDiag('new-task')",true,"Create Subtask", true);
+        newButton("showDiag('new-task')", true, "Create Subtask", true);
         echo '&nbsp&nbsp&nbsp';
         if ($min) newButton("", false, "Min hit", false, "font-size:15px; padding:4px 10px;");
         else {
@@ -97,7 +97,7 @@ if ($level == 2 && USER["ID"] > 0) {
     </div>
     <h2 class="task-name"><?php echo $title ?></h2>
 
-    <div style="<?php echo "background-image:".createProgressGradient($task) ?>"
+    <div style="<?php echo "background-image:" . createProgressGradient($task) ?>"
          class="progress"><?php echo round($task["progress"]) ?>%
     </div>
 </div>
@@ -115,7 +115,7 @@ if ($level == 2 && USER["ID"] > 0) {
         </div>
         <?php if (!VALID) echo "-->"; ?>
 
-        <h3><a class="plain" href="subtasks.php?task=<?php echo $taskID?>">Subtasks</a></h3>
+        <h3><a class="plain" href="subtasks">Subtasks</a></h3>
         <table>
             <?php
             if (count($subtasks) == 0) {
@@ -123,7 +123,7 @@ if ($level == 2 && USER["ID"] > 0) {
             }
             foreach ($subtasks as $sub) {
                 echo '<tr id="task">
-					<td id="name"><a class="plain" href="?task=' . $sub ["ID"] . '">' . $sub ["name"] . '</a></td>
+					<td id="name"><a class="plain" href="/task/'.$sub["ID"].'">' . $sub ["name"] . '</a></td>
 					<td id="percent">' . round($sub ["progress"]) . '%</td>
 				</tr>';
                 if (inList(USER["ID"], $sub ["heads"])) {
@@ -176,14 +176,10 @@ if ($level == 2 && USER["ID"] > 0) {
             <?php echo $task["description"] ?>
         </div>
         <div>
-            <nav><a href="?task=<?php echo $task["ID"] ?>&lv=0"
-                    class="<?php echo $level == 0 ? 'underline' : '' ?>">Announcements</a>
-                <a href="?task=<?php echo $task["ID"] ?>&lv=1"
-                   class="<?php echo $level == 1 ? 'underline' : '' ?>">Progress</a> <a
-                        href="?task=<?php echo $task["ID"] ?>&lv=2"
-                        class="<?php echo $level == 2 ? 'underline' : '' ?>">Discussion</a>
-                <a href="?task=<?php echo $task["ID"] ?>&lv=3"
-                   class="<?php echo $level == 3 ? 'underline' : '' ?>">Chat</a>
+            <nav><a href="anno" class="<?php echo $level == 0 ? 'underline' : '' ?>">Announcements</a>
+                <a href="prog" class="<?php echo $level == 1 ? 'underline' : '' ?>">Progress</a>
+                <a href="discuss" class="<?php echo $level == 2 ? 'underline' : '' ?>">Discussion</a>
+                <a href="chat" class="<?php echo $level == 3 ? 'underline' : '' ?>">Chat</a>
                 <?php echo $canPost ? '<a id="interact" class="button active" style="float:right" onclick="showDiag(\'new-topic\')">New</a>' : ''; ?>
             </nav>
             <div id="content">
@@ -292,7 +288,7 @@ if ($level == 2 && USER["ID"] > 0) {
     }
 </script>
 <?php
-if($task["head"]) include "popup/newtask.html";
+if ($task["head"]) include "popup/newtask.html";
 if ($canPost) {
     include "popup/newtopic.html";
 }

@@ -145,7 +145,7 @@ function fullPath($ID, $stopAt = -1) {
     $getTask->execute();
     $task = $getTask->get_result()->fetch_assoc();
     // Create title
-    $title = "<a class='button active' href='/tasks/page/page.php?task=" . $ID . "'>".$task["name"]."</a>";
+    $title = "<a class='button active' href='/task/" . $ID . "'>".$task["name"]."</a>";
     $stmt = $conn->prepare("SELECT name,parent FROM tasks.tasks WHERE ID = ?");
     $val = $task ["parent"];
     $res = "temp";
@@ -156,7 +156,7 @@ function fullPath($ID, $stopAt = -1) {
         $tempID = $val;
         $stmt->execute();
         $stmt->fetch();
-        $title = "<a class='button active' href='/tasks/page.php?task=" . $tempID . "'>" . $res . "</a>>" . $title;
+        $title = "<a class='button active' href='/task/" . $tempID . "'>" . $res . "</a>>" . $title;
     }
     $stmt->close();
     return $title;
