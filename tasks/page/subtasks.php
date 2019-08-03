@@ -50,7 +50,7 @@ if (ISSET ($_GET ["task"])) {
 
 $title = fullPath($task["ID"]);
 
-$stmt = $conn->prepare("SELECT * FROM `tasks`.`topics` WHERE taskID = ? AND level = ?");
+$stmt = $conn->prepare("SELECT * FROM `tasks`.`topic` WHERE taskID = ? AND level = ?");
 $stmt->bind_param("ii", $taskID, $level);
 $stmt->execute();
 $topics = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

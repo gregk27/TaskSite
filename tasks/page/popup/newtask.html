@@ -4,7 +4,7 @@
     </div>
     <div id="dialog">
         <h1>Create task</h1>
-        <form action="create.php" method="post" target="_blank">
+        <form action="../../backend/create.php" method="post" target="_blank">
             <!--Changing these values won't bypass security, it will just make you post somewhere else (or not at all)-->
             <input type="hidden" name="mode" value="task"/>
             <input type="hidden" name="parent" value="<?php echo $_GET['task']?>"/>

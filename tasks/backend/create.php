@@ -71,7 +71,7 @@ if (!ISSET ($_POST ["mode"])) {
 
     if (hasPerms($taskID, $level, $uID)) {
         echo "Has permission";
-        $stmt = $conn->prepare("INSERT INTO tasks.topics(level,title,user,time,text,taskID) VALUES (?,?,?,?,?,?)");
+        $stmt = $conn->prepare("INSERT INTO tasks.topic(level,title,user,time,text,taskID) VALUES (?,?,?,?,?,?)");
         $stmt->bind_param("issisi", $level, $title, $uID, $time, $text, $taskID);
         $stmt->execute();
         $stmt->close();
@@ -94,5 +94,3 @@ if (!ISSET ($_POST ["mode"])) {
 }
 
 ?>
-
-<script>window.close()</script>
