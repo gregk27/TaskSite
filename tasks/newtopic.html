@@ -14,7 +14,7 @@
 
             <label>
                 Text<br/>
-                <textarea id="text" name="text" rows="15" oninput="preview()"></textarea>
+                <textarea id="text" name="text" rows="15" oninput="preview(this)"></textarea>
             </label>
 
             <div id="preview">
@@ -35,11 +35,11 @@
             document.getElementById(id).style.display="none";
         }
 
-        function preview() {
+        function preview(element) {
             console.log("update");
-            let val = document.getElementById("text").value.replace(/\n/g, "<br/>").replace(/<script/g, "&lt;script").replace(/<\/script/g, "&lt;/script");
+            let val = element.value.replace(/\n/g, "<br/>").replace(/<script/g, "&lt;script").replace(/<\/script/g, "&lt;/script");
             console.log(val);
-            document.getElementById("preview").innerHTML = val;
+            element.parentElement.nextElementSibling.innerHTML = val;
         }
     </script>
 
