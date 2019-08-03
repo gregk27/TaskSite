@@ -266,7 +266,7 @@ $stmt->close();
         }
         foreach ($tasks as $task) {
             $fullTitle = true;
-            include("../card.php");
+            include($_SERVER["DOCUMENT_ROOT"]."/tasks/card.php");
         } ?>
     </div>
 
