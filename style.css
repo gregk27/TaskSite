@@ -129,11 +129,13 @@ header nav a:hover .dropdown {
     font-size: 20px;
 }
 
-.login #no-match{
+.login #error{
     display:block;
     margin:auto;
     font-size:17px;
     width: fit-content;
+    color:transparent;
+    transition:color 0.5s;
 }
 
 /*SETTINGS*/

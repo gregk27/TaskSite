@@ -1,38 +1,94 @@
 <link href="/style.css" rel="stylesheet" type="text/css" media="screen"/>
-
-<script>
-    function submit(){
-
-    }
-
-    function confirmPass(){
-        if(document.getElementById("pass").value != "" && document.getElementById("confirm").value != "") {
-            if (document.getElementById("pass").value != document.getElementById("confirm").value){
-                document.getElementById("no-match").style.display = "block";
-                disableSubmit();
-            } else {
-                document.getElementById("no-match").style.display = "none";
-                if(checkInput()) enableSubmit();
-            }
-        } else{
-            document.getElementById("no-match").style.display="none";
-            disableSubmit();
-        }
-    }
-
-
-</script>
-
 <form class='login' id="form" onkeyup="checkInput()" onkeydown="checkInput()">
     <h2 id='title'>Register</h2>
     <label>Username:&nbsp<input name='name' required/></label><br/> <br/>
-    <label>Email:&nbsp&nbsp&nbsp&nbsp<input name='email' type="email" id="email" required/></label><br/> <br/> <br/>
-    <label>Password:&nbsp<input oninput="confirmPass()" id="pass" name='password' type='password' required/></label> <br/> <br/>
+    <label>Email:&nbsp&nbsp&nbsp&nbsp<input name='email' type="email" id="email" required/></label><br/>
+    <br/> <br/>
+    <label>Password:&nbsp<input oninput="confirmPass()" id="pass" name='password' type='password' required/></label>
+    <br/> <br/>
     <label>Confirm:&nbsp&nbsp<input oninput="confirmPass()" id="confirm" type='password' required/></label><br/>
-    <span id="no-match">Passwords do not match</span>
+    <span id="error"></span>
     <div class='buttons'>
-        <button class="button active" type='button' id='submit' disabled>Submit</button>&nbsp&nbsp&nbsp
+        <button class="button active" type='button' id='submit' onclick="process()" disabled>Submit</button>
+        &nbsp&nbsp&nbsp
         <button class="button active" type='button' id='swapButton' onclick='swap(this)'>Register</button>
-        <?php echo $err ?>
     </div>
 </form>
+<script>
+    let errBox = document.getElementById("error");
+    var xhttp = new XMLHttpRequest();
+
+    function setErr(err) {
+        if (err == "") {
+            errBox.style.color = "transparent";
+        } else {
+            errBox.innerHTML = err;
+            errBox.style.color = "inherit";
+        }
+    }
+
+    function process() {
+        xhttp.open("POST", "/users/local/process.php", false);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        let string = "";
+        for (let input of document.getElementsByTagName("input")) {
+            if (input.name == "") continue;
+            string += input.name + "=" + input.value + "&";
+        }
+        string += "mode=register";
+        xhttp.send(string);
+        string = ""; //Clear the string to reduce XSS risk
+
+        console.log(xhttp.responseText);
+        let error = /ERROR{(.*)}/g.exec(xhttp.responseText);
+        if (error == null) {
+            console.log("success")
+            window.location = "/user"
+        } else {
+            setErr(error[1]);
+        }
+    }
+
+    function confirmPass() {
+        if (document.getElementById("pass").value != "" && document.getElementById("confirm").value != "") {
+            if (document.getElementById("pass").value != document.getElementById("confirm").value) {
+                setErr("Passwords do not match");
+                return false;
+            } else {
+                setErr("");
+                return true;
+            }
+        } else {
+            setErr("No password entered");
+            return false;
+        }
+    }
+
+    function disableSubmit() {
+        document.getElementById("submit").disabled = true;
+    }
+
+    function enableSubmit() {
+        document.getElementById("submit").disabled = false;
+    }
+
+    function checkInput() {
+        let inputs = document.getElementsByTagName("input");
+        let blank = false;
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].value == "") {
+                blank = true;
+                break;
+            }
+        }
+        if (!checkEmail()) blank = true;
+        if (!confirmPass()) blank = true;
+        console.log(blank);
+        blank ? disableSubmit() : enableSubmit();
+        return !blank;
+    }
+
+    function checkEmail() {
+        return /^\S+@\S+\..{2,3}$/g.test(document.getElementById("email").value);
+    }
+</script>
