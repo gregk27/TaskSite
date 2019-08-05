@@ -11,7 +11,7 @@
     <div class='buttons'>
         <button class="button active" type='button' id='submit' onclick="process()" disabled>Submit</button>
         &nbsp&nbsp&nbsp
-        <button class="button active" type='button' id='swapButton' onclick='swap(this)'>Register</button>
+        <button class="button active" type='button' id='swapButton' onclick='window.location="user"'>Login</button>
     </div>
 </form>
 <script>
@@ -42,8 +42,8 @@
         console.log(xhttp.responseText);
         let error = /ERROR{(.*)}/g.exec(xhttp.responseText);
         if (error == null) {
-            console.log("success")
-            window.location = "/user"
+            console.log("success");
+            // window.location = "/user"
         } else {
             setErr(error[1]);
         }

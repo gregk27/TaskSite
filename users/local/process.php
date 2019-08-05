@@ -61,17 +61,21 @@ if ($_POST["mode"] == "register") {
 } else if ($_POST["mode"] == "login") {
     // If the user is signing in
     // Get users with same name/pass
-    $stmt = $conn->prepare("SELECT `ID` FROM `tasks`.`users` WHERE `name`= ? AND `password`= ?");
-    $stmt->bind_param("ss", $_POST['name'], $_POST['password']);
+    $stmt = $conn->prepare("SELECT `ID` FROM `tasks`.`users` WHERE `email` LIKE ? AND `password` LIKE ?");
+
+    echo "Email{".$_POST["email"]."}";
+    echo "Password{".$_POST["password"]."}";
+
+    $stmt->bind_param("ss", $_POST['email'], $_POST['password']);
     $stmt->execute();
     $users = $stmt->get_result();
     if (mysqli_num_rows($users) == 1) {
         // Set a cookie based on result
         setcookie("token", $users->fetch_assoc()["ID"], time() + 12000000, "/");
-        header("Location: /");
+        echo("Login successful");
         exit();
     } else {
-        $err = "Invalid name/password";
+        echo("ERROR{Invalid email/password}");
     }
 } else {
     $err = "Mode failed";
