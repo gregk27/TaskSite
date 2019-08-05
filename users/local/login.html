@@ -1,24 +1,44 @@
+<link href="/style.css" rel="stylesheet" type="text/css" media="screen"/>
+
+
 <script>
-	function swap(source) {
-		if (source.innerHTML == 'Register') {
-			document.getElementById('title').innerHTML = 'Register';
-			document.getElementById('mode').value = 'register';
-			source.innerHTML = 'Login';
-		} else if (source.innerHTML == 'Login') {
-			document.getElementById('title').innerHTML = 'Login';
-			document.getElementById('mode').value = 'login';
-			source.innerHTML = 'Register';
-		}
-	}
+
+    function disableSubmit(){
+        document.getElementById("submit").disabled = true;
+    }
+
+    function enableSubmit(){
+        document.getElementById("submit").disabled = false;
+    }
+
+    function checkInput(){
+        let inputs = document.getElementsByTagName("input");
+        let blank = false;
+        for(let i = 0; i<inputs.length; i++){
+            if(inputs[i].value == ""){
+                blank = true;
+                break;
+            }
+        }
+        if(!checkEmail()) blank=true;
+        console.log(blank);
+        blank ? disableSubmit() : enableSubmit();
+        return !blank;
+    }
+
+    function checkEmail(){
+        return /^\S+@\S+\..{2,3}$/g.test(document.getElementById("email").value);
+    }
 </script>
-<form class='login' method='post'>
-	<h2 id='title'>Login</h2>
-	<label>Username:&nbsp<input name='name' /></label><br /> <br />
-	<label>Password:&nbsp<input name='password' type='password' /></label>
-	<input type='hidden' name='mode' value='login' id='mode'>
-	<div class='buttons'>
-		<input class="button active" type='submit' id='submit'></input>&nbsp&nbsp&nbsp
-		<button class="button active" type='button' id='swapButton' onclick='swap(this)'>Register</button>
-		<?php echo $err ?>
-	</div>
+
+
+<form class='login' method='post' onkeydown="checkInput()" onkeyup="checkInput()">
+    <h2 id='title'>Login</h2>
+    <label>Email:&nbsp&nbsp&nbsp&nbsp<input name='email' id="email"/></label><br/> <br/>
+    <label>Password:&nbsp<input name='password' type='password'/></label>
+    <div class='buttons'>
+        <button class="button active" type='button' id='submit' disabled>Submit</button>&nbsp&nbsp&nbsp
+        <button class="button active" type='button' id='swapButton' onclick='swap(this)'>Register</button>
+        <?php echo $err ?>
+    </div>
 </form>

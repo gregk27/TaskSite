@@ -103,14 +103,21 @@ header nav a:hover .dropdown {
 
 .login label {
     margin-left: 5%;
+    margin-right: 5%;
     font-size: 20px;
     font-family: monospace;
+    display:inline-block;
+    width:-webkit-fill-available;
+    display:flex;
+    flex-direction: row;
+    flex-wrap:wrap;
 }
 
 .login input {
     border: none;
     font-size: 20px;
-    width: 50%;
+    flex-grow:4;
+    flex-shrink: 1;
 }
 
 .login .buttons {
@@ -120,6 +127,13 @@ header nav a:hover .dropdown {
 
 .login .button {
     font-size: 20px;
+}
+
+.login #no-match{
+    display:block;
+    margin:auto;
+    font-size:17px;
+    width: fit-content;
 }
 
 /*SETTINGS*/

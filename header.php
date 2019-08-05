@@ -18,9 +18,9 @@
     }
 
     if(USER["ID"] == -1){
-        echo "<a class='right' href='/users/users.php'>Sign in</a>";
+        echo "<a class='right' href='/user'>Sign in</a>";
     } else {
-        echo "<a class='right' id='users' href = '/users/users.php'>" . USER["name"] . "</a><a class='dropdown' onclick='signout()'>Sign out</a>";
+        echo "<a class='right' id='users' href = '/user'>" . USER["name"] . "</a><a class='dropdown' onclick='signout()'>Sign out</a>";
     }
 
     ?>

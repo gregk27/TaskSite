@@ -1,0 +1,38 @@
+<link href="/style.css" rel="stylesheet" type="text/css" media="screen"/>
+
+<script>
+    function submit(){
+
+    }
+
+    function confirmPass(){
+        if(document.getElementById("pass").value != "" && document.getElementById("confirm").value != "") {
+            if (document.getElementById("pass").value != document.getElementById("confirm").value){
+                document.getElementById("no-match").style.display = "block";
+                disableSubmit();
+            } else {
+                document.getElementById("no-match").style.display = "none";
+                if(checkInput()) enableSubmit();
+            }
+        } else{
+            document.getElementById("no-match").style.display="none";
+            disableSubmit();
+        }
+    }
+
+
+</script>
+
+<form class='login' id="form" onkeyup="checkInput()" onkeydown="checkInput()">
+    <h2 id='title'>Register</h2>
+    <label>Username:&nbsp<input name='name' required/></label><br/> <br/>
+    <label>Email:&nbsp&nbsp&nbsp&nbsp<input name='email' type="email" id="email" required/></label><br/> <br/> <br/>
+    <label>Password:&nbsp<input oninput="confirmPass()" id="pass" name='password' type='password' required/></label> <br/> <br/>
+    <label>Confirm:&nbsp&nbsp<input oninput="confirmPass()" id="confirm" type='password' required/></label><br/>
+    <span id="no-match">Passwords do not match</span>
+    <div class='buttons'>
+        <button class="button active" type='button' id='submit' disabled>Submit</button>&nbsp&nbsp&nbsp
+        <button class="button active" type='button' id='swapButton' onclick='swap(this)'>Register</button>
+        <?php echo $err ?>
+    </div>
+</form>
