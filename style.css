@@ -85,7 +85,7 @@ header nav a:hover .dropdown {
 }
 
 /*LOGIN*/
-.login {
+.user {
     display: block;
     margin: auto;
     margin-top: 100px;
@@ -94,16 +94,16 @@ header nav a:hover .dropdown {
     padding-top: 5px;
     padding-bottom: 30px;
     font-family: sans-serif;
+    padding-left:5%;
+    padding-right:5%;
 }
 
-.login h2 {
+.user h2 {
     text-align: center;
     padding-bottom: 20px;
 }
 
-.login label {
-    margin-left: 5%;
-    margin-right: 5%;
+.user label {
     font-size: 20px;
     font-family: monospace;
     display:inline-block;
@@ -111,25 +111,37 @@ header nav a:hover .dropdown {
     display:flex;
     flex-direction: row;
     flex-wrap:wrap;
+    position: relative;
 }
 
-.login input {
+.user .changed::after{
+    content:"CHANGED";
+    position:absolute;
+    right:3px;
+    top:1px;
+}
+
+.user input {
     border: none;
     font-size: 20px;
     flex-grow:4;
     flex-shrink: 1;
 }
 
-.login .buttons {
+.user #reset{
+    font-size:20px;
+}
+
+.user .buttons {
     text-align: center;
     margin-top: 15px;
 }
 
-.login .button {
+.user .button {
     font-size: 20px;
 }
 
-.login #error{
+.user #error{
     display:block;
     margin:auto;
     font-size:17px;
@@ -137,6 +149,59 @@ header nav a:hover .dropdown {
     color:transparent;
     transition:color 0.5s;
 }
+
+.user nav {
+    background-color: #ccc;
+    overflow: auto;
+    padding-left: 25px;
+    margin-bottom: 10px;
+    margin-top:-35px;
+}
+
+.user nav a {
+    cursor: pointer;
+    display: inline-block;
+    padding: 9px;
+    margin: 0px;
+    padding-left: 12px;
+    padding-right: 12px;
+    text-decoration: none;
+    float: left;
+    font-size: 17px;
+    user-select: none;
+    color: black;
+    transition: background-color 0.75s linear;
+}
+
+.user nav a#interact {
+    float: right;
+    padding-left: 10px;
+    padding-right: 15px;
+    color: white;
+}
+
+
+.user nav a:hover {
+    background-color: #a0a0a0;
+}
+
+.user nav a.underline {
+    padding-bottom: 7px;
+}
+
+.user nav a.underline:after {
+    bottom: 0px;
+    content: "";
+    height: 2px;
+    display: block;
+    position: relative;
+    width: 90%;
+    margin: auto;
+    background-color: #4a2a7c;
+    display: block;
+}
+
+
 
 /*SETTINGS*/
 .settings {

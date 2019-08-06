@@ -21,6 +21,7 @@ if (isGet("reg", "true")) {
     include("register.html");
 } else {
     if (VALID) {
+        include("settings.php");
     } else {
         include("login.html");
     }

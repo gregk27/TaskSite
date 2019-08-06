@@ -1,94 +1,120 @@
-<?php
-require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
+<div class="user" id="form" onkeydown="validate()" onkeyup="validate()">
+    <h2 id='title'>Settings</h2>
+    <nav><a class="underline" id="acc-button" onclick="changePage('acc')">Account</a>
+        <a id="sub-button" onclick="changePage('sub')">Subteams</a>
+        <a id="not-button" onclick="changePage('not')">Notifications</a>
+    </nav>
+    <div id="acc" style="display:block">
+        <label>Username:&nbsp<input name='name' type="text" id="name" value="<?php echo USER["name"] ?>"
+                                    oninput="isChanged(this)"/></label><br/>
+        <label>Email:&nbsp&nbsp&nbsp&nbsp<input name='email' type="email" id="email"
+                                                value="<?php echo USER["email"] ?>"
+                                                oninput="isChanged(this);checkEmail()"/></label><br/>
+        <br/> <br/>
+        <label>Password:&nbsp<input oninput="isChanged(this);confirmPass()" id="pass" name='password' type='password'
+                                    placeholder="••••••••" value=""/></label>
+        <br/>
+        <label>Confirm:&nbsp&nbsp<input oninput="isChanged(this);confirmPass()" id="confirm" type='password'
+                                        placeholder="••••••••" value=""/></label><br/>
+    </div>
 
-//TODO: Rewrite this page to use a more efficient, secure sytstem
+    <div id="sub" style="display:none">
+        <h3>Subteams</h3>
+    </div>
+    <div id="not" style="display:none">
+        <h3>Notifications</h3>
+    </div>
 
-$stmt = $conn->prepare("SELECT `name` FROM `tasks`.`users` WHERE `ID`=?");
-$stmt->bind_param("i", $_COOKIE ["token"]);
-$stmt->execute();
-$user = $stmt->get_result()->fetch_assoc ();
-// Setting this to a placeholder, as we don't want to expose password
-$user ["password"] = "********";
+    <span id="error"></span>
+    <div class='buttons'>
+        <button class="button active" id='submit' onclick="process()">Apply</button>
+        <button class="button active" id='reset' onclick="reset()">Reset</button>
+    </div>
+</div>
 
-$sql = "UPDATE `tasks`.`users` SET ";
-
-$changed = false;
-
-foreach ( $_POST as $key => $value ) {
-	// If the value has been changed
-	if ($value != $user [$key]) {
-		$sql = $sql . "`" . $key . "`='" . $value . "', ";
-		$changed = true;
-	}
-}
-
-$sql = rtrim ( $sql, ", " ) . " WHERE `ID`=" . $_COOKIE ["token"];
-if($changed){
-	$conn->query($sql);
-	header("Refresh:0");
-}
-
-$conn->close();
-?>
-
-
-<form class="login" onload="init()" style="width: 70%" method="post"
-	id="form"></form>
-<?php
-
-$fields = "";
-$defaults = "";
-
-foreach ( $user as $key => $val ) {
-	$fields = $fields . "'" . $key . "',";
-	$defaults = $defaults . "'" . $val . "',";
-}
-
-// $fields = $fields . "'password'";
-// $defaults = $defaults . "'********'";
-
-echo "<script>\nvar fields = [" . $fields . "];\nvar defaults = [" . $defaults . "];\n</script>";
-?>
 <script>
-	function enable(element, item) {
-		if (element.parentNode.childNodes[1].disabled) {
-			element.parentNode.childNodes[1].disabled = false;
-			element.innerHTML = "Undo";
-		} else {
-			element.parentNode.childNodes[1].disabled = true;
-			element.innerHTML = "Edit";
-			element.parentNode.childNodes[1].value = defaults[item];
-		}
+    let active = "acc";
 
-	}
+    function changePage(id) {
+        document.getElementById(active + "-button").classList.remove("underline");
+        document.getElementById(active).style.display = "none";
 
-	var width = 0;
+        document.getElementById(id + "-button").classList.add("underline");
+        document.getElementById(id).style.display = "block";
 
-	for (var i = 0; i < fields.length; i++) {
-		if (fields[i].length > width) {
-			width = fields[i].length + 2;
-		}
-	}
+        active = id;
+    }
 
-	console.log(width);
+    let errBox = document.getElementById("error");
 
-	console.log("init")
-	var div = document.getElementById("form");
+    function setErr(err) {
+        if (err == "") {
+            errBox.style.color = "transparent";
+        } else {
+            errBox.innerHTML = err;
+            errBox.style.color = "inherit";
+        }
+    }
 
-	var content = "<h2>User Settings</h2>"
-	for (var i = 0; i < fields.length; i++) {
-		var label = fields[i].charAt(0).toUpperCase() + fields[i].slice(1);
-		for (var j = label.length; j < width; j++) {
-			label += "&nbsp";
-		}
+    function isChanged(element) {
+        if (element.value != element.placeholder && element.value != "") {
+            element.parentElement.classList.add("changed");
+        } else {
+            element.parentElement.classList.remove("changed");
+        }
+    }
 
-		content += "<label>"
-				+ label
-				+ "<input name='"+fields[i]+"' value='"+defaults[i]+"' disabled='true'/> <button type='button' onclick='enable(this, "
-				+ i + ")' style='width:60px'>Edit</button></label><br/><br/>\n"
-	}
-	content += "<input type='submit' style='margin: auto; display: block;'/>";
+    function checkEmail() {
+        if (/^\S+@\S+\..{2,3}$/g.test(document.getElementById("email").value)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	div.innerHTML = content;
-	console.log(content);
+    function confirmPass() {
+        if (document.getElementById("pass").value != "" || document.getElementById("confirm").value != "") {
+            if (document.getElementById("pass").value != document.getElementById("confirm").value) {
+                setErr("Passwords do not match");
+                return false;
+            } else {
+                setErr("");
+                return true;
+            }
+        } else {
+            setErr("");
+            return true;
+        }
+    }
+
+    function validate() {
+        let valid = false;
+        if (!checkEmail()) valid = true;
+        if (!confirmPass()) valid = true;
+        valid ? disableSubmit() : enableSubmit();
+        return !valid;
+    }
+
+    function disableSubmit() {
+        document.getElementById("submit").disabled = true;
+    }
+
+    function enableSubmit() {
+        document.getElementById("submit").disabled = false;
+    }
+
+    function reset() {
+        let inputs = document.getElementsByTagName("input");
+
+        for (let input of inputs) {
+            input.value = input.defaultValue
+            if (input.defaultValue != "") input.placeholder = input.defaultValue;
+            isChanged(input);
+        }
+
+    }
+
+    reset();
+
+
 </script>

@@ -77,8 +77,6 @@ if ($_POST["mode"] == "register") {
     } else {
         echo("ERROR{Invalid email or password}");
     }
-} else {
-    $err = "Mode failed";
 }
 
 ?>

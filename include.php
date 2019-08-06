@@ -8,7 +8,7 @@ $conn = new mysqli ($dbAddress, $dbUser, $dbPass);
 // TODO: Remove after debugging
 mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
 
-$usrStmt = $conn->prepare("SELECT name,ID FROM tasks.users WHERE ID = ?");
+$usrStmt = $conn->prepare("SELECT name,ID,email FROM tasks.users WHERE ID = ?");
 $allUsrStmt = $conn->prepare("SELECT name,ID FROM tasks.users");
 $permsStmt = $conn->prepare("SELECT heads,contributors FROM tasks.tasks WHERE ID = ?");
 $getTask = $conn->prepare("SELECT * FROM tasks.tasks WHERE ID = ?");

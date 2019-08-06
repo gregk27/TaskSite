@@ -1,5 +1,5 @@
 <link href="/style.css" rel="stylesheet" type="text/css" media="screen"/>
-<form class='login' id="form" onkeyup="checkInput()" onkeydown="checkInput()">
+<form class='user' id="form" onkeyup="checkInput()" onkeydown="checkInput()">
     <h2 id='title'>Register</h2>
     <label>Username:&nbsp<input name='name' required/></label><br/> <br/>
     <label>Email:&nbsp&nbsp&nbsp&nbsp<input name='email' type="email" id="email" required/></label><br/>
@@ -89,6 +89,10 @@
     }
 
     function checkEmail() {
-        return /^\S+@\S+\..{2,3}$/g.test(document.getElementById("email").value);
+        if (/^\S+@\S+\..{2,3}$/g.test(document.getElementById("email").value)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 </script>
