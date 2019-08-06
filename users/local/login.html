@@ -38,7 +38,7 @@
         let error = /ERROR{(.*)}/g.exec(xhttp.responseText);
         if (error == null) {
             console.log("success");
-            // window.location = "/user"
+            window.location = "/user"
         } else {
             setErr(error[1]);
         }
