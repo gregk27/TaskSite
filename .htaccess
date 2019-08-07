@@ -1,9 +1,21 @@
+ErrorDocument 404 /404
+
+
 RewriteEngine on
+###ERROR PAGES###
+RewriteRule ^404/?$ 404.php
+
+
 ###GENERAL PAGES###
 RewriteRule ^/?$ index.php [QSA]
 RewriteRule ^user/?$ users/local/user.php [QSA]
 RewriteRule ^login/?$ users/local/user.php [QSA]
 RewriteRule ^register/?$ users/local/user.php?reg=true [QSA]
+RewriteRule ^tasks/?$ tasks/tasks.php [QSA]
+# TODO: Add subteams page
+RewriteRule ^subteams/?$ /404
+# TODO: Add users page
+RewriteRule ^users/?$ /404
 
 
 ###TASK PAGE###

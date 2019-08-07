@@ -9,14 +9,16 @@
 
 
 <body>
-
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . "/header.php");
-
-echo "<div class='below-top'>";
-$topLevel = -1;
-include("tasks/filterPage/filterPage.php");
-
 ?>
+
+<div class="content">
+    <div class="intro" style="margin-top:25px; width:75%; padding:10px; background-color:#ccc">
+        This is a prototype of a task-management system, for whoever can be bothered to use it
+
+    </div>
+
 </div>
+
 </body>

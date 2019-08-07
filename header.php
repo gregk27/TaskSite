@@ -10,7 +10,7 @@
     </script>
 	<h1>Tasks</h1>
 	<nav>
-		<a href="/">Home</a> <a href="">Placeholder</a> <a href="">Placeholder</a>
+		<a href="/">Home</a> <a href="/tasks">Tasks</a><a href="/subteams">Subteams</a> <a href="/users">Users</a>
     <?php
     require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
     if ($conn->connect_error) {
