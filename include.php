@@ -8,7 +8,7 @@ $conn = new mysqli ($dbAddress, $dbUser, $dbPass);
 // TODO: Remove after debugging
 mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
 
-$usrStmt = $conn->prepare("SELECT name,ID,email FROM tasks.users WHERE ID = ?");
+$usrStmt = $conn->prepare("SELECT name,ID,email,rookie FROM tasks.users WHERE ID = ?");
 $allUsrStmt = $conn->prepare("SELECT name,ID FROM tasks.users");
 $permsStmt = $conn->prepare("SELECT heads,contributors FROM tasks.tasks WHERE ID = ?");
 $getTask = $conn->prepare("SELECT * FROM tasks.tasks WHERE ID = ?");
@@ -95,6 +95,9 @@ function cleanString($in) {
     //Strip all tags
     $out = strip_tags($in, "");
 
+    //Replace on* event handlers
+    $out = preg_replace("/on\w*=([\\\"']).*[^\\\]\\1/sU", "", $out);
+
     //Strip risky chars
     $out = htmlspecialchars($out);
 
@@ -105,6 +108,9 @@ function cleanString($in) {
 function formatString($in) {
     //Replace newlines//Replace newlines
     $out = preg_replace("/(>[\w\s]*)\n([\w\s]*<)/s", "$1<br/>$2", $in);
+
+    //Replace on* event handlers
+    $out = preg_replace("/on\w*=([\\\"']).*[^\\\]\\1/sU", "", $out);
 
     //Close open tags
     $doc = new DOMDocument();

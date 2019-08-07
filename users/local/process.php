@@ -2,13 +2,13 @@
 include_once($_SERVER["DOCUMENT_ROOT"] . "/include.php");
 
 //Check login status
-if (USER["ID"] != -1) {
+if (USER["ID"] != -1 && $_POST["mode"] != "edit") {
     echo "ERROR{Already logged in}";
     exit();
 }
 
 if ($_POST["mode"] == "register") {
-    $name = $_POST["name"];
+    $name = cleanString($_POST["name"]);
     //Check username
     $stmt = $conn->prepare("SELECT name FROM tasks.users WHERE UPPER(name) like UPPER(?)");
     $stmt->bind_param("s", $name);
@@ -20,7 +20,7 @@ if ($_POST["mode"] == "register") {
     }
     $stmt->close();
 
-    $mail = $_POST["email"];
+    $mail = cleanString($_POST["email"]);
     //Check username
     $stmt = $conn->prepare("SELECT name FROM tasks.users WHERE email = ?");
     $stmt->bind_param("s", $mail);
@@ -77,6 +77,43 @@ if ($_POST["mode"] == "register") {
     } else {
         echo("ERROR{Invalid email or password}");
     }
-}
+} else if($_POST["mode"] == "edit" && VALID){
+    foreach($_POST as $key=>$val){
+        echo $key.",".$val."<br/>";
+    }
 
-?>
+    $sql = "UPDATE tasks.users SET ";
+    $args=array();
+    array_push($args, "");
+    if(isset($_POST["name"])){
+        $sql.="name=?,";
+        $args[0].="s";
+        array_push($args, cleanString($_POST["name"]));
+    }
+    if(isset($_POST["email"])){
+        $sql.="email=?,";
+        $args[0].="s";
+        array_push($args, cleanString($_POST["email"]));
+    }
+    if(isset($_POST["password"])){
+        $sql.="password=?,";
+        $args[0].="s";
+        array_push($args, password_hash($_POST["password"], PASSWORD_DEFAULT));
+    }
+    if(isset($_POST["rookie"])){
+        $sql.="rookie=?,";
+        $args[0].="i";
+        array_push($args, cleanString($_POST["rookie"]));
+    }
+    $sql = rtrim($sql, ",")." WHERE ID = ?";
+    $args[0].="i";
+    array_push($args, USER["ID"]);
+
+    echo $sql."<br/>";
+    echo implode(",", $args);
+
+
+    $stmt = $conn->prepare($sql);
+    call_user_func_array(array($stmt, "bind_param"), refValues($args));
+    $stmt->execute();
+}

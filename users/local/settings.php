@@ -1,10 +1,15 @@
 <div class="user" id="form" onkeydown="validate()" onkeyup="validate()">
     <h2 id='title'>Settings</h2>
-    <nav><a class="underline" id="acc-button" onclick="changePage('acc')">Account</a>
-        <a id="sub-button" onclick="changePage('sub')">Subteams</a>
+    <nav>
+        <a class="underline" id="pro-button" onclick="changePage('pro')">Profile</a>
+        <a id="acc-button" onclick="changePage('acc')">Account</a>
         <a id="not-button" onclick="changePage('not')">Notifications</a>
     </nav>
-    <div id="acc" style="display:block">
+    <div id="pro" style="display:block">
+        <label>Rookie Year:&nbsp<input name='rookie' type="number" id="rookie" value="<?php echo USER["rookie"] ?>"
+                                    oninput="isChanged(this)"/></label><br/>
+    </div>
+    <div id="acc" style="display:none">
         <label>Username:&nbsp<input name='name' type="text" id="name" value="<?php echo USER["name"] ?>"
                                     oninput="isChanged(this)"/></label><br/>
         <label>Email:&nbsp&nbsp&nbsp&nbsp<input name='email' type="email" id="email"
@@ -18,9 +23,6 @@
                                         placeholder="••••••••" value=""/></label><br/>
     </div>
 
-    <div id="sub" style="display:none">
-        <h3>Subteams</h3>
-    </div>
     <div id="not" style="display:none">
         <h3>Notifications</h3>
     </div>
@@ -33,7 +35,7 @@
 </div>
 
 <script>
-    let active = "acc";
+    let active = "pro";
 
     function changePage(id) {
         document.getElementById(active + "-button").classList.remove("underline");
@@ -88,11 +90,11 @@
     }
 
     function validate() {
-        let valid = false;
-        if (!checkEmail()) valid = true;
-        if (!confirmPass()) valid = true;
-        valid ? disableSubmit() : enableSubmit();
-        return !valid;
+        let valid = true;
+        if (!checkEmail()) valid = false;
+        if (!confirmPass()) valid = false;
+        valid ? enableSubmit() : disableSubmit();
+        return valid;
     }
 
     function disableSubmit() {
@@ -117,4 +119,22 @@
     reset();
 
 
+    function process(){
+        if(!validate())
+            return;
+
+        xhttp.open("POST", "/users/local/process.php", false);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        let string = "";
+        for (let change of document.querySelectorAll(".changed>input")) {
+            if (change.name == "") continue;
+            console.log(change);
+            string += change.name + "=" + change.value + "&";
+        }
+        string += "mode=edit";
+        xhttp.send(string);
+        string = ""; //Clear the string to reduce XSS risk
+
+        window.location = "/user";
+    }
 </script>
