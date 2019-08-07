@@ -32,6 +32,9 @@ if ($_POST["mode"] == "register") {
     }
     $stmt->close();
 
+    //Prepare rookie year
+    $rookie = cleanString($_POST["rookie"]);
+
     //Generate ID
     $stmt = $conn->prepare("SELECT name FROM tasks.users WHERE ID = ?");
     $stmt->bind_param("i", $ID);
@@ -50,8 +53,8 @@ if ($_POST["mode"] == "register") {
     $pass = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
     // Add the users to the database
-    $stmt = $conn->prepare("INSERT INTO tasks.users (name, email, password, ID) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sssi", $name, $mail, $pass, $ID);
+    $stmt = $conn->prepare("INSERT INTO tasks.users (name, email, password, ID, rookie) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssii", $name, $mail, $pass, $ID, $rookie);
     $stmt->execute();
     // Set the cookie
     echo setcookie("token", $ID, time() + 12000000, "/");

@@ -1,11 +1,12 @@
 <link href="/style.css" rel="stylesheet" type="text/css" media="screen"/>
 <form class='user' id="form" onkeyup="checkInput()" onkeydown="checkInput()">
     <h2 id='title'>Register</h2>
-    <label>Username:&nbsp<input name='name' required/></label><br/> <br/>
+    <label>Username:&nbsp<input name='name' required/></label><br/>
     <label>Email:&nbsp&nbsp&nbsp&nbsp<input name='email' type="email" id="email" required/></label><br/>
+    <label>Rookie year:&nbsp&nbsp<input name='rookie' type="number" id="rookie" required/></label><br/>
     <br/> <br/>
     <label>Password:&nbsp<input oninput="confirmPass()" id="pass" name='password' type='password' required/></label>
-    <br/> <br/>
+    <br/>
     <label>Confirm:&nbsp&nbsp<input oninput="confirmPass()" id="confirm" type='password' required/></label><br/>
     <span id="error"></span>
     <div class='buttons'>
