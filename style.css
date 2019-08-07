@@ -427,17 +427,6 @@ header nav a:hover .dropdown {
     padding-left: 15px;
 }
 
-#task-page .below-top > .content > div {
-    padding: 5px 10px;
-}
-
-#task-page .below-top > .content .description {
-    width: -webkit-fill-available;
-    background-color: #ccc;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-}
-
 #task-page .below-top > .content nav {
     background-color: #ccc;
     overflow: auto;
@@ -850,6 +839,7 @@ label #value.purple{
 .sidebar {
     background-color: #ccc;
     margin-right: 1.5%;
+    margin-left: 0;
     padding-left: 15px;
     padding-right: 35px;
     padding-bottom: 15px;;
@@ -867,6 +857,8 @@ label #value.purple{
 
 .sidebar.left {
     order: 0;
+    margin-left: 1.5%;
+    margin-right: 0;
 }
 
 
@@ -882,11 +874,23 @@ label #value.purple{
     flex-grow: 4;
     flex-shrink: 4;
     margin-left: 5%;
-    margin-right: 0px;
+    margin-right: 5%;
+}
+
+.content > .box {
+    padding: 5px 10px;
+}
+
+.content .section {
+    width: -webkit-fill-available;
+    background-color: #ccc;
+    margin-bottom: 25px;
+    padding:10px;
+    padding-bottom: 15px;
 }
 
 .sidebar.left ~ .content {
-    margin-left: 0px;
+    margin-left: 5%;
     margin-right: 5%;
 }
 

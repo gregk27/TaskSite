@@ -27,3 +27,4 @@ RewriteRule ^tasks/([0-9]*)/prog/?$ tasks/page/page.php?task=$1&lv=1 [QSA]
 RewriteRule ^tasks/([0-9]*)/disc/?$ tasks/page/page.php?task=$1&lv=2 [QSA]
 RewriteRule ^tasks/([0-9]*)/chat/?$ tasks/page/page.php?task=$1&lv=3 [QSA]
 RewriteRule ^tasks/([0-9]*)/subtasks/?$ tasks/page/subtasks.php?task=$1 [QSA]
+RewriteRule ^tasks/([0-9]*)/options/?$ tasks/page/options.php?task=$1

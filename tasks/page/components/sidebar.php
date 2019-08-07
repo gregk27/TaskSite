@@ -2,7 +2,7 @@
     <?php if (!VALID) echo "<!--"; ?>
     <div id="buttons" style="margin-left:-15px; margin-right:-35px;">
         <?php if ($task["head"]) {
-            newButton("console.log('TODO')", true, "Options", true, "width:70%");
+            echo "<a class='button active' href='options' style='width: 70%;'>Options</a>";
         } else {
             newButton("sendRequest('contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 38%; float: left;");
             newButton("sendRequest('follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:54%; float: right;");
@@ -11,7 +11,7 @@
     <?php if (!VALID) echo "-->"; ?>
 
     <h3><a class="plain" href="subtasks">Subtasks</a></h3>
-    <table>
+    <table style="font-size:inherit">
         <?php
         if (count($subtasks) == 0) {
             echo "<tr><td>No subtasks</td></tr>";

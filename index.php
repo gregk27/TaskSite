@@ -13,12 +13,14 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . "/header.php");
 ?>
 
-<div class="content">
-    <div class="intro" style="margin-top:25px; width:75%; padding:10px; background-color:#ccc">
-        This is a prototype of a task-management system, for whoever can be bothered to use it
+<div class="below-top">
+    <div class="content">
+        <div class="section">
+            <h2>Welcome</h2>
+            This is a prototype of a task-management system, for whoever can be bothered to use it
 
+        </div>
     </div>
-
 </div>
 
 </body>
