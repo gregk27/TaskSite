@@ -3,7 +3,7 @@ $ID = $_POST ["ID"];
 $type = $_POST ["type"]; // topic or reply
 $mode = $_POST ["mode"]; // up or down
 
-$user = $_COOKIE ["token"]; // $_COOKIE["token"];
+$user = USER["ID"];
 
 require_once ($_SERVER['DOCUMENT_ROOT']."/include.php");
 

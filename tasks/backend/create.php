@@ -1,6 +1,6 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . "/include.php");
-$uID = USER["ID"]; // $_COOKIE["token"];
+$uID = USER["ID"];
 if($uID == -1){
     exit();
 }
