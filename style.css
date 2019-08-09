@@ -889,6 +889,10 @@ label #value.purple{
     padding-bottom: 15px;
 }
 
+.content .section h2{
+    margin-top:5px;
+}
+
 .sidebar.left ~ .content {
     margin-left: 5%;
     margin-right: 5%;

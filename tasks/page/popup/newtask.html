@@ -10,7 +10,7 @@
             <input type="hidden" name="parent" value="<?php echo $_GET['task']?>"/>
             <input type="hidden" name="heads" value="<?php echo USER['name']?>"/>
             <label>Name <input type="text" name="name" placeholder="The task name"/></label>
-            <label style="margin-left:0px; float:right; margin-right:-17%">Weight <input oninput="showValue(this)"
+            <label style="margin-left:0px; float:right; width:50%">Weight <input oninput="showValue(this)"
                                                                                          class="slider" type="range"
                                                                                          name="weight" value="<?php echo $task['unassigned']/5 ?>"
                                                                                          min="0"
@@ -40,6 +40,10 @@
                     }?>
                 </select>
             </div>
+            <div style="width:100%; display:flex; flex-wrap: nowrap; margin-top:4px; justify-content: space-around">
+                <div class="checkbox" style="margin-right:15px"><input name="heads-wanted" id="heads-wanted" type="checkbox" "/><label for="heads-wanted">Heads wanted</label></div>
+                <div class="checkbox"><input name="help-wanted" id="help-wanted" type="checkbox" "/><label for="help-wanted">Help wanted</label></div>
+            </div>
             <br/>
             <label>
                 Description<br/>
@@ -47,7 +51,7 @@
             </label>
 
             <div id="preview">
-
+                
 
             </div>
             <button class="button active" type="submit" onclick="location.reload()">Submit</button>

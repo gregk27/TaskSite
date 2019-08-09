@@ -218,6 +218,13 @@ function createProgressGradient($task){
     return rtrim($gradient, ", ") . ")";
 }
 
+function getTask($id){
+    global $getTask;
+    $getTask->bind_param("i", $ID);
+    $getTask->execute();
+    return $getTask->get_result()->fetch_assoc();
+}
+
 ?>
 
 <script>
