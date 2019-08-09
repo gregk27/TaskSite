@@ -25,6 +25,17 @@ include ("components/scripts.php");
     <?php include("components/sidebar.php") ?>
     <div class="content">
         <div class="section">
+            <div style="float:right; font-size:18px; margin-top:7px">
+                Subteam<?php echo count($task["subteams"]) > 1 ? "s: " : ": ";
+                $out = "";
+                foreach ($task["subteams"] as $s) {
+                    $out = $out . SUBTEAMS[$s]["name"];
+
+                    $out = $out . "/";
+                }
+                echo rtrim($out, "/");
+                ?>
+            </div>
             <h2>About</h2>
             <?php echo $task["description"] ?>
         </div>

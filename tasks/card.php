@@ -176,8 +176,8 @@ if (isset($fullTitle) && $fullTitle) {
             } else if ($task["head"]) {
                 newButton("console.log('TODO')", true, "Locked for heads", false, "width:100%");
             } else {
-                newButton("sendRequest(" . $task["ID"] . ", 'contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 38%; float: left; margin-left:2%");
-                newButton("sendRequest(" . $task["ID"] . ", 'follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:54%; float: right;");
+                newButton("sendRequest(" . $task["ID"] . ", 'contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 27%; float: left; margin-left:2%");
+                newButton("sendRequest(" . $task["ID"] . ", 'follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:40%; float: right;");
             } ?>
         </div>
     </div>
