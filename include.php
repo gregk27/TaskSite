@@ -107,8 +107,11 @@ function cleanString($in) {
 //Formats a string for places where HTML is accepted
 function formatString($in) {
     //Replace newlines//Replace newlines
-    $out = preg_replace("/(>[\w\s]*)\n([\w\s]*<)/s", "$1<br/>$2", $in);
-
+    $out = $in;
+    while(strpos($out, "\n") !== false){
+        $out = preg_replace("/(>[\w\s]*)\n([\w\s]*<)/s", "$1<br/>$2", ">".$out."<");
+        $out = ltrim(rtrim($out, "<"), ">");
+    }
     //Replace on* event handlers
     $out = preg_replace("/on\w*=([\\\"']).*[^\\\]\\1/sU", "", $out);
 
