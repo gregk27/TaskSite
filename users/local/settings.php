@@ -1,4 +1,4 @@
-<div class="user" id="form" onkeydown="validate()" onkeyup="validate()">
+<div class="user" id="form" onkeydown="validate()" onkeyup="validate()" autocomplete="off">
     <h2 id='title'>Settings</h2>
     <nav>
         <a class="underline" id="pro-button" onclick="changePage('pro')">Profile</a>

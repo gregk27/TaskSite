@@ -40,7 +40,7 @@ if ($_POST["mode"] == "register") {
     $stmt->bind_param("i", $ID);
     $stmt->store_result();
     while (true) {
-        $ID = mt_rand(0, 25400);
+        $ID = mt_rand(0, 999999);
         $stmt->execute();
 
         $conflicts = $stmt->get_result()->num_rows;
@@ -56,25 +56,45 @@ if ($_POST["mode"] == "register") {
     $stmt = $conn->prepare("INSERT INTO tasks.users (name, email, password, ID, rookie) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssii", $name, $mail, $pass, $ID, $rookie);
     $stmt->execute();
-    // Set the cookie
-    echo setcookie("token", $ID, time() + 12000000, "/");
-    header("Location: /");
-    echo "Login successful";
-    exit();
-} else if ($_POST["mode"] == "login") {
+    // Change the mode so the login process will run
+    $_POST["mode"] = "login";
+}
+
+if ($_POST["mode"] == "login") {
     // If the user is signing in
     // Get users with same name/pass
     $stmt = $conn->prepare("SELECT ID,password FROM tasks.users WHERE email LIKE ?");
 
-    echo "Email{".$_POST["email"]."}";
-    echo "Password{".$_POST["password"]."}";
+//    echo "Email{".$_POST["email"]."}";
+//    echo "Password{".$_POST["password"]."}";
 
     $stmt->bind_param("s", $_POST['email']);
     $stmt->execute();
     $user = $stmt->get_result()->fetch_assoc();
     if (isset($user["ID"]) && password_verify($_POST["password"], $user["password"])) {
+        //Generate value for token
+        $stmt = $conn->prepare("SELECT value FROM tasks.tokens WHERE value = ?");
+        $stmt->bind_param("i", $val);
+        $stmt->store_result();
+        while (true) {
+            $val = mt_rand(0, 999999);
+            $stmt->execute();
+
+            $conflicts = $stmt->get_result()->num_rows;
+            if ($conflicts == 0) {
+                break;
+            }
+        }
+        echo "Value: $val";
+        $stmt->close();
+
+        $stmt = $conn->prepare("INSERT INTO tasks.tokens(user, value, ip) VALUES (?,?,?)");
+        $ip = getIP();
+        $stmt->bind_param("iis", $user["ID"], $val, $ip);
+        $stmt->execute();
+
         // Set a cookie based on result
-        setcookie("token", $user["ID"], time() + 12000000, "/");
+        setcookie("token", $val, time() + 12000000, "/");
         echo("Login successful");
         exit();
     } else {

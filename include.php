@@ -15,20 +15,32 @@ $getTask = $conn->prepare("SELECT * FROM tasks.tasks WHERE ID = ?");
 
 define("SUBTEAMS", $conn->query("SELECT * FROM tasks.subteams")->fetch_all(MYSQLI_ASSOC));
 
-
 if (ISSET($_COOKIE["token"])) {
-    if (isUser($_COOKIE["token"])) {
-        define("USER", getUser($_COOKIE["token"]));
+    $stmt = $conn->prepare("SELECT user FROM tasks.tokens WHERE value = ? AND ip = ?");
+    $ip = getIP();
+    $stmt->bind_param("is", $_COOKIE["token"], $ip);
+    $stmt->execute();
+    $u = $stmt->get_result()->fetch_assoc();
+    if (isset($u["user"])) {
+        define("USER", getUser($u["user"]));
         define("VALID", 1);
     } else {
         //If the users doesn't exist, then delete the token to prevent issues
         setcookie("token", "", time() - 3600);
         header("Refresh:0");
+        define("USER", getUser(-1));
+        define("VALID", 0);
     }
 } else {
-    define("USER", array("name" => "NULL", "ID" => -1));
+    define("USER", getUser(-1));
     define("VALID", 0);
 }
+
+function getIP(){
+    //TODO: Improve
+    return $_SERVER["REMOTE_ADDR"];
+}
+
 
 // TaskID: The ID of the parent task
 // level: 0 for head, 1 for contributor, 2 for registered users
