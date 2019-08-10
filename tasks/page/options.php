@@ -259,10 +259,20 @@ if (isset($_POST["name"]) && $task["head"]) {
                 // console.log(topic);
                 let msg = doc.getElementById("wanted");
                 let page = document.getElementById("wanted");
-                console.log(msg);
-                console.log(page);
                 page.innerHTML = msg.innerHTML;
-            }, 500)
+            }, 500);
+
+            xhttp.open("GET", window.location.href, false);
+            xhttp.send();
+            let text = xhttp.responseText;
+            // console.log(text);
+            let doc = new DOMParser().parseFromString(text, "text/html");
+            console.log(doc);
+            console.log(document);
+            // console.log(topic);
+            let msg = doc.getElementById("name");
+            let page = document.getElementById("name");
+            page.innerHTML = msg.innerHTML;
         }
 
         function inviteHead() {

@@ -231,7 +231,7 @@ header nav a:hover .dropdown {
 }
 
 .task-small .task-name {
-    z-index: 1;
+    z-index: 3;
 }
 
 .task-small .progress {
@@ -355,6 +355,10 @@ header nav a:hover .dropdown {
 }
 
 #name.sticky-top .task-name {
+    z-index: 5;
+}
+
+#name.sticky-top .wanted{
     z-index: 4;
 }
 
@@ -780,6 +784,23 @@ label #value.purple{
     color: white;
     direction:rtl;
     font-weight:bold;
+}
+
+
+.task-name~.wanted{
+    position:absolute;
+    margin-top: 1.5em;
+    font-size:inherit;
+    z-index:2;
+    background-color:gold;
+    padding:3px;
+    margin-left:5px;
+    transition: margin-top 200ms ease-in-out;
+    cursor:pointer;
+}
+
+.task-name:hover~.wanted, .task-name~.wanted:hover{
+    margin-top:2.7em;
 }
 
 .task-name>a{

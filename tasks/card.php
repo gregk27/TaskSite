@@ -143,6 +143,17 @@ if (isset($fullTitle) && $fullTitle) {
         <div class="task-name">
             <?php echo $title ?>
         </div>
+        <?php
+        $head = $task["headsWanted"];
+        $help = $task["helpWanted"];
+        if($head || $help) {
+            echo "<div class='wanted'>";
+            if($head) echo "Heads";
+            if ($head && $help) echo "/";
+            if($help) echo "Help";
+            echo " Wanted</div>";
+        }
+        ?>
         <div class="progress" id="progress"
              style="<?php echo "background-image:" . createProgressGradient($task) ?> ">
 			<span id="percent"> <?php echo round($task["progress"]) . "%" ?>&nbsp&nbsp

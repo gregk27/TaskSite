@@ -19,6 +19,18 @@
         } ?>
     </div>
     <h2 class="task-name"><?php echo $title ?></h2>
+    <?php
+    $head = $task["headsWanted"];
+    $help = $task["helpWanted"];
+    if($head || $help) {
+        echo "<div class='wanted'>";
+        if($head) echo "Heads";
+        if ($head && $help) echo "/";
+        if($help) echo "Help";
+        echo " Wanted</div>";
+    }
+
+    ?>
 
     <div style="<?php echo "background-image:" . createProgressGradient($task) ?>"
          class="progress"><?php echo round($task["progress"]) ?>%
