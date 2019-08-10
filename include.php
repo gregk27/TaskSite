@@ -9,7 +9,7 @@ $conn = new mysqli ($dbAddress, $dbUser, $dbPass);
 mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
 
 $usrStmt = $conn->prepare("SELECT name,ID,email,rookie FROM tasks.users WHERE ID = ?");
-$allUsrStmt = $conn->prepare("SELECT name,ID FROM tasks.users");
+$allUsrStmt = $conn->prepare("SELECT name,ID FROM tasks.users WHERE NOT ID=-1");
 $permsStmt = $conn->prepare("SELECT heads,contributors FROM tasks.tasks WHERE ID = ?");
 $getTask = $conn->prepare("SELECT * FROM tasks.tasks WHERE ID = ?");
 
@@ -91,6 +91,7 @@ function getUser($uID) {
     return $usrStmt->get_result()->fetch_assoc();
 }
 
+//Get the names and IDs of all users, excluding the NULL user
 function getUsers() {
     global $allUsrStmt;
     $allUsrStmt->execute();
@@ -233,7 +234,7 @@ function createProgressGradient($task){
     return rtrim($gradient, ", ") . ")";
 }
 
-function getTask($id){
+function getTask($ID){
     global $getTask;
     $getTask->bind_param("i", $ID);
     $getTask->execute();

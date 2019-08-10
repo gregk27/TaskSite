@@ -80,13 +80,13 @@ if (isset($_POST["name"]) && $task["head"]) {
         font-size: 15px;
     }
 
-    ul {
+    .content ul {
         list-style-type: none;
-        font-size: 15px;
+        font-size: 17px;
         margin-top: 0;
     }
 
-    ul .button {
+    .content ul .button {
         font-size: 70%;
     }
 
@@ -144,7 +144,7 @@ if (isset($_POST["name"]) && $task["head"]) {
                 <label>
                     Description<br/>
                     <textarea id="description" name="desc" rows="15"
-                              oninput="preview(this)"><?php echo preg_replace("/<br\/?>/", "", $task["description"] )?></textarea>
+                              oninput="preview(this)"><?php echo preg_replace("/<br\/?>/", "", $task["description"]) ?></textarea>
                 </label>
 
                 <div id="preview">
@@ -156,11 +156,13 @@ if (isset($_POST["name"]) && $task["head"]) {
         </div>
 
         <div class="section">
-            <div style="float:right; display:flex; flex-wrap: nowrap; margin-top:4px">
-                <div class="checkbox" style="margin-right:15px"><input name="heads-wanted" id="heads-wanted"
-                                                                       type="checkbox" "/><label for="heads-wanted">Heads
-                        wanted</label></div>
-                <div class="checkbox"><input name="help-wanted" id="help-wanted" type="checkbox" "/><label
+            <div id="wanted" style="float:right; display:flex; flex-wrap: nowrap; margin-top:4px">
+                <div class="checkbox" style="margin-right:15px"><input onclick="setWanted(this)" name="heads-wanted"
+                                                                       id="heads-wanted"
+                                                                       type="checkbox" <?php echo $task["headsWanted"] ? "checked" : "" ?>/><label
+                            for="heads-wanted">Heads wanted</label></div>
+                <div class="checkbox"><input onclick="setWanted(this)" name="help-wanted" id="help-wanted"
+                                             type="checkbox" <?php echo $task["helpWanted"] ? "checked" : "" ?>/><label
                             for="help-wanted">Help wanted</label></div>
             </div>
             <h2 id="people">People</h2>
@@ -176,10 +178,10 @@ if (isset($_POST["name"]) && $task["head"]) {
             </datalist>
 
             <div style="display:flex; justify-content: space-between">
-                <ul>
+                <ul id="heads">
                     <li><input type="text" list="headlist" id="invite-head" placeholder="Invite"
                                style="font-size:inherit">
-                        <button class="button active">Invite</button>
+                        <button class="button active" onclick="inviteHead()">Invite</button>
                     </li>
                     <?php
 
@@ -191,7 +193,7 @@ if (isset($_POST["name"]) && $task["head"]) {
 
                     ?>
                 </ul>
-                <ul style="font-size:16px; margin-right:8%">
+                <ul id="apps" style="margin-right:8%">
                     <li><h4 style="margin: inherit" style="text-align:center">Applications</h4></li>
                     <li style="margin-bottom:5px">Person 1&nbsp
                         <button class="button active">Accept</button>
@@ -218,6 +220,8 @@ if (isset($_POST["name"]) && $task["head"]) {
     </div>
 
     <script>
+        var id = <?php echo $task["ID"] ?>;
+
         function preview(element) {
             let val = element.value.replace(/\n/g, "<br/>").replace(/<script/g, "&lt;script").replace(/<\/script/g, "&lt;/script");
             element.parentElement.nextElementSibling.innerHTML = val;
@@ -229,6 +233,58 @@ if (isset($_POST["name"]) && $task["head"]) {
             } else {
                 element.previousElementSibling.value = element.value;
             }
+        }
+
+        let wantTimeout = null;
+
+        function setWanted(source) {
+            xhttp.open("POST", "/tasks/backend/modify.php", false);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("task=" + id + "&mode=" + source.name + "&val=" + source.checked);
+
+            console.log(xhttp.responseText);
+
+            if (wantTimeout != null) {
+                clearTimeout(wantTimeout);
+            }
+
+            wantTimeout = setTimeout(function () {
+                xhttp.open("GET", window.location.href, false);
+                xhttp.send();
+                let text = xhttp.responseText;
+                // console.log(text);
+                let doc = new DOMParser().parseFromString(text, "text/html");
+                console.log(doc);
+                console.log(document);
+                // console.log(topic);
+                let msg = doc.getElementById("wanted");
+                let page = document.getElementById("wanted");
+                console.log(msg);
+                console.log(page);
+                page.innerHTML = msg.innerHTML;
+            }, 500)
+        }
+
+        function inviteHead() {
+            xhttp.open("POST", "/tasks/backend/modify.php", false);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("task=" + id + "&mode=invite-head"+ "&val=" + document.getElementById("invite-head").value);
+
+            console.log(xhttp.responseText);
+
+            xhttp.open("GET", window.location.href, false);
+            xhttp.send();
+            let text = xhttp.responseText;
+            // console.log(text);
+            let doc = new DOMParser().parseFromString(text, "text/html");
+            console.log(doc);
+            console.log(document);
+            // console.log(topic);
+            let msg = doc.getElementById("heads");
+            let page = document.getElementById("heads");
+            console.log(msg);
+            console.log(page);
+            page.innerHTML = msg.innerHTML;
         }
     </script>
 
