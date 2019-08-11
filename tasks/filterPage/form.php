@@ -54,7 +54,7 @@
     <?php if (!VALID) echo "<!--" ?>
     <div class="checkbox"><input name="filter-role" id="filter-role" type="checkbox"
                                  onclick="toggle(this)"/><label for="filter-role">My role</label></div>
-    <div class="enableSet" id="prog" style="width:175px">
+    <div class="enableSet" id="role" style="width:175px">
         <div class="checkbox"><input name="role-head" id="role-head" type="checkbox"/><label
                     for="role-head">Head</label></div>
 
@@ -64,6 +64,16 @@
                     for="role-follow">Following</label></div>
     </div>
     <?php if (!VALID) echo "-->" ?>
+
+    <div class="checkbox"><input name="filter-demand" id="filter-demand" type="checkbox"
+                                 onclick="toggle(this)"/><label for="filter-demand">By Demand</label></div>
+    <div class="enableSet" id="demand" style="width:175px">
+        <div class="checkbox"><input name="demand-head" id="demand-head" type="checkbox"/><label
+                    for="demand-head">Heads Wanted</label></div>
+
+        <div class="checkbox"><input name="demand-help" id="demand-help" type="checkbox"/><label
+                    for="demand-help">Help Wanted</label></div>
+    </div>
 
 </form>
 
