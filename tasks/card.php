@@ -143,6 +143,17 @@ if (isset($fullTitle) && $fullTitle) {
         <div class="task-name">
             <?php echo $title ?>
         </div>
+        <?php
+        $head = $task["headsWanted"];
+        $help = $task["helpWanted"];
+        if($head || $help) {
+            echo "<div class='wanted'>";
+            if($head) echo "Heads";
+            if ($head && $help) echo "/";
+            if($help) echo "Help";
+            echo " Wanted</div>";
+        }
+        ?>
         <div class="progress" id="progress"
              style="<?php echo "background-image:" . createProgressGradient($task) ?> ">
 			<span id="percent"> <?php echo round($task["progress"]) . "%" ?>&nbsp&nbsp
@@ -176,8 +187,8 @@ if (isset($fullTitle) && $fullTitle) {
             } else if ($task["head"]) {
                 newButton("console.log('TODO')", true, "Locked for heads", false, "width:100%");
             } else {
-                newButton("sendRequest(" . $task["ID"] . ", 'contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 38%; float: left; margin-left:2%");
-                newButton("sendRequest(" . $task["ID"] . ", 'follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:54%; float: right;");
+                newButton("sendRequest(" . $task["ID"] . ", 'contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 27%; float: left; margin-left:2%");
+                newButton("sendRequest(" . $task["ID"] . ", 'follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:40%; float: right;");
             } ?>
         </div>
     </div>

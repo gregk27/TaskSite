@@ -9,26 +9,38 @@ $conn = new mysqli ($dbAddress, $dbUser, $dbPass);
 mysqli_report(MYSQLI_REPORT_ALL ^ MYSQLI_REPORT_INDEX);
 
 $usrStmt = $conn->prepare("SELECT name,ID,email,rookie FROM tasks.users WHERE ID = ?");
-$allUsrStmt = $conn->prepare("SELECT name,ID FROM tasks.users");
+$allUsrStmt = $conn->prepare("SELECT name,ID FROM tasks.users WHERE NOT ID=-1");
 $permsStmt = $conn->prepare("SELECT heads,contributors FROM tasks.tasks WHERE ID = ?");
 $getTask = $conn->prepare("SELECT * FROM tasks.tasks WHERE ID = ?");
 
 define("SUBTEAMS", $conn->query("SELECT * FROM tasks.subteams")->fetch_all(MYSQLI_ASSOC));
 
-
 if (ISSET($_COOKIE["token"])) {
-    if (isUser($_COOKIE["token"])) {
-        define("USER", getUser($_COOKIE["token"]));
+    $stmt = $conn->prepare("SELECT user FROM tasks.tokens WHERE value = ? AND ip = ?");
+    $ip = getIP();
+    $stmt->bind_param("is", $_COOKIE["token"], $ip);
+    $stmt->execute();
+    $u = $stmt->get_result()->fetch_assoc();
+    if (isset($u["user"])) {
+        define("USER", getUser($u["user"]));
         define("VALID", 1);
     } else {
         //If the users doesn't exist, then delete the token to prevent issues
         setcookie("token", "", time() - 3600);
         header("Refresh:0");
+        define("USER", getUser(-1));
+        define("VALID", 0);
     }
 } else {
-    define("USER", array("name" => "NULL", "ID" => -1));
+    define("USER", getUser(-1));
     define("VALID", 0);
 }
+
+function getIP(){
+    //TODO: Improve
+    return $_SERVER["REMOTE_ADDR"];
+}
+
 
 // TaskID: The ID of the parent task
 // level: 0 for head, 1 for contributor, 2 for registered users
@@ -79,6 +91,7 @@ function getUser($uID) {
     return $usrStmt->get_result()->fetch_assoc();
 }
 
+//Get the names and IDs of all users, excluding the NULL user
 function getUsers() {
     global $allUsrStmt;
     $allUsrStmt->execute();
@@ -107,8 +120,11 @@ function cleanString($in) {
 //Formats a string for places where HTML is accepted
 function formatString($in) {
     //Replace newlines//Replace newlines
-    $out = preg_replace("/(>[\w\s]*)\n([\w\s]*<)/s", "$1<br/>$2", $in);
-
+    $out = $in;
+    while(strpos($out, "\n") !== false){
+        $out = preg_replace("/(>[\w\s]*)\n([\w\s]*<)/s", "$1<br/>$2", ">".$out."<");
+        $out = ltrim(rtrim($out, "<"), ">");
+    }
     //Replace on* event handlers
     $out = preg_replace("/on\w*=([\\\"']).*[^\\\]\\1/sU", "", $out);
 
@@ -216,6 +232,13 @@ function createProgressGradient($task){
     }
 
     return rtrim($gradient, ", ") . ")";
+}
+
+function getTask($ID){
+    global $getTask;
+    $getTask->bind_param("i", $ID);
+    $getTask->execute();
+    return $getTask->get_result()->fetch_assoc();
 }
 
 ?>

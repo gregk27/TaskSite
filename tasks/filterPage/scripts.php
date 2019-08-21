@@ -89,6 +89,14 @@ if(isGet("filter-role", "on")){
     $sql.=" 0)";
 }
 
+if(isGet("filter-demand", "on")){
+    if(isGet("demand-head", "on")) {
+        $sql .= " AND headsWanted";
+    }if(isGet("demand-help", "on")) {
+        $sql .= " AND helpWanted";
+    }
+}
+
 $stmt = $conn->prepare($sql);
 call_user_func_array(array($stmt, 'bind_param'), refValues($args));
 //$stmt->bind_param("i", $topLevel);

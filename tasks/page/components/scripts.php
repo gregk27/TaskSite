@@ -5,10 +5,10 @@ $stmt->execute();
 $task = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
-$task ["subteams"] = explode(",", $task ["subteams"]);
-$task ["heads"] = explode(",", $task ["heads"]);
-$task ["contributors"] = explode(",", $task ["contributors"]);
-$task ["followers"] = explode(",", $task ["followers"]);
+$task ["subteams"] = array_filter(explode(",", $task ["subteams"]));
+$task ["heads"] = array_filter(explode(",", $task ["heads"]));
+$task ["contributors"] = array_filter(explode(",", $task ["contributors"]));
+$task ["followers"] = array_filter(explode(",", $task ["followers"]));
 $task ["joined"] = false;
 $task ["following"] = false;
 $task ["head"] = false;

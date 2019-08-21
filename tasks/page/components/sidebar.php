@@ -4,8 +4,8 @@
         <?php if ($task["head"]) {
             echo "<a class='button active' href='options' style='width: 70%;'>Options</a>";
         } else {
-            newButton("sendRequest('contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 38%; float: left;");
-            newButton("sendRequest('follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:54%; float: right;");
+            newButton("sendRequest('contribute')", !$task["joined"], $task["joined"] ? "Quit" : "Join", true, "width: 27%; float: left;");
+            newButton("sendRequest('follow')", !$task["following"], $task["following"] ? "Unfollow" : "Follow", true, "width:40%; float: right;");
         } ?>
     </div>
     <?php if (!VALID) echo "-->"; ?>

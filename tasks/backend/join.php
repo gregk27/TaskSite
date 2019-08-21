@@ -1,7 +1,7 @@
 <?php
 include $_SERVER ['DOCUMENT_ROOT'] . "/include.php";
 
-$ID = USER["ID"];//$_COOKIE["token"]; // $_COOKIE["token"];
+$ID = USER["ID"];
 
 echo "Isset" . isset($_POST["task"]);
 echo "Implode" . implode(",", $_POST);
